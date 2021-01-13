@@ -1,0 +1,9 @@
+Osakerekisteri
+;Kenttien järjestys tiedostossa on seuraava:
+;ID |   Osake		|    Toimeksiantopäivämäärä  |  Hinta € |    Määrä   |   Toimeksiantokulut € | Kokonaiskulut €   |
+;1  |   Nokia Oyj	|   	30.11.2007			 |  27.32   |	200      |      54.64            |    5518.64        |
+;2	|	Olvi Oyj	|		9.9.2019			 |	31.89	|	20		 |		6.38			 |	  644.18		 |
+;3	|	Olvi Oyj	|		9.9.2020			 |	38.00	|	10		 |		3.80			 |	  383.38		 |
+;4	|	Finnair Oyj	|		11.1.2021			 |	0.69	|	1000	 |		6.90			 |	  696.90		 |
+;5	|	Nokia Oyj	|		11.1.2021			 |	3.12	|	200		 |		6.24			 |	  630.24		 |
+;6	|	Olvi Oyj	|		11.1.2021			 |	47.20	|	10		 |		4.72			 |	  476.72		 |
