@@ -62,7 +62,7 @@
    <left>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <top>
-            <Label text="Osake" BorderPane.alignment="CENTER" />
+            <Label text="Stock name" BorderPane.alignment="CENTER" />
          </top>
          <center>
             <ListChooser rivit="Nokia Oyj&#10;Olvi Oyj&#10;Finnair Oyj&#10;Nordea Oyj" BorderPane.alignment="CENTER" />
@@ -93,17 +93,17 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
-                  <Label text="Osake" GridPane.rowIndex="3" />
+                  <Label text="Stock" GridPane.rowIndex="3" />
                   <Label text="ID" GridPane.rowIndex="4" />
-                  <Label text="Päivämäärä" GridPane.rowIndex="5" />
-                  <Label text="Määrä" GridPane.rowIndex="6" />
+                  <Label text="Date" GridPane.rowIndex="5" />
+                  <Label text="Amount" GridPane.rowIndex="6" />
+                  <Label text="Stock Price" GridPane.rowIndex="7" />
+                  <Label text="Expenses" GridPane.rowIndex="8" />
+                  <Label text="Total Expenses" GridPane.rowIndex="9" />
                   <TextField text="Nokia Oyj" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
                   <TextField text="1" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <TextField text="30.11.2007" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <TextField text="200" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <Label text="Hankintahinta" GridPane.rowIndex="7" />
-                  <Label text="Kulut" GridPane.rowIndex="8" />
-                  <Label text="Kokonaiskulut" GridPane.rowIndex="9" />
                   <TextField text="27.32 €" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <TextField text="54.56€" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                   <TextField text="5518.64 €" GridPane.columnIndex="1" GridPane.rowIndex="9" />
