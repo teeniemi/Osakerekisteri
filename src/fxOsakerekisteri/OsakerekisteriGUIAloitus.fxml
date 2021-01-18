@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import fi.jyu.mit.fxgui.ListChooser?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <ListChooser prefWidth="143.0" rivit="Create a new portfolio&#10;Teemu's portfolio&#10;Jesse's portfolio" BorderPane.alignment="CENTER" />
+   </center>
+   <top>
+      <Label text="Portfolio Manager" BorderPane.alignment="CENTER" />
+   </top>
+</BorderPane>
