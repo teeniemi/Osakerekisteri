@@ -23,7 +23,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
          <children>
-            <ButtonBar>
+            <ButtonBar prefWidth="470.0">
               <buttons>
                 <Button mnemonicParsing="false" style="-fx-background-color: LIGHTCORAL;" text="Delete Stock" />
                   <Button mnemonicParsing="false" text="Edit Stock" />
@@ -65,7 +65,7 @@
             <Label text="Osake" BorderPane.alignment="CENTER" />
          </top>
          <center>
-            <ListChooser rivit="1&#10;2&#10;3&#10;4&#10;5" BorderPane.alignment="CENTER" />
+            <ListChooser rivit="Nokia Oyj&#10;Olvi Oyj&#10;Finnair Oyj&#10;Nordea Oyj" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </left>
@@ -78,23 +78,35 @@
                 <ColumnConstraints hgrow="ALWAYS" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <padding>
-                  <Insets left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
-                  <Label text="Olvi Oyj" />
-                  <Label text="Nokia Oyj" GridPane.rowIndex="1" />
-                  <Label text="Finnair Oyj" GridPane.rowIndex="2" />
-                  <Label text="Nordea Oyj" GridPane.rowIndex="3" />
-                  <TextField text="HOLD" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                  <TextField text="MYY" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField text="ODOTA" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField text="OK" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label text="Osake" GridPane.rowIndex="3" />
+                  <Label text="ID" GridPane.rowIndex="4" />
+                  <Label text="Päivämäärä" GridPane.rowIndex="5" />
+                  <Label text="Määrä" GridPane.rowIndex="6" />
+                  <TextField text="Nokia Oyj" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                  <TextField text="1" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField text="30.11.2007" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField text="200" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Label text="Hankintahinta" GridPane.rowIndex="7" />
+                  <Label text="Kulut" GridPane.rowIndex="8" />
+                  <Label text="Kokonaiskulut" GridPane.rowIndex="9" />
+                  <TextField text="27.32 €" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <TextField text="54.56€" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <TextField text="5518.64 €" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                </children>
             </GridPane>
          </content>
