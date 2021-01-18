@@ -62,7 +62,7 @@
    <left>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <top>
-            <Label text="Osake" BorderPane.alignment="CENTER" />
+            <Label text="Osake ID" BorderPane.alignment="CENTER" />
          </top>
          <center>
             <ListChooser rivit="1&#10;2&#10;3&#10;4&#10;5" BorderPane.alignment="CENTER" />
@@ -94,7 +94,7 @@
                   <TextField text="HOLD" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
                   <TextField text="MYY" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField text="ODOTA" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField text="OK" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField text="PASKAA" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </content>
