@@ -2,14 +2,26 @@
 
 <?import fi.jyu.mit.fxgui.ListChooser?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <ListChooser prefWidth="143.0" rivit="Create a new portfolio&#10;Teemu's portfolio&#10;Jesse's portfolio" BorderPane.alignment="CENTER" />
-   </center>
    <top>
       <Label text="Portfolio Manager" BorderPane.alignment="CENTER" />
    </top>
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <center>
+            <ImageView fitHeight="257.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../../../Stonk_man.jpg" />
+               </image>
+            </ImageView>
+         </center>
+         <right>
+            <ListChooser prefWidth="143.0" rivit="Create a new portfolio&#10;Teemu's portfolio&#10;Jesse's portfolio" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+   </center>
 </BorderPane>

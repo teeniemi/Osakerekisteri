@@ -20,6 +20,7 @@
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -28,25 +29,27 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Stock Name:" />
-            <Label text="Amount:" GridPane.rowIndex="2" />
-            <Label text="Stock Price:" GridPane.rowIndex="3" />
-            <Label text="Expenses:" GridPane.rowIndex="4" />
-            <Label text="Fresh Stonk:" GridPane.rowIndex="6" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Choose a Stock to Sell" />
+            <Label text="Amount:" GridPane.rowIndex="3" />
+            <Label text="Stock Price:" GridPane.rowIndex="4" />
+            <Label text="Expenses:" GridPane.rowIndex="5" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <ComboBoxChooser rivit="&#10;Finnair Oyj&#10;Nokia Oyj&#10;Nordea Oyj&#10;Olvi Oyj" GridPane.columnIndex="1" />
-            <ComboBoxChooser rivit="Buy&#10;Sell" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label text="Date:" GridPane.rowIndex="1" />
-            <Label text="Transaction Type:" GridPane.rowIndex="5" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ComboBoxChooser rivit="&#10;Nokia Oyj&#10;Nordea Oyj&#10;Olvi Oyj&#10;Finnair Oyj" GridPane.columnIndex="1" />
+            <ComboBoxChooser rivit="Buy&#10;Sell" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label text="Date:" GridPane.rowIndex="2" />
+            <Label text="Transaction Type:" GridPane.rowIndex="6" />
+            <Label text="Choose Stock ID" GridPane.rowIndex="1" />
+            <ComboBoxChooser rivit="1&#10;2&#10;3&#10;4&#10;5&#10;6&#10;7" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Total Price" GridPane.rowIndex="7" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
          </children>
       </GridPane>
    </center>
    <top>
-      <Label text="Add a stock" BorderPane.alignment="CENTER" />
+      <Label text="Sell Stocks" BorderPane.alignment="CENTER" />
    </top>
    <bottom>
       <ButtonBar BorderPane.alignment="CENTER">
