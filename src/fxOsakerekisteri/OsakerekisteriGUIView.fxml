@@ -27,7 +27,7 @@
               <buttons>
                   <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: CHARTREUSE;" text="Save" />
                   <Button mnemonicParsing="false" text="Print" />
-                  <Button mnemonicParsing="false" text="Buy Stocks" />
+                  <Button mnemonicParsing="false" onAction="#handleUusiOsake" text="Buy Stocks" />
                   <Button mnemonicParsing="false" text="Sell Stocks" />
               </buttons>
                <HBox.margin>
