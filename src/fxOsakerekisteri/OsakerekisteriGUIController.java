@@ -9,16 +9,12 @@ import javafx.fxml.FXML;
  */
 public class OsakerekisteriGUIController {
 	
-    @FXML
-    void handleUusiOsake() {
-    	Dialogs.showQuestionDialog("Uusi osake?", "Ostetaanko osake: Gamestop?", "Kyllä", "Eiku");
-
+    @FXML void handleUusiOsake() {
+    	Dialogs.showQuestionDialog("Uusi osake?", "Ostetaanko osake: Gamestop?", "Kyllï¿½", "Eiku");
     }
 	
-    @FXML
-    void handleTallenna() {
+    @FXML void handleTallenna() {
     	tallenna();
-
     }
 	
     @FXML void handleOstaOsake() {
@@ -29,11 +25,11 @@ public class OsakerekisteriGUIController {
     
     
     private void osta() {
-    	Dialogs.showMessageDialog("Ostit osakkeen! Mutta äläpä hättäile, ei toimi vielä.");
+    	Dialogs.showMessageDialog("Ostit osakkeen! Mutta ï¿½lï¿½pï¿½ hï¿½ttï¿½ile, ei toimi vielï¿½.");
     }
 	
     private void tallenna() {
-    	Dialogs.showMessageDialog("Tallennetaan! Mutta ei toimi vielä.");
+    	Dialogs.showMessageDialog("Tallennetaan! Mutta ei toimi vielï¿½.");
     }
     
     
