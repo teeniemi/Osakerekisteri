@@ -29,7 +29,6 @@
                   <Button mnemonicParsing="false" text="Print" />
                   <Button mnemonicParsing="false" text="Buy Stocks" />
                   <Button mnemonicParsing="false" text="Sell Stocks" />
-                <Button mnemonicParsing="false" style="-fx-background-color: LIGHTCORAL;" text="Delete Stock" />
               </buttons>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -44,6 +43,7 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
                   <MenuItem mnemonicParsing="false" text="Export" />
+                  <MenuItem mnemonicParsing="false" text="Delete Stock" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
