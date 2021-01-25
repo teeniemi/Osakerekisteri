@@ -25,7 +25,7 @@
          <children>
             <ButtonBar prefWidth="470.0">
               <buttons>
-                  <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: CHARTREUSE;" text="Save" />
+                  <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleTallenna" prefHeight="25.0" prefWidth="105.0" text="Save" />
                   <Button mnemonicParsing="false" text="Print" />
                   <Button mnemonicParsing="false" onAction="#handleUusiOsake" text="Buy Stocks" />
                   <Button mnemonicParsing="false" text="Sell Stocks" />
