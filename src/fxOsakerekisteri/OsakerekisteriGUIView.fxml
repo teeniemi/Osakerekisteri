@@ -26,8 +26,9 @@
             <ButtonBar prefWidth="470.0">
               <buttons>
                   <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: CHARTREUSE;" text="Save" />
-                  <Button mnemonicParsing="false" text="Edit Stock" />
-                  <Button mnemonicParsing="false" text="Add Stock" />
+                  <Button mnemonicParsing="false" text="Print" />
+                  <Button mnemonicParsing="false" text="Buy Stocks" />
+                  <Button mnemonicParsing="false" text="Sell Stocks" />
                 <Button mnemonicParsing="false" style="-fx-background-color: LIGHTCORAL;" text="Delete Stock" />
               </buttons>
                <HBox.margin>
@@ -42,7 +43,6 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Print" />
                   <MenuItem mnemonicParsing="false" text="Export" />
             </items>
           </Menu>
