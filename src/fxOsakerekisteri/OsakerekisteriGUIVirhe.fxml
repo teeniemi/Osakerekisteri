@@ -27,15 +27,15 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField text="30.12.2020" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField text="50" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Choose a Stock to Sell" />
             <Label text="Amount:" GridPane.rowIndex="2" />
             <Label text="Stock Price:" GridPane.rowIndex="3" />
             <Label text="Expenses:" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ComboBoxChooser rivit="&#10;Nokia Oyj&#10;Nordea Oyj&#10;Olvi Oyj&#10;Finnair Oyj" GridPane.columnIndex="1" />
+            <TextField text="3.15" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField text="1.57" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBoxChooser rivit="&#10;Nokia Oyj&#10;Nordea Oyj&#10;Olvi Oyj&#10;Finnair Oyj" style="-fx-background-color: red;" GridPane.columnIndex="1" />
             <Label text="Date:" GridPane.rowIndex="1" />
             <Label text="Total Price" GridPane.rowIndex="5" />
             <Label text="Amount * Stock Price - Expenses" GridPane.columnIndex="1" GridPane.rowIndex="5" />
@@ -46,14 +46,21 @@
       <Label text="Sell Stocks" BorderPane.alignment="CENTER" />
    </top>
    <bottom>
-      <ButtonBar BorderPane.alignment="CENTER">
-        <buttons>
-            <Button mnemonicParsing="false" style="-fx-background-color: CHARTREUSE;" text="Add" translateX="-420.0" />
-          <Button mnemonicParsing="false" style="-fx-background-color: LIGHTCORAL;" text="Nope" />
-        </buttons>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </ButtonBar>
+      <BorderPane prefHeight="45.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <center>
+            <ButtonBar BorderPane.alignment="CENTER">
+              <buttons>
+                  <Button mnemonicParsing="false" style="-fx-background-color: CHARTREUSE;" text="Add" translateX="-420.0" />
+                <Button mnemonicParsing="false" style="-fx-background-color: LIGHTCORAL;" text="Nope" />
+              </buttons>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </ButtonBar>
+         </center>
+         <top>
+            <Label style="-fx-background-color: red;" text="Error: Choose a Stock from list!" BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
    </bottom>
 </BorderPane>

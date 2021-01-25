@@ -20,6 +20,7 @@
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -27,23 +28,25 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
+            <ComboBoxChooser rivit="&#10;Finnair Oyj&#10;Nokia Oyj&#10;Nordea Oyj&#10;Olvi Oyj" GridPane.columnIndex="1" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Choose a Stock to Sell" />
-            <Label text="Amount:" GridPane.rowIndex="2" />
-            <Label text="Stock Price:" GridPane.rowIndex="3" />
-            <Label text="Expenses:" GridPane.rowIndex="4" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ComboBoxChooser rivit="&#10;Nokia Oyj&#10;Nordea Oyj&#10;Olvi Oyj&#10;Finnair Oyj" GridPane.columnIndex="1" />
-            <Label text="Date:" GridPane.rowIndex="1" />
-            <Label text="Total Price" GridPane.rowIndex="5" />
-            <Label text="Amount * Stock Price - Expenses" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="Stock Name:" />
+            <Label prefHeight="25.0" prefWidth="143.0" text="Add a new stonk:" GridPane.rowIndex="1" />
+            <Label text="Amount:" GridPane.rowIndex="3" />
+            <Label text="Stock Price:" GridPane.rowIndex="4" />
+            <Label text="Expenses:" GridPane.rowIndex="5" />
+            <Label text="Amount * Stock Price + Expenses" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label text="Date:" GridPane.rowIndex="2" />
+            <Label text="Total Cost:" GridPane.rowIndex="6" />
          </children>
       </GridPane>
    </center>
    <top>
-      <Label text="Sell Stocks" BorderPane.alignment="CENTER" />
+      <Label text="Buy Stocks" BorderPane.alignment="CENTER" />
    </top>
    <bottom>
       <ButtonBar BorderPane.alignment="CENTER">
