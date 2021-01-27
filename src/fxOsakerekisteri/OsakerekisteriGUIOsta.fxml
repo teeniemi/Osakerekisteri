@@ -51,7 +51,7 @@
    <bottom>
       <ButtonBar BorderPane.alignment="CENTER">
         <buttons>
-            <Button mnemonicParsing="false" onAction="#handleOstaOsake" style="-fx-background-color: CHARTREUSE;" text="Add" translateX="-420.0" />
+            <Button mnemonicParsing="false" onAction="#handleAddNewStock" style="-fx-background-color: CHARTREUSE;" text="Add" translateX="-420.0" />
           <Button mnemonicParsing="false" style="-fx-background-color: LIGHTCORAL;" text="Nope" />
         </buttons>
          <padding>

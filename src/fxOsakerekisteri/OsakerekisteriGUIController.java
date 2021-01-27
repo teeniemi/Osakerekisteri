@@ -9,28 +9,44 @@ import javafx.fxml.FXML;
  */
 public class OsakerekisteriGUIController {
 	
-    @FXML void handleUusiOsake() {
-    	Dialogs.showQuestionDialog("Uusi osake?", "Ostetaanko osake: Gamestop?", "Kyll�", "Eiku");
+    
+    @FXML void handleBuyStocks() {
+        buy();
     }
-	
-    @FXML void handleTallenna() {
-    	tallenna();
+
+    @FXML void handlePrint() {
+        print();
     }
-	
-    @FXML void handleOstaOsake() {
-    	osta();
+
+    @FXML void handleSave() {
+        save();
     }
+
+    @FXML void handleSellStocks() {
+        sell();
+    }
+    
+    @FXML void handleAddNewStock() {
+        Dialogs.showQuestionDialog("Uusi osake?", "Ostetaanko osake: Gamestop?", "Kyllä", "Eiku");
+    }
+
     
     // ===============================================================
     
+    private void print() {
+        Dialogs.showMessageDialog("Printataan. Printtaus ei vielä toimi!");
+    }
     
-    private void osta() {
-    	Dialogs.showMessageDialog("Ostit osakkeen! Mutta �l�p� h�tt�ile, ei toimi viel�.");
+    private void buy() {
+    	Dialogs.showMessageDialog("Ostit osakkeen! Mutta äläpä hätäile, ei toimi vielä.");
     }
 	
-    private void tallenna() {
-    	Dialogs.showMessageDialog("Tallennetaan! Mutta ei toimi viel�.");
+    private void save() {
+    	Dialogs.showMessageDialog("Tallennetaan! Mutta ei toimi vielä.");
     }
     
+    private void sell() {
+        Dialogs.showMessageDialog("Myit osakkeen! Ei toimi vielä.");
+    }
     
 }

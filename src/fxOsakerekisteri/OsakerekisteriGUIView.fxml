@@ -10,13 +10,14 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxOsakerekisteri.OsakerekisteriGUIController">
+<BorderPane minHeight="400.0" minWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxOsakerekisteri.OsakerekisteriGUIController">
    <bottom>
       <HBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -25,10 +26,10 @@
          <children>
             <ButtonBar prefWidth="470.0">
               <buttons>
-                  <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleTallenna" prefHeight="25.0" prefWidth="105.0" text="Save" />
-                  <Button mnemonicParsing="false" text="Print" />
-                  <Button mnemonicParsing="false" onAction="#handleUusiOsake" text="Buy Stocks" />
-                  <Button mnemonicParsing="false" text="Sell Stocks" />
+                  <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleSave" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: CHARTREUSE;" text="Save" />
+                  <Button alignment="CENTER" contentDisplay="TOP" layoutX="260.0" layoutY="10.0" mnemonicParsing="false" onAction="#handlePrint" prefHeight="25.0" prefWidth="105.0" text="Print" />
+                  <Button alignment="CENTER" contentDisplay="TOP" layoutX="375.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSellStocks" prefHeight="25.0" prefWidth="105.0" text="Sell Stocks" />
+                  <Button alignment="CENTER" contentDisplay="TOP" layoutX="260.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBuyStocks" prefHeight="25.0" prefWidth="105.0" text="Buy Stocks" />
               </buttons>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -70,67 +71,69 @@
       </BorderPane>
    </left>
    <center>
-      <BorderPane BorderPane.alignment="CENTER">
-         <top>
-            <Label text="Stock Information" BorderPane.alignment="CENTER" />
-         </top>
-         <center>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <content>
-                  <GridPane hgap="10.0">
-                    <columnConstraints>
-                      <ColumnConstraints fillWidth="false" halignment="RIGHT" hgrow="SOMETIMES" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="ALWAYS" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints />
-                      <RowConstraints />
-                      <RowConstraints />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                     <children>
-                        <Label text="Stock" GridPane.rowIndex="3" />
-                        <Label text="ID" GridPane.rowIndex="4" />
-                        <Label text="Owned Since" GridPane.rowIndex="5" />
-                        <Label text="Amount" GridPane.rowIndex="6" />
-                        <Label text="Avg Stock Price" GridPane.rowIndex="7" />
-                        <Label text="Expenses" GridPane.rowIndex="8" />
-                        <Label text="Total Price" GridPane.rowIndex="9" />
-                        <Label text="Nokia Oyj" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="1" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Label text="30.11.2017" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Label text="200" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <Label text="27.32 €" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <Label text="54.56 €" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <Label text="5518.64 €" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                     </children>
-                  </GridPane>
-               </content>
-            </ScrollPane>
-         </center>
-      </BorderPane>
+      <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+            <BorderPane>
+               <top>
+                  <Label text="Stock Information" BorderPane.alignment="CENTER" />
+               </top>
+               <left>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <content>
+                        <GridPane hgap="10.0">
+                          <columnConstraints>
+                            <ColumnConstraints fillWidth="false" halignment="RIGHT" hgrow="SOMETIMES" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                           <children>
+                              <Label text="Stock" GridPane.rowIndex="3" />
+                              <Label text="ID" GridPane.rowIndex="4" />
+                              <Label text="Owned Since" GridPane.rowIndex="5" />
+                              <Label text="Amount" GridPane.rowIndex="6" />
+                              <Label text="Avg Stock Price" GridPane.rowIndex="7" />
+                              <Label text="Expenses" GridPane.rowIndex="8" />
+                              <Label text="Total Price" GridPane.rowIndex="9" />
+                              <Label text="Nokia Oyj" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label text="1" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label text="30.11.2017" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <Label text="200" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <Label text="27.32 €" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                              <Label text="54.56 €" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                              <Label text="5518.64 €" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                           </children>
+                        </GridPane>
+                     </content>
+                  </ScrollPane>
+               </left>
+            </BorderPane>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <top>
+                  <Label text="Events" BorderPane.alignment="CENTER" />
+               </top>
+               <center>
+                  <ScrollPane prefHeight="200.0" prefWidth="189.0" BorderPane.alignment="CENTER">
+                     <content>
+                        <StringGrid rivit="Transaction ID|Type|Date|Amount|Stock Price €|Expenses €|Total Price €&#10;1|Buy|30.11.2007|200|27.32|54.56|5518.64&#10;1|Sell|30.12.2020|50|3.15|1.57|158.57" />
+                     </content>
+                  </ScrollPane>
+               </center>
+            </BorderPane>
+        </items>
+      </SplitPane>
    </center>
-   <right>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <top>
-            <Label text="Events" BorderPane.alignment="CENTER" />
-         </top>
-         <center>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <content>
-                  <StringGrid rivit="Transaction ID|Type|Date|Amount|Stock Price €|Expenses €|Total Price €&#10;1|Buy|30.11.2007|200|27.32|54.56|5518.64&#10;1|Sell|30.12.2020|50|3.15|1.57|158.57" />
-               </content>
-            </ScrollPane>
-         </center>
-      </BorderPane>
-   </right>
 </BorderPane>
