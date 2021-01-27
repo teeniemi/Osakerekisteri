@@ -8,12 +8,36 @@ import javafx.fxml.FXML;
  *
  */
 public class OsakerekisteriGUIController {
-	
+
+    @FXML void handleAbout() {
+        Dialogs.showMessageDialog("Tietoja sovelluksesta. Tähän varmaan voi suoraan kirjoittaa mitä mieleen tulee. On kyllä pirun hyvän softan Stonkman koodannut.");
+    }
     
     @FXML void handleBuyStocks() {
         buy();
     }
+    
+    @FXML void handleDelete() {
+        delete();
+    }
+    
+    @FXML void handleEdit() {
+        edit();
+    }
+    
+    @FXML void handleExport() {
+        export();
+    }
 
+    
+    @FXML void handleFile() {
+        file();
+    }
+    
+    @FXML void handleHelp() {
+        help();
+    }
+    
     @FXML void handlePrint() {
         print();
     }
@@ -32,15 +56,36 @@ public class OsakerekisteriGUIController {
 
     
     // ===============================================================
+
+    private void buy() {
+        Dialogs.showMessageDialog("Ostit osakkeen! Mutta äläpä hätäile, ei toimi vielä.");
+    }
+    
+    private void delete() {
+        Dialogs.showMessageDialog("Poista. Ei toimi osakkeen poisto vielä!");
+    }
+    
+    private void edit() {
+        Dialogs.showMessageDialog("Edit nappulan takaa aukeava informaatio.");
+    }
+    
+    private void export() {
+        Dialogs.showMessageDialog("Ei voi vielä exportata, sori!");
+    }
+    
+    private void file() {
+        Dialogs.showMessageDialog("File. Yläpalkin nappula :D.");
+    }
+    
+    private void help() {
+        Dialogs.showMessageDialog("Apua ei vielä saatavilla.");
+    }
     
     private void print() {
         Dialogs.showMessageDialog("Printataan. Printtaus ei vielä toimi!");
     }
     
-    private void buy() {
-    	Dialogs.showMessageDialog("Ostit osakkeen! Mutta äläpä hätäile, ei toimi vielä.");
-    }
-	
+
     private void save() {
     	Dialogs.showMessageDialog("Tallennetaan! Mutta ei toimi vielä.");
     }
