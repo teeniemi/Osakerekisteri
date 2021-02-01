@@ -11,6 +11,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -61,11 +62,19 @@
    </top>
    <left>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <top>
-            <Label text="Stock Name" BorderPane.alignment="CENTER" />
-         </top>
          <center>
-            <ListChooser rivit="Nokia Oyj&#10;Olvi Oyj&#10;Finnair Oyj&#10;Nordea Oyj" BorderPane.alignment="CENTER" />
+            <SplitPane dividerPositions="0.5, 0.5, 0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+              <items>
+                  <Label text="Search" />
+                  <TextField onAction="#handleSearch" />
+                  <Label text="Stock Name">
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </Label>
+                  <ListChooser rivit="Nokia Oyj&#10;Olvi Oyj&#10;Finnair Oyj&#10;Nordea Oyj" />
+              </items>
+            </SplitPane>
          </center>
       </BorderPane>
    </left>
