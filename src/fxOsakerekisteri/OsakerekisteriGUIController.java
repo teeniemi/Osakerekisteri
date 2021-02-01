@@ -22,6 +22,7 @@ public class OsakerekisteriGUIController {
      */
     @FXML void handleBuyStocks() {
         ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIBuy.fxml"), "Buy STONKS", null, "");
+        buy();
     }
     
     /**
@@ -63,6 +64,8 @@ public class OsakerekisteriGUIController {
      * Tulostaa valitun näkymän.
      */
     @FXML void handlePrint() {
+      //tuleeko tähän "OsakerekisteriGUIPrint.fxml" vai "OsakerekisteriGUIPView.fxml"
+        ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIPrint.fxml"), "Print STONKS", null, ""); 
         print();
     }
 

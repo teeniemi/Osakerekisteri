@@ -10,7 +10,7 @@
       <Label alignment="TOP_LEFT" text="File Osakerekisteri/osakkeet.dat does not open." BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <Button mnemonicParsing="false" style="-fx-background-color: CHARTREUSE;" text="Ok" BorderPane.alignment="CENTER">
+      <Button mnemonicParsing="false" onAction="#handleOk" style="-fx-background-color: CHARTREUSE;" text="Ok" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
