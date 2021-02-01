@@ -18,8 +18,8 @@
          <center>
             <ButtonBar BorderPane.alignment="CENTER">
               <buttons>
-                  <Button mnemonicParsing="false" style="-fx-background-color: CHARTREUSE;" text="Print" translateX="-420.0" />
-                <Button mnemonicParsing="false" style="-fx-background-color: LIGHTCORAL;" text="Nope" />
+                  <Button mnemonicParsing="false" onAction="#handlePrint" style="-fx-background-color: CHARTREUSE;" text="Print" translateX="-420.0" />
+                <Button mnemonicParsing="false" onAction="#handleNope" style="-fx-background-color: LIGHTCORAL;" text="Nope" />
               </buttons>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

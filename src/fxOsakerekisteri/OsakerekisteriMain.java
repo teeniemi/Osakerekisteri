@@ -8,7 +8,7 @@ import javafx.fxml.FXMLLoader;
 
 
 /**
- * @author Julio Stonkman
+ * @author Jesse Korolainen & Teemu Nieminen
  * @version 18.1.2021
  *
  */

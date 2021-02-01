@@ -1,9 +1,10 @@
 package fxOsakerekisteri;
 
 import fi.jyu.mit.fxgui.Dialogs;
+import fi.jyu.mit.fxgui.ModalController;
 import javafx.fxml.FXML;
 /**
- * @author Julio Stonkman
+ * @author Jesse Korolainen & Teemu Nieminen
  * @version 18.1.2021
  *
  */
@@ -20,7 +21,7 @@ public class OsakerekisteriGUIController {
      * Avaa osta-osakkeita dialogin.
      */
     @FXML void handleBuyStocks() {
-        buy();
+        ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIBuy.fxml"), "Buy STONKS", null, "");
     }
     
     /**
@@ -86,13 +87,6 @@ public class OsakerekisteriGUIController {
         sell();
     }
     
-    /**
-     * Avaa lisää osakkeita dialogin.
-     */
-    @FXML void handleAddNewStock() {
-        addNew();
-    }
-
     
     // ===============================================================
 
@@ -136,7 +130,4 @@ public class OsakerekisteriGUIController {
         Dialogs.showMessageDialog("Myit osakkeen! Ei toimi vielä.");
     }
     
-    private void addNew() {
-        Dialogs.showMessageDialog("Uusi osake? Ostetaanko osake: GameSTONKS? Kyllä / Eiku");
-    }
 }
