@@ -1,5 +1,6 @@
 package fxOsakerekisteri;
 
+import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,11 +13,11 @@ import javafx.fxml.FXML;
 public class BuyGUIController implements ModalControllerInterface<String>{
 
     @FXML void handleBuyStocks(ActionEvent event) {
-        //
+        buyStocks();
     }
 
     @FXML void handleCancel(ActionEvent event) {
-        //
+        cancel();
     }
 
     @Override public String getResult() {
@@ -34,4 +35,11 @@ public class BuyGUIController implements ModalControllerInterface<String>{
         
     }
 
+    private void buyStocks() {
+        Dialogs.showMessageDialog("Et voi vielä ostaa osakkeita!");
+    }
+    
+    private void cancel() {
+        Dialogs.showMessageDialog("Tästä voit peruuttaa ostamisen, mutta ei toimi vielä!");
+    }
 }
