@@ -29,7 +29,8 @@ public class OsakerekisteriGUIController {
      * Poistaa valitun osakkeen.
      */
     @FXML void handleDelete() {
-        delete();
+    	ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIDelete.fxml"), "Delete STONKS", null, "");
+    	
     }
     
     /**
@@ -97,9 +98,6 @@ public class OsakerekisteriGUIController {
         Dialogs.showMessageDialog("Ostit osakkeen! Mutta äläpä hätäile, ei toimi vielä.");
     }
     
-    private void delete() {
-        Dialogs.showMessageDialog("Poista. Ei toimi osakkeen poisto vielä!");
-    }
     
     private void edit() {
         Dialogs.showMessageDialog("Edit nappulan takaa aukeava informaatio.");
