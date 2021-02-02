@@ -12,11 +12,11 @@ import javafx.fxml.FXML;
  */
 public class BuyGUIController implements ModalControllerInterface<String>{
 
-    @FXML void handleBuyStocks(ActionEvent event) {
+    @FXML void handleBuyStocks() {
         buyStocks();
     }
 
-    @FXML void handleCancel(ActionEvent event) {
+    @FXML void handleCancel() {
         cancel();
     }
 
