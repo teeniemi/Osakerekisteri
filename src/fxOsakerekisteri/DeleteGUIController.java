@@ -1,8 +1,8 @@
 package fxOsakerekisteri;
 
-import java.awt.event.ActionEvent;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 /**
@@ -44,7 +44,7 @@ public class DeleteGUIController implements ModalControllerInterface<String> {
 
 	
 	private void yes(){
-        Dialogs.showMessageDialog("Poistit osakkeen, mutta eip� toimikaan viel� H�H�H�");
+        Dialogs.showMessageDialog("Poistit osakkeen, mutta eipä toimikaan vielä!");
 
 		
 	}
