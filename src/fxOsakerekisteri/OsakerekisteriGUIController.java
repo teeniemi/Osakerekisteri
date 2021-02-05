@@ -88,6 +88,7 @@ public class OsakerekisteriGUIController {
      * Avaa myy osakkeita dialogin.
      */
     @FXML void handleSellStocks() {
+    	ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUISell.fxml"), "Sell STONKS", null, ""); 
         sell();
     }
     
