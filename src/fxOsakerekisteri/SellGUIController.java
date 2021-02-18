@@ -18,11 +18,11 @@ public class SellGUIController implements ModalControllerInterface<String>{
 
 	    
 	    private void nope() {
-	        Dialogs.showMessageDialog("Nˆssˆ.");
+	        Dialogs.showMessageDialog("N√∂ss√∂.");
 	    }
 	    
 	    private void save() {
-	        Dialogs.showMessageDialog("Et s‰‰ mit‰‰n myym‰ss‰ oo kuitenkaan!");
+	        Dialogs.showMessageDialog("Et s√§√§ mit√§√§n myym√§ss√§ oo kuitenkaan!");
 	    }
 
 		@Override
@@ -40,6 +40,5 @@ public class SellGUIController implements ModalControllerInterface<String>{
 		@Override
 		public void setDefault(String arg0) {
 			// TODO Auto-generated method stub
-			
 		}
 }
