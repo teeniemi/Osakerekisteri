@@ -5,7 +5,7 @@ import fi.jyu.mit.fxgui.ModalController;
 import javafx.fxml.FXML;
 
 /**
- * @author jesse
+ * @author jesse korolainen & teemu nieminen
  * @version 5.2.2021
  * Sovelluksen aloitusikkuna.
  */

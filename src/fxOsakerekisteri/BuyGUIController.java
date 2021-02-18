@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 /**
- * @author jesse
+ * @author Jesse Korolainen & Teemu Nieminen
  * @version 2.2.2021
  *
  */
