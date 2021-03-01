@@ -1,6 +1,7 @@
 package osakerekisteri;
 
 /**
+ * Poikkeusluokka tietorakenteesta aiheutuville poikkeuksille.
  * @author Jesse Korolainen & Teemu Nieminen
  * @version 1.3.2021
  *

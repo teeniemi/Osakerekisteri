@@ -34,6 +34,25 @@ public class Osakkeet {
      * Lisää uuden osakkeen tietorakenteeseen. Ottaa osakkeen omistukseensa.
      * @param stock lisättävän osakkeen viite.
      * @throws StoreException jos tietorakenne on täynnä
+     * @example
+     * <pre name="test">
+     * #THROWS StoreException 
+     * Osakkeet stocks = new Osakkeet();
+     * Osake stock1 = new Osake(), stock2 = new Osake();
+     * stocks.getAmount() === 0;
+     * stocks.add(stock1); stocks.getAmount() === 1;
+     * stocks.add(stock2); stocks.getAmount() === 2;
+     * stocks.add(stock1); stocks.getAmount() === 3;
+     * stocks.give(0) === stock1;
+     * stocks.give(1) === stock2;
+     * stocks.give(2) === stock1;
+     * stocks.give(1) == stock1 === false;
+     * stocks.give(1) == stock2 === true;
+     * stocks.give(3) === stock1; #THROWS IndexOutOfBoundsException 
+     * stocks.add(stock1); stocks.getAmount() === 4;
+     * stocks.add(stock1); stocks.getAmount() === 5;
+     * stocks.add(stock1);  #THROWS StoreException
+     * </pre>
      */
     public void add(Osake stock) throws StoreException {
         if (amount >= entries.length) throw new StoreException("Too many entries");

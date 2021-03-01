@@ -35,7 +35,7 @@ public class Osakerekisteri {
          * @example
          * <pre name="test">
          * #THROWS StoreException
-         * Osake stock = new Osake();
+         * Osakerekisteri osakerekisteri = new Osakerekisteri();
          * Osake stock1 = new Osake(), stock2 = new Osake();
          * stock1.register(); stock2.register();
          * osakerekisteri.getStocks() === 0;
@@ -49,7 +49,7 @@ public class Osakerekisteri {
          * osakerekisteri.giveStock(3) === stock1; #THROWS IndexOutOfBoundsException 
          * osakerekisteri.add(stock1); osakerekisteri.getStocks() === 4;
          * osakerekisteri.add(stock1); osakerekisteri.getStocks() === 5;
-         * osakerekisteri.add(stock1);            #THROWS StoreException
+         * osakerekisteri.add(stock1); #THROWS StoreException
          * </pre>
          */
         public void add(Osake stock) throws StoreException {
