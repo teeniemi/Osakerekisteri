@@ -22,5 +22,4 @@ public class StartGUIController {
     private void newPortfolio() {
         Dialogs.showMessageDialog("Vielä ei voi tehdä uutta portfoliota!");
     }
-
 }
