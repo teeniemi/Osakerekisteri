@@ -9,18 +9,18 @@ import java.io.PrintStream;
  * |-------------------------------------------------------------------------
  * | Vastuualueet:                                      |                   |
  * |                                                    |                   |
- * | - ei tiedä Osakerekisteristä, osakkeista eikä      |                   |
- * |   käyttöliittymästä                                |                   |
- * | - tietää Osakkeen kentät (stockId, stockName,      |                   |
+ * | - ei tiedï¿½ Osakerekisteristï¿½, osakkeista eikï¿½      |                   |
+ * |   kï¿½yttï¿½liittymï¿½stï¿½                                |                   |
+ * | - tietï¿½ï¿½ Osakkeen kentï¿½t (stockId, stockName,      |                   |
  * |   amount, averagePrice, totalPrice)                |                   | 
- * | - osaa tarkistaa tietyn kentän                     |                   |
+ * | - osaa tarkistaa tietyn kentï¿½n                     |                   |
  * |   oikeellisuuden (syntaksin)                       |                   |
  * | - osaa muuttaa |Nordea Oyj|..| -                   |                   |
  * |   merkkijonon osakkeen tiedoiksi                   |                   |
- * | - osaa antaa merkkijonona i:n kentän               |                   |
+ * | - osaa antaa merkkijonona i:n kentï¿½n               |                   |
  * |   tiedot                                           |                   |
  * | - osaa laittaa merkkijonon i:neksi                 |                   |
- * |   kentäksi                                         |                   |
+ * |   kentï¿½ksi                                         |                   |
  * | - osaa muuttaa olion tiedoston riviksi             |                   |
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
@@ -37,12 +37,16 @@ public class Osake {
 	private double 		averagePrice = 0;
 	private double 		totalPrice = 0;
 	
+	/**
+	 * Tulostetaan osakkeen tiedot
+	 * @param out tietovirta, johon tulostetaan
+	 */
 	public void tulosta(PrintStream out) {
 		out.println("ID " + String.format("%03d", stockId));
 		out.println(" Name " + stockName);
 		out.println(" Amount " + amount);
-		out.println(" Average price " + String.format("%4.2f",averagePrice) + "€"); 
-		out.println(" Total price " + String.format("%4.2f", totalPrice) + "€");
+		out.println(" Average price " + String.format("%4.2f",averagePrice) + "ï¿½"); 
+		out.println(" Total price " + String.format("%4.2f", totalPrice) + "ï¿½");
 		out.println("--------------------------------------");
 		
 	}
@@ -56,6 +60,9 @@ public class Osake {
 		tulosta(new PrintStream(os));
 	}
 	
+	/**
+	 * @param args ei kÃ¤ytÃ¶ssÃ¤
+	 */
 	public static void main(String[] args) {
 		
 		
