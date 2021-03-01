@@ -47,8 +47,8 @@ public class Osake {
 		out.println("ID " + String.format("%03d", stockId));
 		out.println(" Name " + stockName);
 		out.println(" Amount " + amount);
-		out.println(" Average price " + String.format("%4.2f",averagePrice) + "Ä"); 
-		out.println(" Total price " + String.format("%4.2f", totalPrice) + "Ä");
+		out.println(" Average price " + String.format("%4.2f",averagePrice) + " ‚Ç¨"); 
+		out.println(" Total price " + String.format("%4.2f", totalPrice) + " ‚Ç¨");
 		out.println("--------------------------------------");
 		
 	}
@@ -63,8 +63,8 @@ public class Osake {
 	}
 	
 	/**
-	 * Rekisterˆi osakkeelle id:n ja vieritt‰‰ kive‰ eteenp‰in
-	 * @return osakeid
+	 * Rekister√∂i osakkeelle ID:n ja kasvattaa sit√§ yhdell√§
+	 * @return stock Id
 	 * @example
 	 * <pre name="test">
 	 * Osake osake1 = new Osake();
@@ -95,9 +95,7 @@ public class Osake {
 	
 	/**
 	 * Haetaan osakkeen tiedot
-	 * @return osakkeen tiedot
 	 */
-	
 	
 	public void giveStock() {
 		stockId = 001;
@@ -109,24 +107,23 @@ public class Osake {
 	
 	
 	/**
-	 * @param args ei k‰ytˆss‰
+	 * @param args ei k√§yt√∂ss√§
 	 */
 	public static void main(String[] args) {
 		
 		
-		Osake osake = new Osake();
-		Osake osake2 = new Osake();
+		Osake stock = new Osake();
+		Osake stock2 = new Osake();
 		
-		osake.register();
-		osake2.register();
+		stock.register();
+		stock2.register();
 		
-		osake.print(System.out);
-		osake.giveStock();
-		osake.print(System.out);
+		stock.print(System.out);
+		stock.giveStock();
+		stock.print(System.out);
 		
-		osake2.print(System.out);
-		osake2.giveStock();
-		osake2.print(System.out);
+		stock2.print(System.out);
+		stock2.giveStock();
+		stock2.print(System.out);
 	}
-
 }
