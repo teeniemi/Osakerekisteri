@@ -1,5 +1,6 @@
 package osakerekisteri;
 
+import java.io.OutputStream;
 import java.io.PrintStream;
 
 /**
@@ -44,6 +45,15 @@ public class Osake {
 		out.println(" Total price " + String.format("%4.2f", totalPrice) + "€");
 		out.println("--------------------------------------");
 		
+	}
+	
+	/**
+	 * Tulostetaan osakkeen tiedot
+	 * @param os tietovirta, johon tulostetaan
+	 */
+	
+	public void tulosta (OutputStream os) {
+		tulosta(new PrintStream(os));
 	}
 	
 	public static void main(String[] args) {
