@@ -25,7 +25,7 @@ public class OsakerekisteriMain extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+	i
 	/**
 	 * @param args ei käytössä
 	 */

@@ -1,0 +1,14 @@
+# Osakerekisteri - osakkeiden relaatio
+
+;Relaatio laskee automaattisesti keskihinnan ja kokonaisarvon transaktioiden relaatiosta.
+;Osakkeen keskihinta = kaikkien hankintaerien kokonaiskulut / määrä
+;Osakkeen arvo = kaikkien hankintaerien kokonaiskulut - kaikkien hankintaerien toimeksiantokulut
+
+;Kenttien järjestys tiedostossa on seuraava:
+;ID	|	Osake	|	Määrä	|	Keskihinta €	|	Arvo €	|
+;1	|	Nokia Oyj	|	200	|	3.12	|	624.00	|   
+;2	|	Olvi Oyj	|	40	|    37.6175	|	1489.80	|
+;3	|	Finnair Oyj	|	1000	|	0.6969	|	690 |
+;4	|	Sampo Oyj   |	0	|	0	|	0	|
+;5	|	Wärtsilä Oyj	|	0	|	0	|	0	|
+;6	|	Nordea Oyj	|	0	|	0	|	0	|

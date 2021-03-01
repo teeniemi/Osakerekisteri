@@ -1,4 +1,9 @@
-Osakerekisteri
+# Osakerekisteri
+
+;Laskukaavat: Hankintaerän keskihinta = (määrä*hinta+kulut)/määrä
+;Toimeksiantokulut = (määrä*ostohinta)*toimeksiantoprosentti
+;Kokonaiskulut = määrä*ostohinta + Toimeksiantokulut
+
 ;Kenttien järjestys tiedostossa on seuraava:
 ;ID	|	Osake		|	Toimeksiantopäivämäärä	|	Toimeksiantotyyppi	|	Hinta €	|	Määrä	|	Toimeksiantokulut €	|	Kokonaiskulut €	|
 ;1	|	Nokia Oyj	|	30.11.2007	|	Osto	|	27.32	|	200	|	54.64	|	5518.64	|
