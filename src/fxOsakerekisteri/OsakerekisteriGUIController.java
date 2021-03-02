@@ -1,9 +1,30 @@
 package fxOsakerekisteri;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
+import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
+import fi.jyu.mit.fxgui.TextAreaOutputStream;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Font;
+import osakerekisteri.Osake;
+import osakerekisteri.Osakerekisteri;
+import osakerekisteri.StoreException;
 /**
  * @author Jesse Korolainen & Teemu Nieminen
  * @version 18.1.2021
@@ -11,6 +32,30 @@ import javafx.fxml.FXML;
  */
 public class OsakerekisteriGUIController implements ModalControllerInterface<String>{
 
+    @FXML private TextField search;
+    @FXML private ComboBoxChooser<String> cbFields;
+    @FXML private Label labelError;
+    @FXML private ScrollPane panelStock;
+    @FXML private ListChooser<Osake> chooserStocks;
+    
+    @Override
+    public String getResult() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void handleShown() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setDefault(String arg0) {
+        // TODO Auto-generated method stub
+        
+    }
+    
     /**
      * Näyttää tietoja sovelluksesta.
      */
@@ -95,11 +140,149 @@ public class OsakerekisteriGUIController implements ModalControllerInterface<Str
     
     
     // ===============================================================
+    
+    private Osakerekisteri osakerekisteri;
+    private Osake stockAtPlace;
+    private TextArea areaStock = new TextArea();
+    
+    /**
+     * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
+     * yksi iso tekstikenttä, johon voidaan tulostaa jäsenten tiedot.
+     * Alustetaan myös jäsenlistan kuuntelija 
+     */
+    protected void format() {
+        panelStock.setContent(areaStock);
+        areaStock.setFont(new Font("Courier New", 12));
+        panelStock.setFitToHeight(true);
+        
+        chooserStocks.clear();
+        chooserStocks.addSelectionListener(e -> showStock());
+    }
+    
+    private void showError(String error) {
+        if ( error == null || error.isEmpty() ) {
+            labelError.setText("");
+            labelError.getStyleClass().removeAll("error");
+            return;
+        }
+        labelError.setText(error);
+        labelError.getStyleClass().add("error");
+    }
+    
+    /**
+     * TODO
+     * Alustaa osakerekisterin lukemalla sen valitun nimisestä tiedostosta
+     * @param name tiedosto josta osakerekisterin tiedot luetaan
+    
+    protected void readFile(String name) {
+        register = name;
+        setTitle("Osakerekisteri - " + regiter);
+        String error = "Ei osata lukea vielä";  // TODO: tähän oikea tiedoston lukeminen
+        // if (error != null) 
+            Dialogs.showMessageDialog(error);
+    }
+     */
+    
+    /**
+     * TODO
+     * Kysytään tiedoston nimi ja luetaan se
+     * @return true jos onnistui, false jos ei
+   
+    public boolean open() {
+        String newnName = StartGUIController.getName(null, registerName);
+        if (newName == null) return false;
+        lueTiedosto(newName);
+        return true;
+    }
+      */
+    
+    /**
+     * Näyttää listasta valitun osakkeen tiedot, tilapäisesti yhteen isoon edit-kenttään
+     */
+    protected void showStock() {
+        stockAtPlace = chooserStocks.getSelectedObject();
 
+        if (stockAtPlace == null) return;
+
+        areaStock.setText("");
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaStock)) {
+            stockAtPlace.print(os);
+        }
+    }
+    
+    /**
+     * Hakee osakkeen tiedot listaan
+     * @param stockId osakkeen Id, joka aktivoidaan haun jälkeen
+     */
+    protected void get(int stockId) {
+        chooserStocks.clear();
+
+        int index = 0;
+        for (int i = 0; i < osakerekisteri.getStocks(); i++) {
+            Osake stock = osakerekisteri.giveStock(i);
+            if (stock.getNextId() == stockId) index = i;
+            chooserStocks.add(stock.getName(), stock);
+        }
+        chooserStocks.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
+    }
+
+    /**
+     * Luo uuden osakkeen jota aletaan editoimaan 
+     */
+    protected void newStock() {
+        Osake newStock = new Osake();
+        newStock.register();
+        newStock.giveStock();
+        try {
+            osakerekisteri.add(newStock);
+        } catch (StoreException e) {
+            Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
+            return;
+        }
+        get(newStock.getNextId());
+    }
+
+    /**
+     * @param osakerekisteri Osakerekisteri jota käytetään tässä käyttöliittymässä
+     */
+    public void setKerho(Osakerekisteri osakerekisteri) {
+        this.osakerekisteri = osakerekisteri;
+        showStock();
+    }
+
+    /**
+     * Tulostaa osakkeen tiedot
+     * @param os tietovirta johon tulostetaan
+     * @param stock tulostettava osake
+     */
+    public void print(PrintStream os, final Osake stock) {
+        os.println("----------------------------------------------");
+        stock.print(os);
+        os.println("----------------------------------------------");
+    }
+    
+    /**
+     * Tulostaa listassa olevat jäsenet tekstialueeseen
+     * @param text alue johon tulostetaan
+     */
+    public void printChosen(TextArea text) {
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
+            os.println("Tulostetaan kaikki osakkeet");
+            for (int i = 0; i < osakerekisteri.getStocks(); i++) {
+                Osake stock = osakerekisteri.giveStock(i);
+                print(os, stock);
+                os.println("\n\n");
+            }
+        }
+    }
+    
+    private void setTitle(String title) {
+        ModalController.getStage(search).setTitle(title);
+    }
+    
     private void buy() {
         Dialogs.showMessageDialog("Ostit osakkeen! Mutta äläpä hätäile, ei toimi vielä.");
     }
-    
     
     private void edit() {
         Dialogs.showMessageDialog("Edit nappulan takaa aukeava informaatio.");
@@ -133,22 +316,4 @@ public class OsakerekisteriGUIController implements ModalControllerInterface<Str
         Dialogs.showMessageDialog("Myit osakkeen! Ei toimi vielä.");
     }
 
-    @Override
-    public String getResult() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void handleShown() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void setDefault(String arg0) {
-        // TODO Auto-generated method stub
-        
-    }
-    
 }

@@ -39,6 +39,19 @@ public class Osake {
 	
 	private static int nextId = 1;
 	
+    /**
+     * @return osakkeen nimi
+     * @example
+     * <pre name="test">
+     *   Osake stock = new Osake();
+     *   stock.giveStock();
+     *   stock.getName() =R= "Nokia Oyj.*";
+     * </pre>
+     */
+    public String getName() {
+        return stockName;
+    }
+	
 	/**
 	 * Tulostetaan osakkeen tiedot
 	 * @param out tietovirta, johon tulostetaan
