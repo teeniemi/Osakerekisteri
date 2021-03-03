@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import osakerekisteri.Osakerekisteri;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
 
@@ -19,7 +20,7 @@ public class OsakerekisteriMain extends Application {
 	    public void start(Stage primaryStage) {
 	        try {
 	            final FXMLLoader ldr = new FXMLLoader(getClass().getResource("OsakerekisteriGUIView.fxml"));
-	            final BorderPane root = (BorderPane)ldr.load();
+	            final Pane root = (Pane)ldr.load();
 	            final OsakerekisteriGUIController osakerekisteriCtrl = (OsakerekisteriGUIController)ldr.getController();
 
 	            final Scene scene = new Scene(root);

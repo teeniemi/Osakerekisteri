@@ -30,7 +30,7 @@ import osakerekisteri.StoreException;
  * @version 18.1.2021
  *
  */
-public class OsakerekisteriGUIController{
+public class OsakerekisteriGUIController implements Initializable{
 
     @FXML private TextField search;
     @FXML private ComboBoxChooser<String> cbFields;
@@ -130,8 +130,8 @@ public class OsakerekisteriGUIController{
     
     /**
      * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
-     * yksi iso tekstikenttä, johon voidaan tulostaa jäsenten tiedot.
-     * Alustetaan myös jäsenlistan kuuntelija 
+     * yksi iso tekstikenttä, johon voidaan tulostaa osakkeiden tiedot.
+     * Alustetaan myös osakelistan kuuntelija 
      */
     protected void format() {
         panelStock.setContent(areaStock);
@@ -230,7 +230,7 @@ public class OsakerekisteriGUIController{
      */
     public void setOsakerekisteri(Osakerekisteri osakerekisteri) {
         this.osakerekisteri = osakerekisteri;
-        // showStock();
+        showStock();
         ModalController.showModal(StartGUIController.class.getResource("OsakerekisteriGUIStart.fxml"), "Portfolio", null, osakerekisteri); 
     }
     
@@ -266,12 +266,17 @@ public class OsakerekisteriGUIController{
         ModalController.getStage(search).setTitle(title);
     }
     
+    // luodaan uusi osake ja rekisteröidään se 
+    
     private void buy() {
         try {
-			osakerekisteri.add(stockAtPlace);
+            Osake osake = new Osake();
+            osake.register();
+            osake.giveStock();
+			osakerekisteri.add(osake);
+			get(osake.getNextId());
 		} catch (StoreException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
+			Dialogs.showMessageDialog("Too many entries");
 		}
     }
     
@@ -305,6 +310,12 @@ public class OsakerekisteriGUIController{
     
     private void sell() {
         Dialogs.showMessageDialog("Myit osakkeen! Ei toimi vielä.");
+    }
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        format();
+        
     }
 
 	

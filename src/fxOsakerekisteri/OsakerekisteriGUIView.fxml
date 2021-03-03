@@ -72,7 +72,7 @@
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <ListChooser rivit="Nokia Oyj&#10;Olvi Oyj&#10;Finnair Oyj&#10;Nordea Oyj" />
+                  <ListChooser fx:id="chooserStocks" rivit="Nokia Oyj&#10;Olvi Oyj&#10;Finnair Oyj&#10;Nordea Oyj" />
               </items>
             </SplitPane>
          </center>
@@ -86,7 +86,7 @@
                   <Label text="Stock Information" BorderPane.alignment="CENTER" />
                </top>
                <left>
-                  <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <ScrollPane fx:id="panelStock" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <content>
                         <GridPane hgap="10.0">
                           <columnConstraints>

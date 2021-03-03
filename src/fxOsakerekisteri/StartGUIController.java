@@ -5,6 +5,7 @@ import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
+import osakerekisteri.Osake;
 import osakerekisteri.Osakerekisteri;
 
 /**
@@ -14,7 +15,7 @@ import osakerekisteri.Osakerekisteri;
  */
 public class StartGUIController  implements ModalControllerInterface<Osakerekisteri> {
 	private Osakerekisteri osakekanta = null;
-    @FXML private ListChooser listOmistaja;
+    @FXML private ListChooser<Osake> listOmistaja;
     @FXML void handleCreateNew() {
         newPortfolio();
     }
