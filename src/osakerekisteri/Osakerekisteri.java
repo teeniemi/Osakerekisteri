@@ -7,6 +7,7 @@ package osakerekisteri;
  */
 public class Osakerekisteri {
         private final Osakkeet stocks = new Osakkeet();
+        private String omistaja;
 
 
         /**
@@ -25,6 +26,11 @@ public class Osakerekisteri {
          */
         public int delete(@SuppressWarnings("unused") int nr) {
             return 0;
+        }
+        
+        public String setOmistaja(String omistaja) {
+        	this.omistaja = omistaja;
+        	return omistaja;
         }
 
 
