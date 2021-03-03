@@ -50,7 +50,7 @@ public class OsakerekisteriGUIController{
      * Avaa osta-osakkeita dialogin.
      */
     @FXML void handleBuyStocks() {
-        ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIBuy.fxml"), "Buy STONKS", null, "");
+       // ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIBuy.fxml"), "Buy STONKS", null, "");
         buy();
     }
     
@@ -231,7 +231,7 @@ public class OsakerekisteriGUIController{
     public void setOsakerekisteri(Osakerekisteri osakerekisteri) {
         this.osakerekisteri = osakerekisteri;
         // showStock();
-        ModalController.showModal(StartGUIController.class.getResource("OsakerekisteriGUIStart.fxml"), "Portfolio", null, ""); 
+        ModalController.showModal(StartGUIController.class.getResource("OsakerekisteriGUIStart.fxml"), "Portfolio", null, osakerekisteri); 
     }
     
 
@@ -267,7 +267,12 @@ public class OsakerekisteriGUIController{
     }
     
     private void buy() {
-        Dialogs.showMessageDialog("Ostit osakkeen! Mutta äläpä hätäile, ei toimi vielä.");
+        try {
+			osakerekisteri.add(stockAtPlace);
+		} catch (StoreException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
     }
     
     private void edit() {
