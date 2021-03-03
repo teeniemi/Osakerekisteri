@@ -30,7 +30,7 @@ import osakerekisteri.StoreException;
  * @version 18.1.2021
  *
  */
-public class OsakerekisteriGUIController implements ModalControllerInterface<String>{
+public class OsakerekisteriGUIController{
 
     @FXML private TextField search;
     @FXML private ComboBoxChooser<String> cbFields;
@@ -38,23 +38,6 @@ public class OsakerekisteriGUIController implements ModalControllerInterface<Str
     @FXML private ScrollPane panelStock;
     @FXML private ListChooser<Osake> chooserStocks;
     
-    @Override
-    public String getResult() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void handleShown() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void setDefault(String arg0) {
-        // TODO Auto-generated method stub
-        
-    }
     
     /**
      * Näyttää tietoja sovelluksesta.
@@ -176,7 +159,7 @@ public class OsakerekisteriGUIController implements ModalControllerInterface<Str
     
     protected void readFile(String name) {
         register = name;
-        setTitle("Osakerekisteri - " + regiter);
+        setTitle("Osakerekisteri - " + register);
         String error = "Ei osata lukea vielä";  // TODO: tähän oikea tiedoston lukeminen
         // if (error != null) 
             Dialogs.showMessageDialog(error);
@@ -245,10 +228,13 @@ public class OsakerekisteriGUIController implements ModalControllerInterface<Str
     /**
      * @param osakerekisteri Osakerekisteri jota käytetään tässä käyttöliittymässä
      */
-    public void setKerho(Osakerekisteri osakerekisteri) {
+    public void setOsakerekisteri(Osakerekisteri osakerekisteri) {
         this.osakerekisteri = osakerekisteri;
-        showStock();
+        // showStock();
+        ModalController.showModal(StartGUIController.class.getResource("OsakerekisteriGUIStart.fxml"), "Portfolio", null, ""); 
     }
+    
+
 
     /**
      * Tulostaa osakkeen tiedot
@@ -315,5 +301,7 @@ public class OsakerekisteriGUIController implements ModalControllerInterface<Str
     private void sell() {
         Dialogs.showMessageDialog("Myit osakkeen! Ei toimi vielä.");
     }
+
+	
 
 }
