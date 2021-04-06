@@ -2,6 +2,7 @@ package osakerekisteri;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Random;
 
 /**
  * |------------------------------------------------------------------------|
@@ -30,13 +31,17 @@ import java.io.PrintStream;
  */
 public class Transaktio {
     
-    private int     transactionId  = 0;
-    private String  date           = "yyyy-MM-dd";
-    private String  type           = "";
-    private double  stockPrice     = 0;
-    private double  amount         = 0;
-    private double  expenses       = 0;
-    private double  totalPrice     = 0;
+    private int     transactionId;
+    private String  date;
+    private String  type;
+    private double  stockPrice;
+    private int  amount;
+    private double  expenses;
+    private double  totalPrice;
+    private int stockId;
+    
+    
+    private static int nextId = 1;
     
     /**
      * Tulostetaan transaktion tiedot
@@ -53,6 +58,40 @@ public class Transaktio {
         out.println("--------------------------");
     }
     
+    
+    /**
+     * Alustetaan harrastus.  Toistaiseksi ei tarvitse tehdä mitään
+     */
+    public Transaktio() {
+        // Vielä ei tarvita mitään
+    }
+
+
+    /**
+     * Alustetaan tietyn jäsenen harrastus.  
+     * @param jasenNro jäsenen viitenumero 
+     */
+    public Transaktio(int stockId) {
+        this.stockId = stockId;
+    }
+
+
+    /**
+     * Apumetodi, jolla saadaan täytettyä testiarvot Transaktiolle.
+     * Kaikki arvot arvotaan, jotta kahdella transaktiolla ei olisi
+     * samoja tietoja.
+     * @param nro viite osakkeeseen, jonka transaktiosta on kyse
+     */
+    public void testi(int nro) {
+    	
+        stockId = nro;
+        stockPrice = Math.random()*100;
+        amount = (int)(Math.random()*100);
+        expenses = Math.random()*100;
+        totalPrice = Math.random()*100;
+    }
+
+    
     /**
      * Tulostetaan transaktion tiedot
      * @param os tietovirta mihin tulostetaan
@@ -60,6 +99,47 @@ public class Transaktio {
     public void tulosta(OutputStream os) {
         tulosta(new PrintStream(os));
     }
+    
+    /**
+     * Antaa transaktion seuraavan rekisterinumeron.
+     * @return transaktion uusi tunnus_nro
+     * @example
+     * <pre name="test">
+     *   Transaktio pitsi1 = new Transaktio();
+     *   pitsi1.getTransactionId() === 0;
+     *   pitsi1.register();
+     *   Transaktio pitsi2 = new Transaktio();
+     *   pitsi2.register();
+     *   int n1 = pitsi1.getTransactionId();
+     *   int n2 = pitsi2.getTransactionId();
+     *   n1 === n2-1;
+     * </pre>
+     */
+    
+    public int register() {
+        transactionId = nextId;
+        nextId++;
+        return transactionId;
+    }
+    
+    /**
+     * Palautetaan transaktion oma id
+     * @return transaktion id
+     */
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+
+    /**
+     * Palautetaan mille osakkeelle transaktio kuuluu
+     * @return jäsenen id
+     */
+    public int getStockId() {
+        return stockId;
+    }
+
+
     
     /**
      * @param args ei käytössä

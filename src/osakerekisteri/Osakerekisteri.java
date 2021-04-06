@@ -7,7 +7,7 @@ package osakerekisteri;
  */
 public class Osakerekisteri {
         private final Osakkeet stocks = new Osakkeet();
-        private String omistaja;
+        private String owner;
 
 
         /**
@@ -28,9 +28,15 @@ public class Osakerekisteri {
             return 0;
         }
         
-        public String setOmistaja(String omistaja) {
-        	this.omistaja = omistaja;
-        	return omistaja;
+        /**
+         * 
+         * @param owner eli osakerekisterin omistaja, joka valitaan, kun käyttäjä käynnistää ohjelman
+         * @return owner
+         */
+        
+        public String setOwner(String owner) {
+        	this.owner = owner;
+        	return owner;
         }
 
 
