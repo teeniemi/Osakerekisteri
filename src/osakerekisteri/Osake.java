@@ -9,18 +9,18 @@ import java.io.PrintStream;
  * |-------------------------------------------------------------------------
  * | Vastuualueet:                                      |                   |
  * |                                                    |                   |
- * | - ei tied� Osakerekisterist�, osakkeista eik�|                   |
- * |   k�ytt�liittym�st�                        |                   |
- * | - tiet�� Osakkeen kent�t (stockId, stockName,|                   |
+ * | - ei tiedä Osakerekisteristä, osakkeista eikä      |                   |
+ * |   käyttöliittymästä                                |                   |
+ * | - tietää Osakkeen kentät (stockId, stockName,      |                   |
  * |   amount, averagePrice, totalPrice)                |                   | 
- * | - osaa tarkistaa tietyn kent�n                   |                   |
+ * | - osaa tarkistaa tietyn kentän                     |                   |
  * |   oikeellisuuden (syntaksin)                       |                   |
  * | - osaa muuttaa |Nordea Oyj|..| -                   |                   |
  * |   merkkijonon osakkeen tiedoiksi                   |                   |
- * | - osaa antaa merkkijonona i:n kent�n             |                   |
+ * | - osaa antaa merkkijonona i:n kentän               |                   |
  * |   tiedot                                           |                   |
  * | - osaa laittaa merkkijonon i:neksi                 |                   |
- * |   kent�ksi                                       |                   |
+ * |   kentäksi                                         |                   |
  * | - osaa muuttaa olion tiedoston riviksi             |                   |
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
