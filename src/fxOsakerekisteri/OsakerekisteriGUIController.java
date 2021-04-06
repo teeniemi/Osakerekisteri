@@ -122,7 +122,7 @@ public class OsakerekisteriGUIController implements Initializable{
     }
     
     
-    // ===============================================================
+    //============================= Java koodia tästä alaspäin ==================================
     
     private Osakerekisteri osakerekisteri;
     private Osake stockAtPlace;

@@ -3,10 +3,23 @@ package osakerekisteri;
 import java.util.*;
 
 /**
- * Kerhon harrastukset, joka osaa mm. lisätä uuden harrastuksen
+ * Osakerekisterin transaktiot, joka osaa mm. lisätä uuden transaktion.
+ * 
+ * |------------------------------------------------------------------------|
+ * | Luokan nimi: transaktiot                           | Avustajat:        |
+ * |-------------------------------------------------------------------------
+ * | Vastuualueet:                                      | - Transaktio      |
+ * |                                                    |                   |
+ * | - ei tiedä Osakerekisteristä, Transaktiosta eikä   |                   |
+ * |   käyttöliittymästä                                |                   |
+ * | - osaa tallentaa tiedostoon                        |                   |
+ * | - osaa etsiä ja lajitella                          |                   |
+ * | - osaa lisätä ja poistaa transaktioita             |                   |
+ * |                                                    |                   |
+ * |-------------------------------------------------------------------------
  *
- * @author Vesa Lappalainen
- * @version 1.0, 22.02.2003
+ * @author Jesse Korolainen & Teemu Nieminen
+ * @version 1.0, 6.4.2021
  */
 public class Transaktiot implements Iterable<Transaktio> {
 
@@ -37,7 +50,7 @@ public class Transaktiot implements Iterable<Transaktio> {
      * Lukee jäsenistön tiedostosta.  
      * TODO Kesken.
      * @param hakemisto tiedoston hakemisto
-     * @throws SailoException jos lukeminen epäonnistuu
+     * @throws StoreException jos lukeminen epäonnistuu
      */
     public void lueTiedostosta(String hakemisto) throws StoreException {
         tiedostonNimi = hakemisto + ".har";
@@ -48,7 +61,7 @@ public class Transaktiot implements Iterable<Transaktio> {
     /**
      * Tallentaa jäsenistön tiedostoon.  
      * TODO Kesken.
-     * @throws SailoException jos talletus epäonnistuu
+     * @throws StoreException jos talletus epäonnistuu
      */
     public void talleta() throws StoreException {
         throw new StoreException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
@@ -162,7 +175,7 @@ public class Transaktiot implements Iterable<Transaktio> {
         harrasteet.lisaa(pitsi2);
         harrasteet.lisaa(pitsi4);
 
-        System.out.println("============= Harrastukset testi =================");
+        System.out.println("============= Transaktiot testi =================");
 
         List<Transaktio> harrastukset2 = harrasteet.annaHarrastukset(2);
 

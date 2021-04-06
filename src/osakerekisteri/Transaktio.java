@@ -52,7 +52,7 @@ public class Transaktio {
         out.println(" Date " + date);
         out.println(" Type " + type);
         out.println(" Price " + String.format("%4.2f", stockPrice) + " €");
-        out.println(" Amount " + amount + " €");
+        out.println(" Amount " + amount + " kpl");
         out.println(" Expenses " + String.format("%4.2f", expenses) + " €");
         out.println(" Total Price " + String.format("%4.2f", totalPrice) + " €");
         out.println("--------------------------");
@@ -68,8 +68,8 @@ public class Transaktio {
 
 
     /**
-     * Alustetaan tietyn jäsenen harrastus.  
-     * @param jasenNro jäsenen viitenumero 
+     * Alustetaan tietyn osakkeen transaktio.  
+     * @param stockId osakkeen viitenumero
      */
     public Transaktio(int stockId) {
         this.stockId = stockId;
@@ -88,7 +88,7 @@ public class Transaktio {
         stockPrice = Math.random()*100;
         amount = (int)(Math.random()*100);
         expenses = Math.random()*100;
-        totalPrice = Math.random()*100;
+        totalPrice = (stockPrice * amount) + expenses;
     }
 
     
