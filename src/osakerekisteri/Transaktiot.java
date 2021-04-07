@@ -41,7 +41,7 @@ public class Transaktiot implements Iterable<Transaktio> {
      * Lisää uuden harrastuksen tietorakenteeseen.  Ottaa harrastuksen omistukseensa.
      * @param har lisättävä harrastus.  Huom tietorakenne muuttuu omistajaksi
      */
-    public void lisaa(Transaktio har) {
+    public void add(Transaktio har) {
         alkiot.add(har);
     }
 
@@ -146,7 +146,7 @@ public class Transaktiot implements Iterable<Transaktio> {
      *  loytyneet.get(0) == pitsi51 === true;
      * </pre> 
      */
-    public List<Transaktio> annaHarrastukset(int tunnusnro) {
+    public List<Transaktio> giveTransactions(int tunnusnro) {
         List<Transaktio> loydetyt = new ArrayList<Transaktio>();
         for (Transaktio har : alkiot)
             if (har.getStockId() == tunnusnro) loydetyt.add(har);
@@ -169,15 +169,15 @@ public class Transaktiot implements Iterable<Transaktio> {
         Transaktio pitsi4 = new Transaktio();
         pitsi4.testi(2);
 
-        harrasteet.lisaa(pitsi1);
-        harrasteet.lisaa(pitsi2);
-        harrasteet.lisaa(pitsi3);
-        harrasteet.lisaa(pitsi2);
-        harrasteet.lisaa(pitsi4);
+        harrasteet.add(pitsi1);
+        harrasteet.add(pitsi2);
+        harrasteet.add(pitsi3);
+        harrasteet.add(pitsi2);
+        harrasteet.add(pitsi4);
 
         System.out.println("============= Transaktiot testi =================");
 
-        List<Transaktio> harrastukset2 = harrasteet.annaHarrastukset(2);
+        List<Transaktio> harrastukset2 = harrasteet.giveTransactions(2);
 
         for (Transaktio har : harrastukset2) {
             System.out.print(har.getStockId() + " ");

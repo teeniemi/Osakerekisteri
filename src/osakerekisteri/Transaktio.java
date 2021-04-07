@@ -96,7 +96,7 @@ public class Transaktio {
      * Tulostetaan transaktion tiedot
      * @param os tietovirta mihin tulostetaan
      */
-    public void tulosta(OutputStream os) {
+    public void print(OutputStream os) {
         tulosta(new PrintStream(os));
     }
     
