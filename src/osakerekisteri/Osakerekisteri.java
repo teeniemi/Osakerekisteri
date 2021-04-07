@@ -143,7 +143,7 @@ public class Osakerekisteri {
                     	alkio.print(System.out);
                     }
                     	
-                    // TEE FOR EACH LOOP, JOKA KÄY LÄPI JOKAISET TRANSAKTION JA TULOSTAA SEN	
+        
                   
                 }
 
