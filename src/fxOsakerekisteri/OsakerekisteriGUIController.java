@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.ComboBoxChooser;
@@ -25,6 +26,7 @@ import javafx.scene.text.Font;
 import osakerekisteri.Osake;
 import osakerekisteri.Osakerekisteri;
 import osakerekisteri.StoreException;
+import osakerekisteri.Transaktio;
 /**
  * @author Jesse Korolainen & Teemu Nieminen
  * @version 18.1.2021
@@ -182,7 +184,7 @@ public class OsakerekisteriGUIController implements Initializable{
     /**
      * Näyttää listasta valitun osakkeen tiedot, tilapäisesti yhteen isoon edit-kenttään
      */
-    protected void showStock() {
+    private void showStock() {
         stockAtPlace = chooserStocks.getSelectedObject();
 
         if (stockAtPlace == null) return;
@@ -192,6 +194,7 @@ public class OsakerekisteriGUIController implements Initializable{
             stockAtPlace.print(os);
         }
     }
+    
     
     /**
      * Hakee osakkeen tiedot listaan
@@ -244,6 +247,7 @@ public class OsakerekisteriGUIController implements Initializable{
     public void print(PrintStream os, final Osake stock) {
         os.println("----------------------------------------------");
         stock.print(os);
+        List <Transaktio> transaction = osakerekisteri.giveTransactions(stock);
         os.println("----------------------------------------------");
     }
     
