@@ -3,6 +3,8 @@ package osakerekisteri;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import fi.jyu.mit.ohj2.Mjonot;
+
 /**
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Osake                                 | Avustajat:        |
@@ -116,6 +118,68 @@ public class Osake {
 		averagePrice = 2.20;
 		totalPrice = 1100.00;
 	}
+	
+	/**
+	* Asettaa tunnusnumeron ja samalla varmistaa että
+	* seuraava numero on aina suurempi kuin tähän mennessä suurin.
+	* @param id asetettava tunnusnumero
+	*/
+	
+	private void setId(int id) {
+		this.stockId = id;
+		if (stockId >= nextId) nextId = stockId + 1;
+	}
+	
+	/**
+     * Palauttaa osakkeen tiedot merkkijonona jonka voi tallentaa tiedostoon.
+     * @return osake tolppaeroteltuna merkkijonona 
+     * @example
+     * <pre name="test">
+     *   Osake stock = new Osake();
+     *   stock.parse("1|Nokia Oyj|200|3.12|624.00|");
+     *   stock.toString().startsWith("1|Nokia Oyj|200|3.12|624.00|") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
+     * </pre>  
+     */
+    @Override
+    public String toString() {
+        return "" +
+                getId() + "|" +
+                getName() + "|" +
+                amount + "|" +
+                averagePrice + "|" +
+                totalPrice + "|";
+    }
+    
+    
+    /**
+     * Selvittää osakkeen tiedot | erotellusta merkkijonosta
+     * Pitää huolen että nextId on suurempi kuin tuleva stockId.
+     * @param rivi josta osakkeen tiedot otetaan
+     * 
+     * @example
+     * <pre name="test">
+     *   Osake stock = new Osake();
+     *   stock.parse("1|Nokia Oyj|200|3.12|624.00|");
+     *   stock.getId() === 3;
+     *   stock.toString().startsWith("1|Nokia Oyj|200|3.12|624.00|") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
+     *
+     *   stock.register();
+     *   int n = stock.getId();
+     *   stock.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
+     *   stock.register();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
+     *   stock.getId() === n+20+1;
+     *     
+     * </pre>
+     */
+    public void parse(String rivi) {
+        StringBuffer sb = new StringBuffer(rivi);
+        setId(Mjonot.erota(sb, '|', getId()));
+        stockName = Mjonot.erota(sb, '|', stockName);
+        amount = Mjonot.erota(sb, '|', amount);
+        averagePrice = Mjonot.erota(sb, '|', averagePrice);
+        totalPrice = Mjonot.erota(sb, '|', totalPrice);
+    }
+    
 	
 	
 	/**
