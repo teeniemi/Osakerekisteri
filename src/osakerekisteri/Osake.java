@@ -102,7 +102,7 @@ public class Osake {
 	 * @return osakeid
 	 */
 	
-	public int getNextId() {
+	public int getId() {
 		return stockId;
 	}
 	
@@ -111,7 +111,6 @@ public class Osake {
 	 */
 	
 	public void giveStock() {
-		stockId = 001;
 		stockName = "Nokia Oyj";
 		amount = 500;
 		averagePrice = 2.20;

@@ -41,7 +41,8 @@ public class Transaktiot implements Iterable<Transaktio> {
      * Lisää uuden transaktion tietorakenteeseen.  Ottaa transaktion omistukseensa.
      * @param trans lisättävä transaktio.  Huom tietorakenne muuttuu omistajaksi
      */
-    public void lisaa(Transaktio trans) {
+
+    public void add(Transaktio trans) {
         alkiot.add(trans);
     }
 
@@ -146,10 +147,11 @@ public class Transaktiot implements Iterable<Transaktio> {
      *  loytyneet.get(0) == trans51 === true;
      * </pre> 
      */
-    public List<Transaktio> annaTransaktiot(int tunnusnro) {
+
+    public List<Transaktio> giveTransactions(int tunnusnro) {
         List<Transaktio> loydetyt = new ArrayList<Transaktio>();
-        for (Transaktio har : alkiot)
-            if (har.getStockId() == tunnusnro) loydetyt.add(har);
+        for (Transaktio trans : alkiot)
+            if (trans.getStockId() == tunnusnro) loydetyt.add(trans);
         return loydetyt;
     }
 
@@ -159,6 +161,7 @@ public class Transaktiot implements Iterable<Transaktio> {
      * @param args ei käytössä
      */
     public static void main(String[] args) {
+        
         Transaktiot transaktiot = new Transaktiot();
         Transaktio trans1 = new Transaktio();
         trans1.testi(2);
@@ -169,15 +172,16 @@ public class Transaktiot implements Iterable<Transaktio> {
         Transaktio trans4 = new Transaktio();
         trans4.testi(2);
 
-        transaktiot.lisaa(trans1);
-        transaktiot.lisaa(trans2);
-        transaktiot.lisaa(trans3);
-        transaktiot.lisaa(trans2);
-        transaktiot.lisaa(trans4);
+        transaktiot.add(trans1);
+        transaktiot.add(trans2);
+        transaktiot.add(trans3);
+        transaktiot.add(trans2);
+        transaktiot.add(trans4);
 
         System.out.println("============= Transaktiot testi =================");
 
-        List<Transaktio> transaktiot2 = transaktiot.annaTransaktiot(2);
+        List<Transaktio> transaktiot2 = transaktiot.giveTransactions(2);
+
 
         for (Transaktio trans : transaktiot2) {
             System.out.print(trans.getStockId() + " ");

@@ -206,7 +206,7 @@ public class OsakerekisteriGUIController implements Initializable{
         int index = 0;
         for (int i = 0; i < osakerekisteri.getStocks(); i++) {
             Osake stock = osakerekisteri.giveStock(i);
-            if (stock.getNextId() == stockId) index = i;
+            if (stock.getId() == stockId) index = i;
             chooserStocks.add(stock.getName(), stock);
         }
         chooserStocks.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
@@ -225,7 +225,7 @@ public class OsakerekisteriGUIController implements Initializable{
             Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
             return;
         }
-        get(newStock.getNextId());
+        get(newStock.getId());
     }
 
     /**
@@ -278,7 +278,7 @@ public class OsakerekisteriGUIController implements Initializable{
             osake.register();
             osake.giveStock();
 			osakerekisteri.add(osake);
-			get(osake.getNextId());
+			get(osake.getId());
 		} catch (StoreException e) {
 			Dialogs.showMessageDialog("Too many entries");
 		}

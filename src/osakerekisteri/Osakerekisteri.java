@@ -1,5 +1,7 @@
 package osakerekisteri;
 
+import java.util.List;
+
 /**
  * @author Jesse Korolainen & Teemu Nieminen
  * @version 1.3.2021
@@ -7,6 +9,7 @@ package osakerekisteri;
  */
 public class Osakerekisteri {
         private final Osakkeet stocks = new Osakkeet();
+        private final Transaktiot transaktiot = new Transaktiot();
         private String owner;
 
 
@@ -98,6 +101,8 @@ public class Osakerekisteri {
             stocks.save();
             // TODO: yritä tallettaa toinen vaikka toinen epäonnistuisi
         }
+        
+        
 
 
         /**
@@ -115,21 +120,47 @@ public class Osakerekisteri {
                 stock1.giveStock();
                 stock2.register();
                 stock2.giveStock();
+                Transaktio transaktio1 = new Transaktio();
+                transaktio1.register();
+                transaktio1.testi(stock1.getId());
+                Transaktio transaktio2 = new Transaktio();
+                transaktio2.register();
+                transaktio2.testi(stock1.getId());
 
                 osakerekisteri.add(stock1);
+                osakerekisteri.add(transaktio1);
                 osakerekisteri.add(stock2);
+                osakerekisteri.add(transaktio2);
 
                 System.out.println("============= osakerekisterin testi =================");
 
                 for (int i = 0; i < osakerekisteri.getStocks(); i++) {
-                    Osake Osake = osakerekisteri.giveStock(i);
+                    Osake osake = osakerekisteri.giveStock(i);
                     System.out.println("Stock at: " + i);
-                    Osake.print(System.out);
+                    osake.print(System.out);
+                    List<Transaktio> transaktiot = osakerekisteri.giveTransactions(osake);
+                    for (Transaktio alkio : transaktiot) {
+                    	alkio.print(System.out);
+                    }
+                    	
+        
+                  
                 }
 
             } catch (StoreException ex) {
                 System.out.println(ex.getMessage());
             }
         }
+
+
+		private void add(Transaktio transaktio1) {
+			transaktiot.add(transaktio1);
+			
+		}
+
+
+		private List<Transaktio> giveTransactions(Osake osake) {
+			return transaktiot.giveTransactions(osake.getId());
+		}
 
 }
