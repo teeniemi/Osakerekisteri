@@ -1,5 +1,7 @@
 package osakerekisteri;
 
+import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -8,8 +10,8 @@ import java.util.List;
  *
  */
 public class Osakerekisteri {
-        private final Osakkeet stocks = new Osakkeet();
-        private final Transaktiot transaktiot = new Transaktiot();
+        private Osakkeet stocks = new Osakkeet();
+        private Transaktiot transactions = new Transaktiot();
         private String owner;
 
 
@@ -102,6 +104,170 @@ public class Osakerekisteri {
             // TODO: yritä tallettaa toinen vaikka toinen epäonnistuisi
         }
         
+        /** 
+         * Palauttaa "taulukossa" hakuehtoon vastaavien jäsenten viitteet 
+         * @param hakuehto hakuehto  
+         * @param k etsittävän kentän indeksi  
+         * @return tietorakenteen löytyneistä jäsenistä 
+         * @throws SailoException Jos jotakin menee väärin
+         */ 
+        public Collection<Osake> etsi(String hakuehto, int k) throws StoreException { 
+            return stocks.etsi(hakuehto, k); 
+        } 
+        
+        
+        /**
+         * Haetaan kaikki jäsen harrastukset
+         * @param jasen jäsen jolle harrastuksia haetaan
+         * @return tietorakenne jossa viiteet löydetteyihin harrastuksiin
+         * @throws SailoException jos tulee ongelmia
+         * @example
+         * <pre name="test">
+         * #THROWS SailoException
+         * #import java.util.*;
+         * 
+         *  Kerho kerho = new Kerho();
+         *  Jasen aku1 = new Jasen(), aku2 = new Jasen(), aku3 = new Jasen();
+         *  aku1.rekisteroi(); aku2.rekisteroi(); aku3.rekisteroi();
+         *  int id1 = aku1.getTunnusNro();
+         *  int id2 = aku2.getTunnusNro();
+         *  Harrastus pitsi11 = new Harrastus(id1); kerho.lisaa(pitsi11);
+         *  Harrastus pitsi12 = new Harrastus(id1); kerho.lisaa(pitsi12);
+         *  Harrastus pitsi21 = new Harrastus(id2); kerho.lisaa(pitsi21);
+         *  Harrastus pitsi22 = new Harrastus(id2); kerho.lisaa(pitsi22);
+         *  Harrastus pitsi23 = new Harrastus(id2); kerho.lisaa(pitsi23);
+         *  
+         *  List<Harrastus> loytyneet;
+         *  loytyneet = kerho.annaHarrastukset(aku3);
+         *  loytyneet.size() === 0; 
+         *  loytyneet = kerho.annaHarrastukset(aku1);
+         *  loytyneet.size() === 2; 
+         *  loytyneet.get(0) == pitsi11 === true;
+         *  loytyneet.get(1) == pitsi12 === true;
+         *  loytyneet = kerho.annaHarrastukset(aku2);
+         *  loytyneet.size() === 3; 
+         *  loytyneet.get(0) == pitsi21 === true;
+         * </pre> 
+         */
+        public List<Transaktio> annaHarrastukset(Osake stock) throws StoreException {
+            return transactions.giveTransactions(stock.getId());
+        }
+
+
+        /**
+         * Asettaa tiedostojen perusnimet
+         * @param nimi uusi nimi
+         */
+        public void setTiedosto(String nimi) {
+            File dir = new File(nimi);
+            dir.mkdirs();
+            String hakemistonNimi = "";
+            if ( !nimi.isEmpty() ) hakemistonNimi = nimi +"/";
+            stocks.setFileBasicName(hakemistonNimi + "osakkeet");
+            transactions.setFileBasicName(hakemistonNimi + "transaktiot");
+        }
+        
+        
+        
+        /**
+         * Lukee kerhon tiedot tiedostosta
+         * @param nimi jota käyteään lukemisessa
+         * @throws SailoException jos lukeminen epäonnistuu
+         * 
+         * @example
+         * <pre name="test">
+         * #THROWS SailoException 
+         * #import java.io.*;
+         * #import java.util.*;
+         * 
+         *  Kerho kerho = new Kerho();
+         *  
+         *  Jasen aku1 = new Jasen(); aku1.vastaaAkuAnkka(); aku1.rekisteroi();
+         *  Jasen aku2 = new Jasen(); aku2.vastaaAkuAnkka(); aku2.rekisteroi();
+         *  Harrastus pitsi21 = new Harrastus(); pitsi21.vastaaPitsinNyplays(aku2.getTunnusNro());
+         *  Harrastus pitsi11 = new Harrastus(); pitsi11.vastaaPitsinNyplays(aku1.getTunnusNro());
+         *  Harrastus pitsi22 = new Harrastus(); pitsi22.vastaaPitsinNyplays(aku2.getTunnusNro()); 
+         *  Harrastus pitsi12 = new Harrastus(); pitsi12.vastaaPitsinNyplays(aku1.getTunnusNro()); 
+         *  Harrastus pitsi23 = new Harrastus(); pitsi23.vastaaPitsinNyplays(aku2.getTunnusNro());
+         *   
+         *  String hakemisto = "testikelmit";
+         *  File dir = new File(hakemisto);
+         *  File ftied  = new File(hakemisto+"/nimet.dat");
+         *  File fhtied = new File(hakemisto+"/harrastukset.dat");
+         *  dir.mkdir();  
+         *  ftied.delete();
+         *  fhtied.delete();
+         *  kerho.lueTiedostosta(hakemisto); #THROWS SailoException
+         *  kerho.lisaa(aku1);
+         *  kerho.lisaa(aku2);
+         *  kerho.lisaa(pitsi21);
+         *  kerho.lisaa(pitsi11);
+         *  kerho.lisaa(pitsi22);
+         *  kerho.lisaa(pitsi12);
+         *  kerho.lisaa(pitsi23);
+         *  kerho.tallenna();
+         *  kerho = new Kerho();
+         *  kerho.lueTiedostosta(hakemisto);
+         *  Collection<Jasen> kaikki = kerho.etsi("",-1); 
+         *  Iterator<Jasen> it = kaikki.iterator();
+         *  it.next() === aku1;
+         *  it.next() === aku2;
+         *  it.hasNext() === false;
+         *  List<Harrastus> loytyneet = kerho.annaHarrastukset(aku1);
+         *  Iterator<Harrastus> ih = loytyneet.iterator();
+         *  ih.next() === pitsi11;
+         *  ih.next() === pitsi12;
+         *  ih.hasNext() === false;
+         *  loytyneet = kerho.annaHarrastukset(aku2);
+         *  ih = loytyneet.iterator();
+         *  ih.next() === pitsi21;
+         *  ih.next() === pitsi22;
+         *  ih.next() === pitsi23;
+         *  ih.hasNext() === false;
+         *  kerho.lisaa(aku2);
+         *  kerho.lisaa(pitsi23);
+         *  kerho.tallenna();
+         *  ftied.delete()  === true;
+         *  fhtied.delete() === true;
+         *  File fbak = new File(hakemisto+"/nimet.bak");
+         *  File fhbak = new File(hakemisto+"/harrastukset.bak");
+         *  fbak.delete() === true;
+         *  fhbak.delete() === true;
+         *  dir.delete() === true;
+         * </pre>
+         */
+        public void lueTiedostosta(String nimi) throws StoreException {
+            stocks = new Osakkeet(); // jos luetaan olemassa olevaan niin helpoin tyhjentää näin
+            transactions = new Transaktiot();
+
+            setTiedosto(nimi);
+            stocks.readFromFile();
+            transactions.readFromFile();
+        }
+
+
+        /**
+         * Tallenttaa kerhon tiedot tiedostoon.  
+         * Vaikka jäsenten tallettamien epäonistuisi, niin yritetään silti tallettaa
+         * harrastuksia ennen poikkeuksen heittämistä.
+         * @throws SailoException jos tallettamisessa ongelmia
+         */
+        public void tallenna() throws StoreException {
+            String virhe = "";
+            try {
+                stocks.save();
+            } catch ( StoreException ex ) {
+                virhe = ex.getMessage();
+            }
+
+            try {
+                transactions.save();
+            } catch ( StoreException ex ) {
+                virhe += ex.getMessage();
+            }
+            if ( !"".equals(virhe) ) throw new StoreException(virhe);
+        }
+        
         
 
 
@@ -154,13 +320,13 @@ public class Osakerekisteri {
 
 
 		private void add(Transaktio transaktio1) {
-			transaktiot.add(transaktio1);
+			transactions.add(transaktio1);
 			
 		}
 
 
 		private List<Transaktio> giveTransactions(Osake osake) {
-			return transaktiot.giveTransactions(osake.getId());
+			return transactions.giveTransactions(osake.getId());
 		}
 
 }
