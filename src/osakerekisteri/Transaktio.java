@@ -4,6 +4,8 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Random;
 
+import fi.jyu.mit.ohj2.Mjonot;
+
 /**
  * |------------------------------------------------------------------------|
  * | Luokan nimi: Transaktio                            | Avustajat:        |
@@ -105,13 +107,13 @@ public class Transaktio {
      * @return transaktion uusi tunnus_nro
      * @example
      * <pre name="test">
-     *   Transaktio pitsi1 = new Transaktio();
-     *   pitsi1.getTransactionId() === 0;
-     *   pitsi1.register();
-     *   Transaktio pitsi2 = new Transaktio();
-     *   pitsi2.register();
-     *   int n1 = pitsi1.getTransactionId();
-     *   int n2 = pitsi2.getTransactionId();
+     *   Transaktio trans1 = new Transaktio();
+     *   trans1.getTransactionId() === 0;
+     *   trans1.register();
+     *   Transaktio trans2 = new Transaktio();
+     *   trans2.register();
+     *   int n1 = trans1.getTransactionId();
+     *   int n2 = trans2.getTransactionId();
      *   n1 === n2-1;
      * </pre>
      */
@@ -132,16 +134,83 @@ public class Transaktio {
 
 
     /**
+     * TODO: Hakeeko tämä saman ID:n mikä osakkeessa on?
      * Palautetaan mille osakkeelle transaktio kuuluu
-     * @return jäsenen id
+     * @return osakkeen id
      */
     public int getStockId() {
         return stockId;
     }
-
-
     
     /**
+    * Asettaa tunnusnumeron ja samalla varmistaa että
+    * seuraava numero on aina suurempi kuin tähän mennessä suurin.
+    * @param id asetettava tunnusnumero
+    */
+    
+    private void setTransactionId(int id) {
+        this.transactionId = id;
+        if (transactionId >= nextId) nextId = transactionId + 1;
+    }
+
+    /**
+     * Palauttaa transaktion tiedot merkkijonona jonka voi tallentaa tiedostoon.
+     * @return transaktio tolppaeroteltuna merkkijonona 
+     * @example
+     * <pre name="test">
+     *   Transaktio transaktio = new Transaktio();
+     *   transaktio.parse("1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |");
+     *   transaktio.toString()    === "1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |";
+     * </pre>
+     */
+    @Override
+    public String toString() {
+        return "" + 
+                getTransactionId() + "|" +
+                stockId + "|" +
+                date + "|" +
+                type + "|" +
+                stockPrice + "|" +
+                amount + "|" +
+                expenses + "|" +
+                totalPrice + "|";
+    }
+    
+    /**
+     * Selvittää transaktion tiedot | erotellusta merkkijonosta
+     * Pitää huolen että nextId on suurempi kuin tuleva transactionId.
+     * @param line josta transaktion tiedot otetaan
+     * 
+     * @example
+     * <pre name="test">
+     *   Transaktio transaction = new Transaktio();
+     *   transaction.parse("1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |");
+     *   transaction.getId() === 3;
+     *   transaction.toString().startsWith("1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
+     *
+     *   transaction.register();
+     *   int n = transaction.getId();
+     *   transaction.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
+     *   transaction.register();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
+     *   transaction.getId() === n+20+1;
+     *     
+     * </pre>
+     */
+    public void parse(String line) {
+        StringBuilder sb = new StringBuilder(line);
+        setTransactionId(Mjonot.erota(sb, '|', getTransactionId()));
+        stockId = Mjonot.erota(sb, '|', stockId);
+        date = Mjonot.erota(sb, '|', date);
+        type = Mjonot.erota(sb, '|', type);
+        stockPrice = Mjonot.erota(sb, '|', stockPrice);
+        amount = Mjonot.erota(sb, '|', amount);
+        expenses = Mjonot.erota(sb, '|', expenses);
+        totalPrice = Mjonot.erota(sb, '|', totalPrice);
+        
+    }
+    
+    /**
+     * TODO: Mitä pääohjelmaan?
      * @param args ei käytössä
      */
     public static void main(String[] args) {
@@ -153,10 +222,8 @@ public class Transaktio {
         
         transaktio.tulosta(System.out);
         // transaktio.vastaaTransaktio();
-        transaktio.tulosta(System.out);
-        
+
         transaktio2.tulosta(System.out);
         // transaktio2.vastaaTransaktio();
-        transaktio2.tulosta(System.out);
     }
 }

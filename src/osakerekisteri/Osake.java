@@ -154,7 +154,7 @@ public class Osake {
     /**
      * Selvittää osakkeen tiedot | erotellusta merkkijonosta
      * Pitää huolen että nextId on suurempi kuin tuleva stockId.
-     * @param rivi josta osakkeen tiedot otetaan
+     * @param line josta osakkeen tiedot otetaan
      * 
      * @example
      * <pre name="test">
@@ -171,8 +171,8 @@ public class Osake {
      *     
      * </pre>
      */
-    public void parse(String rivi) {
-        StringBuffer sb = new StringBuffer(rivi);
+    public void parse(String line) {
+        StringBuilder sb = new StringBuilder(line);
         setId(Mjonot.erota(sb, '|', getId()));
         stockName = Mjonot.erota(sb, '|', stockName);
         amount = Mjonot.erota(sb, '|', amount);

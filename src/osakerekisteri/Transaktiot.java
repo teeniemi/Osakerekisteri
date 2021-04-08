@@ -1,5 +1,12 @@
 package osakerekisteri;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -23,10 +30,11 @@ import java.util.*;
  */
 public class Transaktiot implements Iterable<Transaktio> {
 
-    private String                      tiedostonNimi = "";
+    private String                      fileBasicName = "";
+    private boolean                     changed = false;
 
     /** Taulukko transaktioista */
-    private final Collection<Transaktio> alkiot        = new ArrayList<Transaktio>();
+    private final Collection<Transaktio> entries        = new ArrayList<Transaktio>();
 
 
     /**
@@ -43,29 +51,107 @@ public class Transaktiot implements Iterable<Transaktio> {
      */
 
     public void add(Transaktio trans) {
-        alkiot.add(trans);
+        entries.add(trans);
+        changed = true;
     }
 
 
     /**
-     * Lukee transaktiot tiedostosta.  
-     * TODO Kesken.
-     * @param hakemisto tiedoston hakemisto
+     * Lukee transaktiot tiedostosta.
+     * @param file tiedoston perusnimi
      * @throws StoreException jos lukeminen epäonnistuu
+     * 
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * #import java.io.File;
+     * 
+     *  Jasenet jasenet = new Jasenet();
+     *  Jasen aku1 = new Jasen(), aku2 = new Jasen();
+     *  aku1.vastaaAkuAnkka();
+     *  aku2.vastaaAkuAnkka();
+     *  String hakemisto = "testikelmit";
+     *  String tiedNimi = hakemisto+"/nimet";
+     *  File ftied = new File(tiedNimi+".dat");
+     *  File dir = new File(hakemisto);
+     *  dir.mkdir();
+     *  ftied.delete();
+     *  jasenet.lueTiedostosta(tiedNimi); #THROWS SailoException
+     *  jasenet.lisaa(aku1);
+     *  jasenet.lisaa(aku2);
+     *  jasenet.tallenna();
+     *  jasenet = new Jasenet();            // Poistetaan vanhat luomalla uusi
+     *  jasenet.lueTiedostosta(tiedNimi);  // johon ladataan tiedot tiedostosta.
+     *  Iterator<Jasen> i = jasenet.iterator();
+     *  i.next() === aku1;
+     *  i.next() === aku2;
+     *  i.hasNext() === false;
+     *  jasenet.lisaa(aku2);
+     *  jasenet.tallenna();
+     *  ftied.delete() === true;
+     *  File fbak = new File(tiedNimi+".bak");
+     *  fbak.delete() === true;
+     *  dir.delete() === true;
+     * </pre>
      */
-    public void lueTiedostosta(String hakemisto) throws StoreException {
-        tiedostonNimi = hakemisto + ".har";
-        throw new StoreException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
+    public void readFromFile(String file) throws StoreException {
+        setFileBasicName(file);
+        try ( BufferedReader fi = new BufferedReader(new FileReader(getFileName()))) {
+            String line;
+            while ( (line = fi.readLine()) != null ) {
+                line = line.trim();
+                if ( "".equals(line) || line.charAt(0) == ';' ) continue;
+                Transaktio transaction = new Transaktio();
+                transaction.parse(line); // voisi olla virhekäsittely
+                add(transaction);
+            }
+            changed = false;
+        } catch ( FileNotFoundException e ) {
+            throw new StoreException("File " + getFileName() + " does not open");
+        } catch ( IOException e ) {
+            throw new StoreException("Problems with the file: " + e.getMessage());
+        }
     }
 
-
     /**
-     * Tallentaa transaktiot tiedostoon.  
-     * TODO Kesken.
+     * Luetaan aikaisemmin annetun nimisestä tiedostosta
+     * @throws StoreException jos tulee poikkeus
+     */
+    public void readFromFile() throws StoreException {
+        readFromFile(getFileBasicName());
+    }
+    
+    
+    /**
+     * Tallentaa transaktion tiedostoon.
+     * <pre>
+     * Osakerekisteri
+     * 20
+     * ; kommenttirivi
+     * 1|1|30.11.2007|Osto|27.32|200|54.64|5518.64|
+     * </pre>
      * @throws StoreException jos talletus epäonnistuu
      */
-    public void talleta() throws StoreException {
-        throw new StoreException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
+    public void save() throws StoreException {
+        if ( !changed ) return;
+
+        File fbak = new File(getBakName());
+        File ftied = new File(getFileName());
+        fbak.delete(); // if .. System.err.println("Ei voi tuhota");
+        ftied.renameTo(fbak); // if .. System.err.println("Ei voi nimetä");
+
+        try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
+            for (Transaktio transaction : this) {
+                fo.println(transaction.toString());
+            }
+
+        } catch ( FileNotFoundException ex ) {
+            throw new StoreException("Tiedosto " + ftied.getName() + " ei aukea");
+        } catch ( IOException ex ) {
+            throw new StoreException("Tiedoston " + ftied.getName() + " kirjoittamisessa ongelmia");
+        }
+
+        changed = false;
     }
 
 
@@ -73,11 +159,45 @@ public class Transaktiot implements Iterable<Transaktio> {
      * Palauttaa osakerekisterin transaktioiden lukumäärän
      * @return transaktioiden lukumäärä
      */
-    public int getLkm() {
-        return alkiot.size();
+    public int getAmount() {
+        return entries.size();
     }
 
+    /**
+     * Asettaa tiedoston perusnimen ilman tarkenninta
+     * @param file tallennustiedoston perusnimi
+     */
 
+    public void setFileBasicName(String file) {
+        fileBasicName = file;
+    }
+    
+    /**
+     * Palauttaa tiedoston nimen, jota käytetään tallennukseen
+     * @return tallennustiedoston nimi
+     */
+    
+    public String getFileBasicName() {
+        return fileBasicName;
+    }
+    
+    /**
+    * Palauttaa tiedoston nimen, jota käytetään tallennukseen
+    * @return tallennustiedoston nimi
+    */
+   public String getFileName() {
+       return getFileBasicName() + ".dat";
+   }
+
+
+   /**
+    * Palauttaa varakopiotiedoston nimen
+    * @return varakopiotiedoston nimi
+    */
+   public String getBakName() {
+       return fileBasicName + ".bak";
+   }
+    
     /**
      * Iteraattori kaikkien transaktioiden läpikäymiseen
      * @return transaktioiteraattori
@@ -115,19 +235,19 @@ public class Transaktiot implements Iterable<Transaktio> {
      */
     @Override
     public Iterator<Transaktio> iterator() {
-        return alkiot.iterator();
+        return entries.iterator();
     }
 
 
     /**
-     * Haetaan kaikki jäsen harrastukset
-     * @param tunnusnro jäsenen tunnusnumero jolle harrastuksia haetaan
+     * Haetaan kaikki osakkeen transaktiot
+     * @param stockId osakkeen tunnusnumero jolle transaktioita haetaan
      * @return tietorakenne jossa viiteet löydetteyihin harrastuksiin
      * @example
      * <pre name="test">
      * #import java.util.*;
      * 
-     *  Harrastukset transaktiot = new Harrastukset();
+     *  Transaktiot transaktiot = new Transaktiot();
      *  Transaktio trans21 = new Transaktio(2); transaktiot.lisaa(trans21);
      *  Transaktio trans11 = new Transaktio(1); transaktiot.lisaa(trans11);
      *  Transaktio trans22 = new Transaktio(2); transaktiot.lisaa(trans22);
@@ -148,11 +268,11 @@ public class Transaktiot implements Iterable<Transaktio> {
      * </pre> 
      */
 
-    public List<Transaktio> giveTransactions(int tunnusnro) {
-        List<Transaktio> loydetyt = new ArrayList<Transaktio>();
-        for (Transaktio trans : alkiot)
-            if (trans.getStockId() == tunnusnro) loydetyt.add(trans);
-        return loydetyt;
+    public List<Transaktio> giveTransactions(int stockId) {
+        List<Transaktio> found = new ArrayList<Transaktio>();
+        for (Transaktio trans : entries)
+            if (trans.getStockId() == stockId) found.add(trans);
+        return found;
     }
 
 

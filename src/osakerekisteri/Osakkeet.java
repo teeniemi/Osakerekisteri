@@ -99,7 +99,7 @@ public class Osakkeet implements Iterable<Osake> {
     
     /**
      * Lukee osakkeet tiedostosta.
-     * @param directory tiedoston hakemisto
+     * @param file tiedoston perusnimi
      * @throws StoreException jos lukeminen epäonnistuu
      * 
      * @example
@@ -153,7 +153,7 @@ public class Osakkeet implements Iterable<Osake> {
             }
             changed = false;
         } catch ( FileNotFoundException e ) {
-            throw new StoreException("File " + getFileName() + " ei aukea");
+            throw new StoreException("File " + getFileName() + " does not open");
         } catch ( IOException e ) {
             throw new StoreException("Ongelmia tiedoston kanssa: " + e.getMessage());
         }
