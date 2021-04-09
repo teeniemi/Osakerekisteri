@@ -92,6 +92,7 @@ public class Osakerekisteri {
          */
         public void readFromFile(String name) throws StoreException {
             stocks.readFromFile(name);
+            transactions.readFromFile(name);
         }
 
 
@@ -101,6 +102,7 @@ public class Osakerekisteri {
          */
         public void save() throws StoreException {
             stocks.save();
+            transactions.save();
             // TODO: yritä tallettaa toinen vaikka toinen epäonnistuisi
         }
         
@@ -115,43 +117,6 @@ public class Osakerekisteri {
             return stocks.etsi(hakuehto, k); 
         } 
         
-        
-        /**
-         * Haetaan kaikki jäsen harrastukset
-         * @param jasen jäsen jolle harrastuksia haetaan
-         * @return tietorakenne jossa viiteet löydetteyihin harrastuksiin
-         * @throws SailoException jos tulee ongelmia
-         * @example
-         * <pre name="test">
-         * #THROWS SailoException
-         * #import java.util.*;
-         * 
-         *  Kerho kerho = new Kerho();
-         *  Jasen aku1 = new Jasen(), aku2 = new Jasen(), aku3 = new Jasen();
-         *  aku1.rekisteroi(); aku2.rekisteroi(); aku3.rekisteroi();
-         *  int id1 = aku1.getTunnusNro();
-         *  int id2 = aku2.getTunnusNro();
-         *  Harrastus pitsi11 = new Harrastus(id1); kerho.lisaa(pitsi11);
-         *  Harrastus pitsi12 = new Harrastus(id1); kerho.lisaa(pitsi12);
-         *  Harrastus pitsi21 = new Harrastus(id2); kerho.lisaa(pitsi21);
-         *  Harrastus pitsi22 = new Harrastus(id2); kerho.lisaa(pitsi22);
-         *  Harrastus pitsi23 = new Harrastus(id2); kerho.lisaa(pitsi23);
-         *  
-         *  List<Harrastus> loytyneet;
-         *  loytyneet = kerho.annaHarrastukset(aku3);
-         *  loytyneet.size() === 0; 
-         *  loytyneet = kerho.annaHarrastukset(aku1);
-         *  loytyneet.size() === 2; 
-         *  loytyneet.get(0) == pitsi11 === true;
-         *  loytyneet.get(1) == pitsi12 === true;
-         *  loytyneet = kerho.annaHarrastukset(aku2);
-         *  loytyneet.size() === 3; 
-         *  loytyneet.get(0) == pitsi21 === true;
-         * </pre> 
-         */
-        public List<Transaktio> annaHarrastukset(Osake stock) throws StoreException {
-            return transactions.giveTransactions(stock.getId());
-        }
 
 
         /**
@@ -319,13 +284,13 @@ public class Osakerekisteri {
         }
 
 
-		private void add(Transaktio transaktio1) {
+		public void add(Transaktio transaktio1) {
 			transactions.add(transaktio1);
 			
 		}
 
 
-		private List<Transaktio> giveTransactions(Osake osake) {
+		public List<Transaktio> giveTransactions(Osake osake) {
 			return transactions.giveTransactions(osake.getId());
 		}
 

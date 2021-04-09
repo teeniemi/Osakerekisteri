@@ -148,7 +148,7 @@ public class Transaktio {
     * @param id asetettava tunnusnumero
     */
     
-    private void setTransactionId(int id) {
+    public void setTransactionId(int id) {
         this.transactionId = id;
         if (transactionId >= nextId) nextId = transactionId + 1;
     }
@@ -167,7 +167,7 @@ public class Transaktio {
     public String toString() {
         return "" + 
                 getTransactionId() + "|" +
-                stockId + "|" +
+                getStockId() + "|" +
                 date + "|" +
                 type + "|" +
                 stockPrice + "|" +
@@ -199,7 +199,7 @@ public class Transaktio {
     public void parse(String line) {
         StringBuilder sb = new StringBuilder(line);
         setTransactionId(Mjonot.erota(sb, '|', getTransactionId()));
-        stockId = Mjonot.erota(sb, '|', stockId);
+        setStockId(Mjonot.erota(sb, '|', getStockId()));
         date = Mjonot.erota(sb, '|', date);
         type = Mjonot.erota(sb, '|', type);
         stockPrice = Mjonot.erota(sb, '|', stockPrice);
@@ -209,7 +209,13 @@ public class Transaktio {
         
     }
     
-    /**
+    public void setStockId(int newId) {
+		stockId = newId;
+		
+	}
+
+
+	/**
      * TODO: Mitä pääohjelmaan?
      * @param args ei käytössä
      */

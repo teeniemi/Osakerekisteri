@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -34,7 +35,7 @@ import osakerekisteri.Transaktio;
  */
 public class OsakerekisteriGUIController implements Initializable{
 
-    @FXML private TextField search;
+    @FXML private TextField searchCriteria;
     @FXML private ComboBoxChooser<String> cbFields;
     @FXML private Label labelError;
     @FXML private ScrollPane panelStock;
@@ -96,9 +97,10 @@ public class OsakerekisteriGUIController implements Initializable{
      * Tulostaa valitun näkymän.
      */
     @FXML void handlePrint() {
-      //tuleeko tähän "OsakerekisteriGUIPrint.fxml" vai "OsakerekisteriGUIPView.fxml"
-        ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIPrint.fxml"), "Print STONKS", null, ""); 
-        print();
+      //tuleeko tähän "OsakerekisteriGUIPrint.fxml" vai "OsakerekisteriGUIView.fxml"
+       // ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIPrint.fxml"), "Print STONKS", null, ""); 
+       // print();
+        addStock();
     }
 
     /**
@@ -111,8 +113,9 @@ public class OsakerekisteriGUIController implements Initializable{
     /**
      * Hakee tietokannassa olevia osakkeita.
      */
-    @FXML void handleSearch() {
-        search();
+    @FXML void handleSearchCriteria() {
+    	if ( stockAtPlace != null )
+            search(stockAtPlace.getId());
     }
 
     /**
@@ -126,6 +129,7 @@ public class OsakerekisteriGUIController implements Initializable{
     
     //============================= Java koodia tästä alaspäin ==================================
     
+    private String osakerekisterinNimi = "STONK MANAGER 9000";
     private Osakerekisteri osakerekisteri;
     private Osake stockAtPlace;
     private TextArea areaStock = new TextArea();
@@ -184,7 +188,7 @@ public class OsakerekisteriGUIController implements Initializable{
     /**
      * Näyttää listasta valitun osakkeen tiedot, tilapäisesti yhteen isoon edit-kenttään
      */
-    private void showStock() {
+    protected void showStock() {
         stockAtPlace = chooserStocks.getSelectedObject();
 
         if (stockAtPlace == null) return;
@@ -194,6 +198,98 @@ public class OsakerekisteriGUIController implements Initializable{
             stockAtPlace.print(os);
         }
     }
+    
+    /**
+     * Alustaa osakerekisterin lukemalla sen valitun nimisestä tiedostosta
+     * @param name tiedosto josta kerhon tiedot luetaan
+     * @return null jos onnistuu, muuten virhe tekstinä
+     */
+    protected String readFromFile(String name) {
+    	osakerekisterinNimi = name;
+        setTitle("Osakerekisteri - " + osakerekisterinNimi);
+        try {
+            osakerekisteri.readFromFile(name);
+            search(0);
+            return null;
+        } catch (StoreException e) {
+            search(0);
+            String virhe = e.getMessage(); 
+            if ( virhe != null ) Dialogs.showMessageDialog(virhe);
+            return virhe;
+        }
+     }
+
+    
+    /**
+     * Kysytään tiedoston nimi ja luetaan se
+     * @return true jos onnistui, false jos ei
+     */
+    public boolean open() {
+    	/**
+    	
+        String uusinimi = NameController.askName(null, osakerekisterinNimi);
+        if (uusinimi == null) return false;
+        readFromFile(uusinimi);
+         * 
+    	 */
+        return true;
+    }
+
+    
+    /**
+     * Tietojen tallennus
+     * @return null jos onnistuu, muuten virhe tekstinä
+     */
+    private String save() {
+        try {
+            osakerekisteri.save();
+            return null;
+        } catch (StoreException ex) {
+            Dialogs.showMessageDialog("Tallennuksessa ongelmia! " + ex.getMessage());
+            return ex.getMessage();
+        }
+    }
+
+
+    /**
+     * Tarkistetaan onko tallennus tehty
+     * @return true jos saa sulkea sovelluksen, false jos ei
+     */
+    public boolean voikoSulkea() {
+        save();
+        return true;
+    }
+    
+    /**
+     * Hakee jäsenten tiedot listaan
+     * @param jnro jäsenen numero, joka aktivoidaan haun jälkeen
+     */
+    protected void search(int jnro) {
+        int k = cbFields.getSelectionModel().getSelectedIndex();
+        String ehto = searchCriteria.getText(); 
+        if (k > 0 || ehto.length() > 0)
+        	showError(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
+        else
+        	showError(null);
+        
+        chooserStocks.clear();
+
+        int index = 0;
+        Collection<Osake> osakkeet;
+        try {
+            osakkeet = osakerekisteri.etsi(ehto, k);
+            int i = 0;
+            for (Osake osake:osakkeet) {
+                if (osake.getId() == jnro) index = i;
+                chooserStocks.add(osake.getName(), osake);
+                i++;
+            }
+        } catch (StoreException ex) {
+            Dialogs.showMessageDialog("Jäsenen hakemisessa ongelmia! " + ex.getMessage());
+        }
+        chooserStocks.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
+    }
+
     
     
     /**
@@ -234,7 +330,7 @@ public class OsakerekisteriGUIController implements Initializable{
     public void setOsakerekisteri(Osakerekisteri osakerekisteri) {
         this.osakerekisteri = osakerekisteri;
         showStock();
-        ModalController.showModal(StartGUIController.class.getResource("OsakerekisteriGUIStart.fxml"), "Portfolio", null, osakerekisteri); 
+       // ModalController.showModal(StartGUIController.class.getResource("OsakerekisteriGUIStart.fxml"), "Portfolio", null, osakerekisteri); 
     }
     
 
@@ -247,8 +343,10 @@ public class OsakerekisteriGUIController implements Initializable{
     public void print(PrintStream os, final Osake stock) {
         os.println("----------------------------------------------");
         stock.print(os);
-        List <Transaktio> transaction = osakerekisteri.giveTransactions(stock);
         os.println("----------------------------------------------");
+        List <Transaktio> transactions = osakerekisteri.giveTransactions(stock);
+		for (Transaktio transaction:transactions)
+			transaction.tulosta(os);
     }
     
     /**
@@ -267,12 +365,24 @@ public class OsakerekisteriGUIController implements Initializable{
     }
     
     private void setTitle(String title) {
-        ModalController.getStage(search).setTitle(title);
+        ModalController.getStage(searchCriteria).setTitle(title);
     }
     
     // luodaan uusi osake ja rekisteröidään se 
     
     private void buy() {
+        Transaktio transaction = new Transaktio();
+        if (stockAtPlace == null) return;
+        transaction.testi(stockAtPlace.getId()); // POISTA TÄMÄ RIVI MYÖHEMMIN, KOSKA TESTI
+		transaction.setStockId(stockAtPlace.getId());
+		transaction.register();
+		osakerekisteri.add(transaction);
+		// PÄIVITÄ STRING GRID TÄHÄN, KOSKA EI OSAA MUUTEN NÄYTTÄÄ get(transaction.getId());
+    }
+    /**
+     * TESTIMIELESSÄ TEHTY METODI
+     */
+    private void addStock() {
         try {
             Osake osake = new Osake();
             osake.register();
@@ -304,13 +414,6 @@ public class OsakerekisteriGUIController implements Initializable{
         Dialogs.showMessageDialog("Printataan. Printtaus ei vielä toimi!");
     }
 
-    private void save() {
-    	Dialogs.showMessageDialog("Tallennetaan! Mutta ei toimi vielä.");
-    }
-    
-    private void search() {
-        Dialogs.showMessageDialog("Hae osakkeita. Ei toimi vielä.");
-    }
     
     private void sell() {
         Dialogs.showMessageDialog("Myit osakkeen! Ei toimi vielä.");

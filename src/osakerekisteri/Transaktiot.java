@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class Transaktiot implements Iterable<Transaktio> {
 
-    private String                      fileBasicName = "";
+    private String                      fileBasicName = "transactions";
     private boolean                     changed = false;
 
     /** Taulukko transaktioista */

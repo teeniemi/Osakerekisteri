@@ -139,7 +139,7 @@ public class Osakkeet implements Iterable<Osake> {
         setFileBasicName(file);
         try ( BufferedReader fi = new BufferedReader(new FileReader(getFileName()))) {
             fileName = fi.readLine();
-            if ( fileName == null ) throw new StoreException("Kerhon nimi puuttuu");
+            if ( fileName == null ) throw new StoreException("Osakerekisterin nimi puuttuu");
             String line = fi.readLine();
             if ( line == null ) throw new StoreException("Maksimikoko puuttuu");
             // int maxKoko = Mjonot.erotaInt(rivi,10); // tehdään jotakin

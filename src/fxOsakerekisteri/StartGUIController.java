@@ -22,7 +22,7 @@ public class StartGUIController  implements ModalControllerInterface<Osakerekist
 
     @FXML void handleGoToPortfolio() {
     	osakekanta.setOwner(listOmistaja.getSelectedText());
-      //  ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIView.fxml"), "Portfolio", null, ""); 
+        ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIView.fxml"), "Portfolio", null, ""); 
     }
     
     private void newPortfolio() {
