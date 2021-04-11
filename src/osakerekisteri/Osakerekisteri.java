@@ -84,18 +84,6 @@ public class Osakerekisteri {
             return stocks.give(i);
         }
 
-
-        /**
-         * Lukee osakerekisterin tiedot tiedostosta
-         * @param name jota käyteään lukemisessa
-         * @throws StoreException jos lukeminen epäonnistuu
-         */
-        public void readFromFile(String name) throws StoreException {
-            stocks.readFromFile(name);
-            transactions.readFromFile(name);
-        }
-
-
         /**
          * Tallettaa osakerekisterin tiedot tiedostoon
          * @throws StoreException jos tallettamisessa ongelmia
@@ -111,7 +99,7 @@ public class Osakerekisteri {
          * @param hakuehto hakuehto  
          * @param k etsittävän kentän indeksi  
          * @return tietorakenteen löytyneistä jäsenistä 
-         * @throws SailoException Jos jotakin menee väärin
+         * @throws StoreException Jos jotakin menee väärin
          */ 
         public Collection<Osake> etsi(String hakuehto, int k) throws StoreException { 
             return stocks.etsi(hakuehto, k); 
@@ -135,9 +123,9 @@ public class Osakerekisteri {
         
         
         /**
-         * Lukee kerhon tiedot tiedostosta
-         * @param nimi jota käyteään lukemisessa
-         * @throws SailoException jos lukeminen epäonnistuu
+         * Lukee osakerekisterin tiedot tiedostosta
+         * @param name jota käyteään lukemisessa
+         * @throws StoreException jos lukeminen epäonnistuu
          * 
          * @example
          * <pre name="test">
@@ -201,11 +189,11 @@ public class Osakerekisteri {
          *  dir.delete() === true;
          * </pre>
          */
-        public void lueTiedostosta(String nimi) throws StoreException {
+        public void readFromFile(String name) throws StoreException {
             stocks = new Osakkeet(); // jos luetaan olemassa olevaan niin helpoin tyhjentää näin
             transactions = new Transaktiot();
 
-            setTiedosto(nimi);
+            setTiedosto(name);
             stocks.readFromFile();
             transactions.readFromFile();
         }
@@ -215,7 +203,7 @@ public class Osakerekisteri {
          * Tallenttaa kerhon tiedot tiedostoon.  
          * Vaikka jäsenten tallettamien epäonistuisi, niin yritetään silti tallettaa
          * harrastuksia ennen poikkeuksen heittämistä.
-         * @throws SailoException jos tallettamisessa ongelmia
+         * @throws StoreException jos tallettamisessa ongelmia
          */
         public void tallenna() throws StoreException {
             String virhe = "";

@@ -115,7 +115,7 @@ public class OsakerekisteriGUIController implements Initializable{
      */
     @FXML void handleSearchCriteria() {
     	if ( stockAtPlace != null )
-            search(stockAtPlace.getId());
+            get(stockAtPlace.getId());
     }
 
     /**
@@ -158,32 +158,6 @@ public class OsakerekisteriGUIController implements Initializable{
         labelError.getStyleClass().add("error");
     }
     
-    /**
-     * TODO
-     * Alustaa osakerekisterin lukemalla sen valitun nimisestä tiedostosta
-     * @param name tiedosto josta osakerekisterin tiedot luetaan
-    
-    protected void readFile(String name) {
-        register = name;
-        setTitle("Osakerekisteri - " + register);
-        String error = "Ei osata lukea vielä";  // TODO: tähän oikea tiedoston lukeminen
-        // if (error != null) 
-            Dialogs.showMessageDialog(error);
-    }
-     */
-    
-    /**
-     * TODO
-     * Kysytään tiedoston nimi ja luetaan se
-     * @return true jos onnistui, false jos ei
-   
-    public boolean open() {
-        String newnName = StartGUIController.getName(null, registerName);
-        if (newName == null) return false;
-        lueTiedosto(newName);
-        return true;
-    }
-      */
     
     /**
      * Näyttää listasta valitun osakkeen tiedot, tilapäisesti yhteen isoon edit-kenttään
@@ -204,37 +178,33 @@ public class OsakerekisteriGUIController implements Initializable{
      * @param name tiedosto josta kerhon tiedot luetaan
      * @return null jos onnistuu, muuten virhe tekstinä
      */
-    protected String readFromFile(String name) {
+    protected String readFile(String name) {
     	osakerekisterinNimi = name;
         setTitle("Osakerekisteri - " + osakerekisterinNimi);
         try {
-            osakerekisteri.readFromFile(name);
-            search(0);
+            osakerekisteri.readFromFile(name); // lukee nimen osakerekisteri.java aliohjelmaa käyttäen
+            get(0);
             return null;
         } catch (StoreException e) {
-            search(0);
-            String virhe = e.getMessage(); 
-            if ( virhe != null ) Dialogs.showMessageDialog(virhe);
-            return virhe;
+            get(0);
+            String error = e.getMessage(); 
+            if ( error != null ) Dialogs.showMessageDialog(error);
+            return error;
         }
      }
 
-    
     /**
+     * TODO
      * Kysytään tiedoston nimi ja luetaan se
      * @return true jos onnistui, false jos ei
-     */
+         */
     public boolean open() {
-    	/**
-    	
-        String uusinimi = NameController.askName(null, osakerekisterinNimi);
-        if (uusinimi == null) return false;
-        readFromFile(uusinimi);
-         * 
-    	 */
+        String newName = NameController.askName(null, osakerekisterinNimi);
+        if (newName == null) return false;
+        readFile(newName);
         return true;
     }
-
+  
     
     /**
      * Tietojen tallennus
@@ -261,10 +231,10 @@ public class OsakerekisteriGUIController implements Initializable{
     }
     
     /**
-     * Hakee jäsenten tiedot listaan
-     * @param jnro jäsenen numero, joka aktivoidaan haun jälkeen
+     * Hakee osakkeiden tiedot listaan
+     * @param stockId osakkeen id, joka aktivoidaan haun jälkeen
      */
-    protected void search(int jnro) {
+    protected void get(int stockId) {
         int k = cbFields.getSelectionModel().getSelectedIndex();
         String ehto = searchCriteria.getText(); 
         if (k > 0 || ehto.length() > 0)
@@ -280,12 +250,12 @@ public class OsakerekisteriGUIController implements Initializable{
             osakkeet = osakerekisteri.etsi(ehto, k);
             int i = 0;
             for (Osake osake:osakkeet) {
-                if (osake.getId() == jnro) index = i;
+                if (osake.getId() == stockId) index = i;
                 chooserStocks.add(osake.getName(), osake);
                 i++;
             }
         } catch (StoreException ex) {
-            Dialogs.showMessageDialog("Jäsenen hakemisessa ongelmia! " + ex.getMessage());
+            Dialogs.showMessageDialog("Osakkeen hakemisessa ongelmia! " + ex.getMessage());
         }
         chooserStocks.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
     }
@@ -295,7 +265,7 @@ public class OsakerekisteriGUIController implements Initializable{
     /**
      * Hakee osakkeen tiedot listaan
      * @param stockId osakkeen Id, joka aktivoidaan haun jälkeen
-     */
+
     protected void get(int stockId) {
         chooserStocks.clear();
 
@@ -307,7 +277,9 @@ public class OsakerekisteriGUIController implements Initializable{
         }
         chooserStocks.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
     }
-
+     */
+    
+    
     /**
      * Luo uuden osakkeen jota aletaan editoimaan 
      */

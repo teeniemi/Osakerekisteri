@@ -43,7 +43,7 @@ public class OsakerekisteriMain extends Application {
 	            
 	            Application.Parameters params = getParameters(); 
 	            if ( params.getRaw().size() > 0 ) 
-	            	osakerekisteriCtrl.readFromFile(params.getRaw().get(0));  
+	            	osakerekisteriCtrl.readFile(params.getRaw().get(0));  
 	            else
 	                if ( !osakerekisteriCtrl.open() ) Platform.exit();
 	            
