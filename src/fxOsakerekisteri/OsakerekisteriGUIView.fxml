@@ -66,7 +66,7 @@
             <SplitPane dividerPositions="0.5, 0.5, 0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
               <items>
                   <Label text="Search" />
-                  <TextField onAction="#handleSearchCriteria" />
+                  <TextField fx:id="panelSearch" onAction="#handleSearchCriteria" />
                   <Label text="Stock Name">
                      <padding>
                         <Insets top="10.0" />

@@ -7,6 +7,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * @author Jesse Korolainen & Teemu Nieminen
+ * @version 14.4.2021
+ *
+ */
 public class NameController implements ModalControllerInterface<String> {
     
     @FXML private TextField textAnswer;

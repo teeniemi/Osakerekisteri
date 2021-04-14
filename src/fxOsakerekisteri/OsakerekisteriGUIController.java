@@ -110,11 +110,13 @@ public class OsakerekisteriGUIController implements Initializable {
         save();
     }
     
+   
+    
     /**
      * Hakee tietokannassa olevia osakkeita.
      */
     @FXML void handleSearchCriteria() {
-    	if ( stockAtPlace != null )
+        if ( stockAtPlace != null )
             get(stockAtPlace.getId());
     }
 
@@ -390,6 +392,7 @@ public class OsakerekisteriGUIController implements Initializable {
     private void sell() {
         Dialogs.showMessageDialog("Myit osakkeen! Ei toimi vielä.");
     }
+    
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
