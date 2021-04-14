@@ -33,7 +33,7 @@ import osakerekisteri.Transaktio;
  * @version 18.1.2021
  *
  */
-public class OsakerekisteriGUIController implements Initializable{
+public class OsakerekisteriGUIController implements Initializable {
 
     @FXML private TextField searchCriteria;
     @FXML private ComboBoxChooser<String> cbFields;

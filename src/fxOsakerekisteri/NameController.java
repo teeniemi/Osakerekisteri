@@ -53,7 +53,7 @@ public class NameController implements ModalControllerInterface<String> {
      */
     public static String askName(Stage modalityStage, String oletus) {
         return ModalController.showModal(
-        		NameController.class.getResource("OsakerekisteriGUIView.fxml"),
+        		NameController.class.getResource("OsakerekisteriNameController.fxml"),
         		// NameController.class.getResource("OsakerekisteriGUIBuy.fxml"), PITÄISIKÖ OLLA TÄMÄ?
                 "Osakerekisteri",
                 modalityStage, oletus);

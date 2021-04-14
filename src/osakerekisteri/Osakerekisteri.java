@@ -116,8 +116,8 @@ public class Osakerekisteri {
             dir.mkdirs();
             String hakemistonNimi = "";
             if ( !nimi.isEmpty() ) hakemistonNimi = nimi +"/";
-            stocks.setFileBasicName(hakemistonNimi + "osakkeet");
-            transactions.setFileBasicName(hakemistonNimi + "transaktiot");
+            stocks.setFileBasicName(hakemistonNimi + "stocks");
+            transactions.setFileBasicName(hakemistonNimi + "transactions");
         }
         
         

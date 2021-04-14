@@ -264,11 +264,19 @@ public class Osakkeet implements Iterable<Osake> {
         stock2.register();
         stock2.giveStock();
 
+
         try {
             stocks.add(stock1);
             stocks.add(stock2);
+            
 
             System.out.println("============= Osakkeet test =================");
+            
+            // tallenna tässä tiedosto
+            stocks.save();
+            stocks = new Osakkeet();
+            // lueppa tiedosto
+            stocks.readFromFile();
 
             for (int i = 0; i < stocks.getAmount(); i++) {
                 Osake stock = stocks.give(i);
