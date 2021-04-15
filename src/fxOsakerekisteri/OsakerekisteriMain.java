@@ -36,7 +36,6 @@ public class OsakerekisteriMain extends Application {
 	                });
 	            
 	            Osakerekisteri osakekanta = new Osakerekisteri();
-	            osakekanta.readFromFile(""); // TODO: TÄTÄ EI OLE VESAN ESIMERKISSÄ???
 	            osakerekisteriCtrl.setOsakerekisteri(osakekanta); 
 	            
 	            primaryStage.show();

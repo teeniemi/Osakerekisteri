@@ -18,7 +18,7 @@ public class NameController implements ModalControllerInterface<String> {
     private String answer = null;
 
     
-    @FXML private void handleOK() {
+    @FXML private void handleSearchCriteria() {
     	answer = textAnswer.getText();
         ModalController.closeStage(textAnswer);
     }

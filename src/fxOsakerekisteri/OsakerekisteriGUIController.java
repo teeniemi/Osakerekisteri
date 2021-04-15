@@ -35,8 +35,7 @@ import osakerekisteri.Transaktio;
  */
 public class OsakerekisteriGUIController implements Initializable {
 
-    @FXML private TextField searchCriteria;
-    @FXML private ComboBoxChooser<String> cbFields;
+    @FXML private TextField textSearch;
     @FXML private Label labelError;
     @FXML private ScrollPane panelStock;
     @FXML private ListChooser<Osake> chooserStocks;
@@ -237,12 +236,9 @@ public class OsakerekisteriGUIController implements Initializable {
      * @param stockId osakkeen id, joka aktivoidaan haun jälkeen
      */
     protected void get(int stockId) {
-        int k = cbFields.getSelectionModel().getSelectedIndex();
-        String ehto = searchCriteria.getText(); 
-        if (k > 0 || ehto.length() > 0)
-        	showError(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
-        else
-        	showError(null);
+    	
+        String ehto = textSearch.getText(); 
+        int k  = 0; // ei toteutettu koskaan, joten turha
         
         chooserStocks.clear();
 
@@ -339,7 +335,7 @@ public class OsakerekisteriGUIController implements Initializable {
     }
     
     private void setTitle(String title) {
-        ModalController.getStage(searchCriteria).setTitle(title);
+        // ModalController.getStage(searchCriteria).setTitle(title);
     }
     
     // luodaan uusi osake ja rekisteröidään se 
