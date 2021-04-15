@@ -51,10 +51,10 @@ public class Transaktio {
      */
     public void tulosta(PrintStream out) {
         out.println(" ID " + String.format("%03d", transactionId));
-        out.println(" Date " + date);
         out.println(" Type " + type);
-        out.println(" Price " + String.format("%4.2f", stockPrice) + " €");
+        out.println(" Date " + date);
         out.println(" Amount " + amount + " kpl");
+        out.println(" Price " + String.format("%4.2f", stockPrice) + " €");
         out.println(" Expenses " + String.format("%4.2f", expenses) + " €");
         out.println(" Total Price " + String.format("%4.2f", totalPrice) + " €");
         out.println("--------------------------");

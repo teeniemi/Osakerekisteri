@@ -136,7 +136,7 @@
                <center>
                   <ScrollPane prefHeight="200.0" prefWidth="189.0" BorderPane.alignment="CENTER">
                      <content>
-                        <StringGrid rivit="Transaction ID|Type|Date|Amount|Stock Price €|Expenses €|Total Price €&#10;1|Buy|30.11.2007|200|27.32|54.56|5518.64&#10;1|Sell|30.12.2020|50|3.15|1.57|158.57" />
+                        <StringGrid fx:id="gridActions" rivit="Transaction ID|Type|Date|Amount|Stock Price €|Expenses €|Total Price €&#10;1|Buy|30.11.2007|200|27.32|54.56|5518.64&#10;1|Sell|30.12.2020|50|3.15|1.57|158.57" />
                      </content>
                   </ScrollPane>
                </center>
