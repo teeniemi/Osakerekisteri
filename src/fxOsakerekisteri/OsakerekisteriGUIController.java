@@ -15,6 +15,7 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
+import fi.jyu.mit.fxgui.StringGrid;
 import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -39,6 +40,7 @@ public class OsakerekisteriGUIController implements Initializable {
     @FXML private Label labelError;
     @FXML private ScrollPane panelStock;
     @FXML private ListChooser<Osake> chooserStocks;
+    @FXML private StringGrid<Transaktio> gridActions;
     
     
     /**
@@ -134,7 +136,8 @@ public class OsakerekisteriGUIController implements Initializable {
     private Osakerekisteri osakerekisteri;
     private Osake stockAtPlace;
     private TextArea areaStock = new TextArea();
-    
+    private TextArea areaTransaction = new TextArea();
+
     /**
      * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
      * yksi iso tekstikenttä, johon voidaan tulostaa osakkeiden tiedot.
@@ -144,7 +147,11 @@ public class OsakerekisteriGUIController implements Initializable {
         panelStock.setContent(areaStock);
         areaStock.setFont(new Font("Courier New", 12));
         panelStock.setFitToHeight(true);
-        
+        var otsikot = new String[]{"Transaction ID | ", "Type | ", "Date | ", "Amount | ", "Stock Price € | ", "Expenses € | ", "Total Price € |"};
+        gridActions.initTable(otsikot);
+        // TODO: MITEN TÄMÄ TOIMII?!
+        gridActions.add(Transaktio transaktio, o.get(), o.getNimi());
+
         chooserStocks.clear();
         chooserStocks.addSelectionListener(e -> showStock());
     }
@@ -165,14 +172,25 @@ public class OsakerekisteriGUIController implements Initializable {
      */
     protected void showStock() {
         stockAtPlace = chooserStocks.getSelectedObject();
-
+        
         if (stockAtPlace == null) return;
 
         areaStock.setText("");
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaStock)) {
             stockAtPlace.print(os);
         }
+        // TODO: ONKO TÄMÄ SINNE PÄINKÄÄN?
+        List <Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
+		for (Transaktio transaction:transactions) {
+			PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTransaction);
+			transaction.tulosta(os);
+			
+			
+		}
+			
+    
     }
+
     
     /**
      * Alustaa osakerekisterin lukemalla sen valitun nimisestä tiedostosta
@@ -365,7 +383,7 @@ public class OsakerekisteriGUIController implements Initializable {
     }
     
     private void edit() {
-        Dialogs.showMessageDialog("Edit nappulan takaa aukeava informaatio.");
+    	Dialogs.showMessageDialog("Edit-nappulan takaa aukeava informaatio");
     }
     
     private void export() {
