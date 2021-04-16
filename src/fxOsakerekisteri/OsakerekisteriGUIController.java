@@ -147,10 +147,9 @@ public class OsakerekisteriGUIController implements Initializable {
         panelStock.setContent(areaStock);
         areaStock.setFont(new Font("Courier New", 12));
         panelStock.setFitToHeight(true);
-        var otsikot = new String[]{"Transaction ID | ", "Type | ", "Date | ", "Amount | ", "Stock Price € | ", "Expenses € | ", "Total Price € |"};
+        var otsikot = new String[]{"Transaction ID", "Type", "Date", "Amount", "Stock Price €", "Expenses €", "Total Price €"};
         gridActions.initTable(otsikot);
-        // TODO: MITEN TÄMÄ TOIMII?!
-        gridActions.add(Transaktio transaktio, o.get(), o.getNimi());
+
 
         chooserStocks.clear();
         chooserStocks.addSelectionListener(e -> showStock());
@@ -181,11 +180,9 @@ public class OsakerekisteriGUIController implements Initializable {
         }
         // TODO: ONKO TÄMÄ SINNE PÄINKÄÄN?
         List <Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
+        gridActions.clear();
 		for (Transaktio transaction:transactions) {
-			PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTransaction);
-			transaction.tulosta(os);
-			
-			
+			gridActions.add(transaction, transaction.getTransactionId(), transaction.getType(), transaction.getDate(), transaction.getAmount(), transaction.getStockPrice(), transaction.getExpenses(), transaction.getTotalPrice());
 		}
 			
     

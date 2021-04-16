@@ -142,6 +142,31 @@ public class Transaktio {
         return stockId;
     }
     
+    public String getType() {
+    	return type;
+    }
+    
+    public String getDate() {
+    	return date;
+    }
+    
+    public int getAmount() {
+    	return amount;
+    }
+    
+    public double getStockPrice() {
+    	return stockPrice;
+    }
+    
+    public double getExpenses() {
+    	return expenses;
+    }
+    
+    public double getTotalPrice() {
+    	return totalPrice;
+    }
+    
+    
     /**
     * Asettaa tunnusnumeron ja samalla varmistaa että
     * seuraava numero on aina suurempi kuin tähän mennessä suurin.
