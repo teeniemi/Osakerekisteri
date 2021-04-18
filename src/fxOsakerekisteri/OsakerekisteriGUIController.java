@@ -178,11 +178,10 @@ public class OsakerekisteriGUIController implements Initializable {
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaStock)) {
             stockAtPlace.print(os);
         }
-        // TODO: ONKO TÄMÄ SINNE PÄINKÄÄN?
         List <Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
         gridActions.clear();
 		for (Transaktio transaction:transactions) {
-			gridActions.add(transaction, transaction.getTransactionId(), transaction.getType(), transaction.getDate(), transaction.getAmount(), transaction.getStockPrice(), transaction.getExpenses(), transaction.getTotalPrice());
+			gridActions.add(transaction.getTransactionId(), transaction.getType(), transaction.getDate(), transaction.getAmount(), transaction.getStockPrice(), transaction.getExpenses(), transaction.getTotalPrice());
 		}
 			
     
