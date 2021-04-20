@@ -181,7 +181,7 @@ public class OsakerekisteriGUIController implements Initializable {
         List <Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
         gridActions.clear();
 		for (Transaktio transaction:transactions) {
-			gridActions.add(transaction.getTransactionId(), transaction.getType(), transaction.getDate(), transaction.getAmount(), transaction.getStockPrice(), transaction.getExpenses(), transaction.getTotalPrice());
+			gridActions.add(transaction, transaction.getTransactionId()+"", transaction.getType(), transaction.getDate(), transaction.getAmount()+"", transaction.getStockPrice()+"", transaction.getExpenses()+"", transaction.getTotalPrice()+"");
 		}
 			
     
@@ -356,12 +356,13 @@ public class OsakerekisteriGUIController implements Initializable {
     
     private void buy() {
         Transaktio transaction = new Transaktio();
-        if (stockAtPlace == null) return;
+        transaction = BuyGUIController.askTransaction(null, transaction, osakerekisteri);
         transaction.testi(stockAtPlace.getId()); // POISTA TÄMÄ RIVI MYÖHEMMIN, KOSKA TESTI
 		transaction.setStockId(stockAtPlace.getId());
 		transaction.register();
 		osakerekisteri.add(transaction);
-		// PÄIVITÄ STRING GRID TÄHÄN, KOSKA EI OSAA MUUTEN NÄYTTÄÄ get(transaction.getId());
+		// TÄHÄN handlebuystocks -KUTSU JA PÄIVITÄ STRING GRID TÄHÄN, KOSKA EI OSAA MUUTEN NÄYTTÄÄ get(transaction.getId());
+		// kpl-hinta ja nimi, oma lisää osake -dialogi?
     }
     /**
      * TESTIMIELESSÄ TEHTY METODI
