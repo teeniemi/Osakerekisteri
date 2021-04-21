@@ -63,9 +63,14 @@ public class OsakerekisteriGUIController implements Initializable {
      */
     @FXML void handleDelete() {
     	ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIDelete.fxml"), "Delete STONKS", null, "");
-    	
     }
     
+    @FXML void handleAddCompany() {
+       // ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakeDialogView.fxml"), "Add Company", null, "");
+        addCompany();
+    }
+
+
     /**
      * Ylävalikon edit-nappi.
      */
@@ -364,6 +369,23 @@ public class OsakerekisteriGUIController implements Initializable {
 		// TÄHÄN handlebuystocks -KUTSU JA PÄIVITÄ STRING GRID TÄHÄN, KOSKA EI OSAA MUUTEN NÄYTTÄÄ get(transaction.getId());
 		// kpl-hinta ja nimi, oma lisää osake -dialogi?
     }
+    
+    
+    /**
+     * Luodaan uusi Osake, jolle voi myöhemmin lisätä transaktioita.
+     */
+    private void addCompany() {
+        try {
+            Osake stock = new Osake();
+            // stock = OsakeDialogController.askStock(null, stock);             TÄTÄ EI VARMAANKAAN TARVITA KOSKA EI TARVITSE TARKISTAA OSAKKEITA?
+            stock.register();
+            osakerekisteri.add(stock);
+            get(stock.getId());
+        } catch (StoreException e) {
+            Dialogs.showMessageDialog("Too many entries");
+        }
+    }
+    
     /**
      * TESTIMIELESSÄ TEHTY METODI
      */
@@ -378,6 +400,7 @@ public class OsakerekisteriGUIController implements Initializable {
 			Dialogs.showMessageDialog("Too many entries");
 		}
     }
+    
     
     private void edit() {
     	Dialogs.showMessageDialog("Edit-nappulan takaa aukeava informaatio");

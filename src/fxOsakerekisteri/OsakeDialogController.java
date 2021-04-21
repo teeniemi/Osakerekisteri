@@ -16,15 +16,24 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import osakerekisteri.Osake;
 
+/**
+ * @author jesse korolainen & teemu nieminen
+ * @version 21.4.2021
+ *
+ */
 public class OsakeDialogController implements ModalControllerInterface<Osake> { 
 	
 	
-@FXML private TextField editNimi;
-@FXML private TextField editHetu;
-@FXML private TextField editKatuosoite;
-@FXML private TextField editPostinumero;    
+@FXML private TextField editName;
+@FXML private TextField editAmount;
+@FXML private TextField editAveragePrice;
+@FXML private TextField editTotalPrice;    
 @FXML private Label labelVirhe;
 
+    /**
+     * @param url tiedoston osoite
+     * @param bundle tiedosto mistä alustetaan
+     */
     public void initialize(URL url, ResourceBundle bundle) {
         alusta();  
     }
@@ -60,15 +69,15 @@ public class OsakeDialogController implements ModalControllerInterface<Osake> {
 
     /**
      * Tekee tarvittavat muut alustukset. Mm laittaa edit-kentistä tulevan
-     * tapahtuman menemään kasitteleMuutosJaseneen-metodiin ja vie sille
+     * tapahtuman menemään kasitteleMUutosOsakeeseen-metodiin ja vie sille
      * kentännumeron parametrina.
      */
     protected void alusta() {
-        edits = new TextField[]{editNimi, editHetu, editKatuosoite, editPostinumero};
+        edits = new TextField[]{editName, editAmount, editAveragePrice, editTotalPrice};
         int i = 0;
         for (TextField edit : edits) {
             final int k = ++i;
-            edit.setOnKeyReleased( e -> kasitteleMuutosJaseneen(k, (TextField)(e.getSource())));
+            edit.setOnKeyReleased( e -> kasitteleMuutosOsakkeeseen(k, (TextField)(e.getSource())));
         }
     }
     
@@ -91,7 +100,7 @@ public class OsakeDialogController implements ModalControllerInterface<Osake> {
      */
     @Override
     public void handleShown() {
-        editNimi.requestFocus();
+        editName.requestFocus();
     }
     
     
@@ -107,10 +116,10 @@ public class OsakeDialogController implements ModalControllerInterface<Osake> {
 
     
     /**
-     * Käsitellään jäseneen tullut muutos
+     * Käsitellään osakkeeseen tullut muutos
      * @param edit muuttunut kenttä
      */
-    private void kasitteleMuutosJaseneen(int k, TextField edit) {
+    private void kasitteleMuutosOsakkeeseen(int k, TextField edit) {
         if (stockAtPlace == null) return;
         String s = edit.getText();
         String virhe = null;
@@ -134,21 +143,21 @@ public class OsakeDialogController implements ModalControllerInterface<Osake> {
     
     
     /**
-     * Näytetään jäsenen tiedot TextField komponentteihin
+     * Näytetään osakkeen tiedot TextField komponentteihin
      * @param edits taulukko jossa tekstikenttiä
-     * @param jasen näytettävä jäsen
+     * @param stock näytettävä osake
      */
-    public static void showStock(TextField[] edits, Osake osake) {
-        if (osake == null) return;
-        edits[0].setText(osake.getName());
-        edits[1].setText(osake.getAmount());
-        edits[2].setText(osake.getAveragePrice());
-        edits[3].setText(osake.getTotalPrice());
+    public static void showStock(TextField[] edits, Osake stock) {
+        if (stock == null) return;
+        edits[0].setText(stock.getName());
+        edits[1].setText(stock.getAmount());
+        edits[2].setText(stock.getAveragePrice());
+        edits[3].setText(stock.getTotalPrice());
     }
     
     
     /**
-     * Luodaan jäsenen kysymisdialogi ja palautetaan sama tietue muutettuna tai null
+     * Luodaan osakkeen kysymisdialogi ja palautetaan sama tietue muutettuna tai null
      * TODO: korjattava toimimaan
      * @param modalityStage mille ollaan modaalisia, null = sovellukselle
      * @param oletus mitä dataan näytetään oletuksena

@@ -13,11 +13,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane stylesheets="@Osakerekisteri.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxKerho.OsakeDialogController">
+<BorderPane stylesheets="@Osakerekisteri.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxOsakerekisteri.OsakeDialogController">
 <bottom>
 <VBox BorderPane.alignment="CENTER">
 <children>
-<Label fx:id="labelVirhe" maxWidth="1000.0" />
 <HBox />
 <ButtonBar prefHeight="40.0" prefWidth="200.0">
 <buttons>

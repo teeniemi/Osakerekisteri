@@ -25,10 +25,11 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
          <children>
-            <ButtonBar prefWidth="470.0">
+            <ButtonBar buttonMinWidth="100.0" prefWidth="470.0">
               <buttons>
                   <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleSave" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: CHARTREUSE;" text="Save" />
                   <Button alignment="CENTER" contentDisplay="TOP" layoutX="260.0" layoutY="10.0" mnemonicParsing="false" onAction="#handlePrint" prefHeight="25.0" prefWidth="105.0" text="Print" />
+                  <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleAddCompany" prefHeight="25.0" prefWidth="396.0" text="Add Company" />
                   <Button alignment="CENTER" contentDisplay="TOP" layoutX="375.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSellStocks" prefHeight="25.0" prefWidth="105.0" text="Sell Stocks" />
                   <Button alignment="CENTER" contentDisplay="TOP" layoutX="260.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBuyStocks" prefHeight="25.0" prefWidth="105.0" text="Buy Stocks" />
               </buttons>
