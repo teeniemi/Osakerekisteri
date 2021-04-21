@@ -377,10 +377,11 @@ public class OsakerekisteriGUIController implements Initializable {
     private void addCompany() {
         try {
             Osake stock = new Osake();
+            // TODO: tässä kohtaa pitää mennä OsakeDialogControlleriin hakemaan tietoa, mutta miten?
             // stock = OsakeDialogController.askStock(null, stock);             TÄTÄ EI VARMAANKAAN TARVITA KOSKA EI TARVITSE TARKISTAA OSAKKEITA?
             stock.register();
             osakerekisteri.add(stock);
-            get(stock.getId());
+            get(stock.getId());             //PITÄÄKÖ OLLA?
         } catch (StoreException e) {
             Dialogs.showMessageDialog("Too many entries");
         }
