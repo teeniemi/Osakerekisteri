@@ -202,4 +202,45 @@ public class Osake {
 		stock2.giveStock();
 		stock2.print(System.out);
 	}
+
+		/**
+		* @param s osakkeelle laitettava nimi
+		* @return virheilmoitus, null jos ok
+		*/
+	public String setName(String s) {
+		if (s == " " || s == "") return "nyt v**** oikeesti. yritäppä vielä...";
+		return this.stockName = s;
+		 }
+
+		public String setAmount(int s) {
+			if (s < 0) return "nyt v**** oikeesti. yritäppä vielä...";
+			this.amount = s;
+			return null;
+		}
+
+		public String setAveragePrice(double s) {
+			if (s < 0) return "nyt v**** oikeesti. yritäppä vielä...";
+			this.averagePrice = s;
+			return null;
+		}
+
+		public String setTotalPrice(double s) {
+			if (s < 0) return "nyt v**** oikeesti. yritäppä vielä...";
+			this.totalPrice = s;
+			return null;
+		}
+
+		public String getAmount() {
+			return amount+"";
+		}
+
+		public String getAveragePrice() {
+			return averagePrice+"";
+		}
+
+		public String getTotalPrice() {
+			return totalPrice+"";
+		}
+		
+		
 }
