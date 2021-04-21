@@ -41,9 +41,9 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>{
     }
     /**
      * Parsitaan osake ja transaktio erikseen, jolloin voidaan palauttaa erikseen transaktio. Tämä palautuu, kun ikkuna sulkeutuu.
-     * @param modality
-     * @param oletus
-     * @param osakerekisteri
+     * @param modality mitä modaalisuutta käytetään
+     * @param oletus transaktio joka luodaan
+     * @param osakerekisteri mistä tiedot haetaan
      * @return palauttaa Transaktio-olion, jolla voidaan katsoa, mitä käyttäjä on kirjoittanut
      */
     
