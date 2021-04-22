@@ -364,6 +364,7 @@ public class OsakerekisteriGUIController implements Initializable {
         transaction = BuyGUIController.askTransaction(null, transaction, osakerekisteri);
         // transaction.testi(stockAtPlace.getId()); // POISTA TÄMÄ RIVI MYÖHEMMIN, KOSKA TESTI
 		transaction.setStockId(stockAtPlace.getId());
+      //  if (transaction == null) return;
 		transaction.register();
 		osakerekisteri.add(transaction);
 		// TÄHÄN handlebuystocks -KUTSU JA PÄIVITÄ STRING GRID TÄHÄN, KOSKA EI OSAA MUUTEN NÄYTTÄÄ get(transaction.getId());
@@ -379,6 +380,7 @@ public class OsakerekisteriGUIController implements Initializable {
             Osake stock = new Osake();
             // TODO: tässä kohtaa pitää mennä OsakeDialogControlleriin hakemaan tietoa, mutta miten?
             stock = OsakeDialogController.askStock(null, stock); // TÄTÄ EI VARMAANKAAN TARVITA KOSKA EI TARVITSE TARKISTAA OSAKKEITA?
+            if (stock == null) return;
             stock.register();
             osakerekisteri.add(stock);
             get(stock.getId());             //PITÄÄKÖ OLLA?

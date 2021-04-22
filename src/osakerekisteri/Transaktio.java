@@ -257,4 +257,34 @@ public class Transaktio {
         transaktio2.tulosta(System.out);
         // transaktio2.vastaaTransaktio();
     }
+
+    public String setAmount(int s) {
+        if (s < 0) return "nyt v oikeesti. yritäppä vielä...";
+        this.amount = s;
+        return null;
+    }
+
+    /**
+     * @param s keskiarvohinta
+     * @return keskiarvohinta
+     */
+    public String setAveragePrice(double s) {
+        if (s < 0) return "nyt v oikeesti. yritäppä vielä...";
+        s = totalPrice / amount;
+        return null;
+    }
+
+
+    /**
+     * @param s kokonaishinta
+     * @return kokonaishinta
+     */
+    public String setTotalPrice(double s) {
+        if (s < 0) return "nyt v oikeesti. yritäppä vielä...";
+        this.totalPrice = s;
+        return null;
+    }
+
+
+
 }

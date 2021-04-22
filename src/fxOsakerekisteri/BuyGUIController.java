@@ -1,11 +1,21 @@
 package fxOsakerekisteri;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
+import fi.jyu.mit.fxgui.StringGrid;
+import fi.jyu.mit.ohj2.Mjonot;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import osakerekisteri.Osake;
 import osakerekisteri.Osakerekisteri;
 import osakerekisteri.Transaktio;
 
@@ -14,10 +24,25 @@ import osakerekisteri.Transaktio;
  * @version 2.2.2021
  *
  */
-public class BuyGUIController implements ModalControllerInterface<Transaktio>{
+public class BuyGUIController implements ModalControllerInterface<Transaktio>, Initializable{
 
-    private Osakerekisteri osakerekisteri;
+    @FXML private ComboBoxChooser<Osake> editName;
+    @FXML private TextField editDate;
+    @FXML private TextField editAmount;
+    @FXML private TextField editTotalPrice;
+    @FXML private TextField editExpenses;
+    @FXML private Label editTotalCost;
+    @FXML private Label labelVirhe;
 
+    /**
+     * @param url tiedoston osoite
+     * @param bundle tiedosto mistä alustetaan
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle bundle) {
+        alusta();    
+    }
+    
 	@FXML void handleBuyStocks() {
         buyStocks();
     }
@@ -31,6 +56,82 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>{
         
     }
 
+    // =========================================================
+    private Transaktio transactionAtPlace;
+    private TextField edits[];
+    private Osakerekisteri osakerekisteri;
+    
+    /**
+     * Tyhjentään tekstikentät 
+     * @param edits taulukko jossa tyhjennettäviä tektsikenttiä
+     */
+    public static void tyhjenna(TextField[] edits) {
+        for (TextField edit : edits)
+            edit.setText("");
+    }
+
+    /**
+     * Tekee tarvittavat muut alustukset. Mm laittaa edit-kentistä tulevan
+     * tapahtuman menemään kasitteleMUutosOsakeeseen-metodiin ja vie sille
+     * kentännumeron parametrina.
+     */
+    protected void alusta() {
+        edits = new TextField[]{editDate, editAmount, editTotalPrice, editExpenses};
+        int i = 0;
+        for (TextField edit : edits) {
+            final int k = ++i;
+            edit.setOnKeyReleased( e -> kasitteleMuutosTransaktioon(k, (TextField)(e.getSource())));
+        }
+        showTransaction(edits, transactionAtPlace);
+    }
+    
+    /**
+     * Käsitellään osakkeeseen tullut muutos
+     * @param edit muuttunut kenttä
+     */
+    private void kasitteleMuutosTransaktioon(int k, TextField edit) {
+        if (transactionAtPlace == null) return;
+        String s = edit.getText();
+        String virhe = null;
+        switch (k) {
+           case 1 : virhe = transactionAtPlace.setAmount(Mjonot.erotaInt(s, -1)); break;
+           case 2 : virhe = transactionAtPlace.setAveragePrice(Mjonot.erotaDouble(s, -1)); break;
+           case 3 : virhe = transactionAtPlace.setTotalPrice(Mjonot.erotaDouble(s, -1)); break;
+           default:
+        }
+        if (virhe == null) {
+            Dialogs.setToolTipText(edit,"");
+            edit.getStyleClass().removeAll("virhe");
+            naytaVirhe(virhe);
+        } else {
+            Dialogs.setToolTipText(edit,virhe);
+            edit.getStyleClass().add("virhe");
+            naytaVirhe(virhe);
+        }
+    }
+    
+    private void naytaVirhe(String virhe) {
+        if ( virhe == null || virhe.isEmpty() ) {
+            labelVirhe.setText("");
+            labelVirhe.getStyleClass().removeAll("virhe");
+            return;
+        }
+        labelVirhe.setText(virhe);
+        labelVirhe.getStyleClass().add("virhe");
+    }
+    
+    /**
+     * Näytetään transaktion tiedot StringGrid komponentissa
+     * @param edits taulukko jossa tekstikenttiä
+     * @param transaction näytettävä transaktio
+     */
+    public static void showTransaction(StringGrid[] edits, Transaktio transaction) {
+        if (transaction == null) return;
+        edits[0].setText(transaction.getAmount());
+        edits[1].setText(transaction.getTotalPrice());
+        edits[2].setText(transaction.getExpenses());
+    }
+    
 
     private void buyStocks() {
         Dialogs.showMessageDialog("Et voi vielä ostaa osakkeita!");
@@ -39,6 +140,7 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>{
     private void cancel() {
         Dialogs.showMessageDialog("Tästä voit peruuttaa ostamisen, mutta ei toimi vielä!");
     }
+    
     /**
      * Parsitaan osake ja transaktio erikseen, jolloin voidaan palauttaa erikseen transaktio. Tämä palautuu, kun ikkuna sulkeutuu.
      * @param modality mitä modaalisuutta käytetään
@@ -46,7 +148,6 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>{
      * @param osakerekisteri mistä tiedot haetaan
      * @return palauttaa Transaktio-olion, jolla voidaan katsoa, mitä käyttäjä on kirjoittanut
      */
-    
     public static Transaktio askTransaction(Stage modality, Transaktio oletus, Osakerekisteri osakerekisteri) {
     	return ModalController.<Transaktio, BuyGUIController> showModal(BuyGUIController.class.getResource("OsakerekisteriGUIBuy.fxml"), "Add a stock", modality, oletus, ctrl -> ctrl.setRegister(osakerekisteri));
     }
@@ -66,5 +167,5 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>{
 	public void setDefault(Transaktio oletus) {
 		// TODO Auto-generated method stub
 		
-	}
+	}   
 }
