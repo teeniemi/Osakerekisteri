@@ -37,10 +37,10 @@ public class Transaktio {
     private String  date;
     private String  type;
     private double  stockPrice;
-    private int  amount;
+    private int     amount;
     private double  expenses;
     private double  totalPrice;
-    private int stockId;
+    private int     stockId;
     
     
     private static int nextId = 1;
@@ -258,33 +258,37 @@ public class Transaktio {
         // transaktio2.vastaaTransaktio();
     }
 
+    /**
+     * @param s määrä
+     * @return määrä
+     */
     public String setAmount(int s) {
         if (s < 0) return "nyt v oikeesti. yritäppä vielä...";
         this.amount = s;
         return null;
     }
 
+
+    /**
+     * @param s osakkeen hinta
+     * @return osakkeen hinta
+     */
+    public String setPrice(double s) {
+        if (s < 0) return "nyt v oikeesti. yritäppä vielä...";
+        this.stockPrice = s;
+        return null;
+    }
+
+
     /**
      * @param s keskiarvohinta
      * @return keskiarvohinta
-     */
+
     public String setAveragePrice(double s) {
+        double ka = 0;
         if (s < 0) return "nyt v oikeesti. yritäppä vielä...";
-        s = totalPrice / amount;
+        this.averagePrice = totalPrice / amount;
         return null;
     }
-
-
-    /**
-     * @param s kokonaishinta
-     * @return kokonaishinta
      */
-    public String setTotalPrice(double s) {
-        if (s < 0) return "nyt v oikeesti. yritäppä vielä...";
-        this.totalPrice = s;
-        return null;
-    }
-
-
-
 }

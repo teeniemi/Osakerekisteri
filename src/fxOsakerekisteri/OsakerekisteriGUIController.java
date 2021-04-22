@@ -363,8 +363,8 @@ public class OsakerekisteriGUIController implements Initializable {
         Transaktio transaction = new Transaktio();
         transaction = BuyGUIController.askTransaction(null, transaction, osakerekisteri);
         // transaction.testi(stockAtPlace.getId()); // POISTA TÄMÄ RIVI MYÖHEMMIN, KOSKA TESTI
-		transaction.setStockId(stockAtPlace.getId());
-      //  if (transaction == null) return;
+        if (transaction == null) return;
+        transaction.setStockId(stockAtPlace.getId());
 		transaction.register();
 		osakerekisteri.add(transaction);
 		// TÄHÄN handlebuystocks -KUTSU JA PÄIVITÄ STRING GRID TÄHÄN, KOSKA EI OSAA MUUTEN NÄYTTÄÄ get(transaction.getId());

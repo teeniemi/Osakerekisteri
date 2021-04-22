@@ -12,6 +12,7 @@ import fi.jyu.mit.ohj2.Mjonot;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -26,10 +27,9 @@ import osakerekisteri.Transaktio;
  */
 public class BuyGUIController implements ModalControllerInterface<Transaktio>, Initializable{
 
-    @FXML private ComboBoxChooser<Osake> editName;
-    @FXML private TextField editDate;
+    @FXML private DatePicker editDate;
     @FXML private TextField editAmount;
-    @FXML private TextField editTotalPrice;
+    @FXML private TextField editPrice;
     @FXML private TextField editExpenses;
     @FXML private Label editTotalCost;
     @FXML private Label labelVirhe;
@@ -40,19 +40,20 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
      */
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
-        alusta();    
+    //        
     }
     
 	@FXML void handleBuyStocks() {
-        buyStocks();
+        ModalController.closeStage(labelVirhe);
     }
 
     @FXML void handleCancel() {
-        cancel();
+        transactionAtPlace = null;
+        ModalController.closeStage(labelVirhe);
     }
 
     @Override public void handleShown() {
-        // TODO Auto-generated method stub
+        alusta();
         
     }
 
@@ -76,13 +77,26 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
      * kentännumeron parametrina.
      */
     protected void alusta() {
-        edits = new TextField[]{editDate, editAmount, editTotalPrice, editExpenses};
+        edits = new TextField[]{editAmount, editPrice, editExpenses};
         int i = 0;
         for (TextField edit : edits) {
             final int k = ++i;
             edit.setOnKeyReleased( e -> kasitteleMuutosTransaktioon(k, (TextField)(e.getSource())));
         }
         showTransaction(edits, transactionAtPlace);
+    }
+    
+    /**
+     * @param virhe virhe
+     */
+    private void naytaVirhe(String virhe) {
+        if ( virhe == null || virhe.isEmpty() ) {
+            labelVirhe.setText("");
+            labelVirhe.getStyleClass().removeAll("virhe");
+            return;
+        }
+        labelVirhe.setText(virhe);
+        labelVirhe.getStyleClass().add("virhe");
     }
     
     /**
@@ -95,8 +109,7 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
         String virhe = null;
         switch (k) {
            case 1 : virhe = transactionAtPlace.setAmount(Mjonot.erotaInt(s, -1)); break;
-           case 2 : virhe = transactionAtPlace.setAveragePrice(Mjonot.erotaDouble(s, -1)); break;
-           case 3 : virhe = transactionAtPlace.setTotalPrice(Mjonot.erotaDouble(s, -1)); break;
+           case 2 : virhe = transactionAtPlace.setPrice(Mjonot.erotaDouble(s, -1)); break;
            default:
         }
         if (virhe == null) {
@@ -110,35 +123,17 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
         }
     }
     
-    private void naytaVirhe(String virhe) {
-        if ( virhe == null || virhe.isEmpty() ) {
-            labelVirhe.setText("");
-            labelVirhe.getStyleClass().removeAll("virhe");
-            return;
-        }
-        labelVirhe.setText(virhe);
-        labelVirhe.getStyleClass().add("virhe");
-    }
-    
     /**
      * Näytetään transaktion tiedot StringGrid komponentissa
      * @param edits taulukko jossa tekstikenttiä
      * @param transaction näytettävä transaktio
      */
-    public static void showTransaction(StringGrid[] edits, Transaktio transaction) {
+    public static void showTransaction(TextField[] edits, Transaktio transaction) {
         if (transaction == null) return;
-        edits[0].setText(transaction.getAmount());
-        edits[1].setText(transaction.getTotalPrice());
-        edits[2].setText(transaction.getExpenses());
-    }
-    
-
-    private void buyStocks() {
-        Dialogs.showMessageDialog("Et voi vielä ostaa osakkeita!");
-    }
-    
-    private void cancel() {
-        Dialogs.showMessageDialog("Tästä voit peruuttaa ostamisen, mutta ei toimi vielä!");
+        edits[0].setText(String.valueOf(transaction.getAmount()));
+        edits[1].setText(String.valueOf(transaction.getTotalPrice()));
+        edits[2].setText(String.valueOf(transaction.getExpenses()));
+        edits[3].setText(DatePicker.valueOf(transaction.getDate()));
     }
     
     /**
@@ -156,16 +151,13 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
 		this.osakerekisteri = osakerekisteri;
 	}
 
-
 	@Override
 	public Transaktio getResult() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.transactionAtPlace;
 	}
 
 	@Override
 	public void setDefault(Transaktio oletus) {
-		// TODO Auto-generated method stub
-		
+		this.transactionAtPlace = oletus; 
 	}   
 }

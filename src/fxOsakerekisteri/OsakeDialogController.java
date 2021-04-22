@@ -56,7 +56,7 @@ public class OsakeDialogController implements ModalControllerInterface<Osake>, I
 
     /**
      * Tyhjentään tekstikentät 
-     * @param edits tauluko jossa tyhjennettäviä tektsikenttiä
+     * @param edits taulukko jossa tyhjennettäviä tektsikenttiä
      */
     public static void tyhjenna(TextField[] edits) {
         for (TextField edit : edits)
