@@ -362,7 +362,7 @@ public class OsakerekisteriGUIController implements Initializable {
     private void buy() {
         Transaktio transaction = new Transaktio();
         transaction = BuyGUIController.askTransaction(null, transaction, osakerekisteri);
-        transaction.testi(stockAtPlace.getId()); // POISTA TÄMÄ RIVI MYÖHEMMIN, KOSKA TESTI
+        // transaction.testi(stockAtPlace.getId()); // POISTA TÄMÄ RIVI MYÖHEMMIN, KOSKA TESTI
 		transaction.setStockId(stockAtPlace.getId());
 		transaction.register();
 		osakerekisteri.add(transaction);
@@ -378,7 +378,7 @@ public class OsakerekisteriGUIController implements Initializable {
         try {
             Osake stock = new Osake();
             // TODO: tässä kohtaa pitää mennä OsakeDialogControlleriin hakemaan tietoa, mutta miten?
-            // stock = OsakeDialogController.askStock(null, stock);             TÄTÄ EI VARMAANKAAN TARVITA KOSKA EI TARVITSE TARKISTAA OSAKKEITA?
+            stock = OsakeDialogController.askStock(null, stock); // TÄTÄ EI VARMAANKAAN TARVITA KOSKA EI TARVITSE TARKISTAA OSAKKEITA?
             stock.register();
             osakerekisteri.add(stock);
             get(stock.getId());             //PITÄÄKÖ OLLA?

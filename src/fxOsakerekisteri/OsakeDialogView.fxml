@@ -17,6 +17,7 @@
 <bottom>
 <VBox BorderPane.alignment="CENTER">
 <children>
+<Label fx:id="labelVirhe" maxWidth="1000.0"/>
 <HBox />
 <ButtonBar prefHeight="40.0" prefWidth="200.0">
 <buttons>
@@ -49,10 +50,10 @@
 <Label text="Amount" GridPane.rowIndex="1" />
 <Label text="Average Price" GridPane.rowIndex="2" />
 <Label text="Total Price" GridPane.rowIndex="3" />
-<TextField fx:id="editName" text="Nokia Oyj" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-<TextField fx:id="editAmount" text="50000" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-<TextField fx:id="editAveragePrice" text="124141234" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-<TextField fx:id="editTotalPrice" text="12345" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+<TextField fx:id="editName" text="" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+<TextField fx:id="editAmount" text="" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+<TextField fx:id="editAveragePrice" text="" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+<TextField fx:id="editTotalPrice" text="" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
 </children>
 <opaqueInsets>
 <Insets left="10.0" top="10.0" />

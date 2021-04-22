@@ -21,7 +21,7 @@ import osakerekisteri.Osake;
  * @version 21.4.2021
  *
  */
-public class OsakeDialogController implements ModalControllerInterface<Osake> { 
+public class OsakeDialogController implements ModalControllerInterface<Osake>, Initializable { 
 	
 	
 @FXML private TextField editName;
@@ -34,15 +34,12 @@ public class OsakeDialogController implements ModalControllerInterface<Osake> {
      * @param url tiedoston osoite
      * @param bundle tiedosto mistä alustetaan
      */
+	@Override
     public void initialize(URL url, ResourceBundle bundle) {
         alusta();  
     }
     
     @FXML private void handleOK() {
-        if ( stockAtPlace != null && stockAtPlace.getName().trim().equals("") ) {
-            naytaVirhe("Nimi ei saa olla tyhjä");
-            return;
-        }
         ModalController.closeStage(labelVirhe);
     }
 
@@ -79,13 +76,14 @@ public class OsakeDialogController implements ModalControllerInterface<Osake> {
             final int k = ++i;
             edit.setOnKeyReleased( e -> kasitteleMuutosOsakkeeseen(k, (TextField)(e.getSource())));
         }
+        showStock(edits, stockAtPlace);
     }
     
     
     @Override
     public void setDefault(Osake oletus) {
     	stockAtPlace = oletus;
-        showStock(edits, stockAtPlace);
+       // showStock(edits, stockAtPlace);
     }
 
     
