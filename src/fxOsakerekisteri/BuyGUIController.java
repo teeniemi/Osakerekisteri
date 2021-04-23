@@ -1,6 +1,7 @@
 package fxOsakerekisteri;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.ComboBoxChooser;
@@ -84,6 +85,7 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
             edit.setOnKeyReleased( e -> kasitteleMuutosTransaktioon(k, (TextField)(e.getSource())));
         }
         showTransaction(edits, transactionAtPlace);
+        showDate(editDate, transactionAtPlace);
     }
     
     /**
@@ -133,7 +135,11 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
         edits[0].setText(String.valueOf(transaction.getAmount()));
         edits[1].setText(String.valueOf(transaction.getTotalPrice()));
         edits[2].setText(String.valueOf(transaction.getExpenses()));
-        edits[3].setText(DatePicker.valueOf(transaction.getDate()));
+    }
+    
+    public static void showDate(DatePicker date, Transaktio transaction) {
+    	LocalDate pvm = LocalDate.of(1, 2, 3);
+    	date.setValue(pvm);
     }
     
     /**

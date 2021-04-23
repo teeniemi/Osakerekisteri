@@ -208,24 +208,24 @@ public class Osake {
 * @return virheilmoitus, null jos ok
 */
 public String setName(String s) {
-if (s == " " || s == "") return "nyt v** oikeesti. yritäppä vielä...";
+if (s == " " || s == "") return "";
 return this.stockName = s;
  }
 
 public String setAmount(int s) {
-    if (s < 0) return "nyt v oikeesti. yritäppä vielä...";
+    if (s < 0) return "";
     this.amount = s;
     return null;
 }
 
 public String setAveragePrice(double s) {
-    if (s < 0) return "nyt v oikeesti. yritäppä vielä...";
+    if (s < 0) return "";
     this.averagePrice = s;
     return null;
 }
 
 public String setTotalPrice(double s) {
-    if (s < 0) return "nyt v** oikeesti. yritäppä vielä...";
+    if (s < 0) return "";
     this.totalPrice = s;
     return null;
 }

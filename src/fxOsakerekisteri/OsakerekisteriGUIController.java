@@ -18,12 +18,14 @@ import fi.jyu.mit.fxgui.ModalControllerInterface;
 import fi.jyu.mit.fxgui.StringGrid;
 import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import osakerekisteri.Osake;
 import osakerekisteri.Osakerekisteri;
@@ -73,9 +75,15 @@ public class OsakerekisteriGUIController implements Initializable {
 
     /**
      * Ylävalikon edit-nappi.
+     * @throws CloneNotSupportedException 
      */
     @FXML void handleEdit() {
-        edit();
+        try {
+			edit();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     /**
@@ -140,6 +148,7 @@ public class OsakerekisteriGUIController implements Initializable {
     private String osakerekisterinNimi = "STONK MANAGER 9000";
     private Osakerekisteri osakerekisteri;
     private Osake stockAtPlace;
+    private Transaktio transactionAtPlace;
     private TextArea areaStock = new TextArea();
     private TextArea areaTransaction = new TextArea();
 
@@ -183,11 +192,7 @@ public class OsakerekisteriGUIController implements Initializable {
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaStock)) {
             stockAtPlace.print(os);
         }
-        List <Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
-        gridActions.clear();
-		for (Transaktio transaction:transactions) {
-			gridActions.add(transaction, transaction.getTransactionId()+"", transaction.getType(), transaction.getDate(), transaction.getAmount()+"", transaction.getStockPrice()+"", transaction.getExpenses()+"", transaction.getTotalPrice()+"");
-		}
+        updateTransactions();
 			
     
     }
@@ -362,7 +367,6 @@ public class OsakerekisteriGUIController implements Initializable {
     private void buy() {
         Transaktio transaction = new Transaktio();
         transaction = BuyGUIController.askTransaction(null, transaction, osakerekisteri);
-        // transaction.testi(stockAtPlace.getId()); // POISTA TÄMÄ RIVI MYÖHEMMIN, KOSKA TESTI
         if (transaction == null) return;
         transaction.setStockId(stockAtPlace.getId());
 		transaction.register();
@@ -405,8 +409,29 @@ public class OsakerekisteriGUIController implements Initializable {
     }
     
     
-    private void edit() {
-    	Dialogs.showMessageDialog("Edit-nappulan takaa aukeava informaatio");
+    private void edit() throws CloneNotSupportedException {
+    	int r = gridActions.getRowNr();
+    	Transaktio transaction = gridActions.getObject(r);
+    	if (transaction == null) return; // voisi avata dialogi-ikkunan, jossa viesti
+    	transaction = transaction.clone();
+    	
+        transaction = BuyGUIController.askTransaction(null, transaction, osakerekisteri);
+        if (transaction == null) return;
+		osakerekisteri.replace(transaction);
+		updateTransactions();
+    }
+    
+    /**
+     * 
+     */
+    
+    private void updateTransactions() {
+    	List <Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
+        gridActions.clear();
+		for (Transaktio transaction:transactions) {
+			gridActions.add(transaction, transaction.getTransactionId()+"", transaction.getType(), transaction.getDate().toString(), transaction.getAmount()+"", transaction.getStockPrice()+"", transaction.getExpenses()+"", transaction.getTotalPrice()+"");
+		}
+    	
     }
     
     private void export() {

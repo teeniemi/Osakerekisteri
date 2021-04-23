@@ -44,6 +44,28 @@ public class Osakkeet implements Iterable<Osake> {
         // Attribuuttien oma alustus riittää
     }
     
+    
+    /**
+     * Tehdään identtinen klooni jäsenestä
+     * @return Object kloonattu jäsen
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException 
+     *   Jasen jasen = new Jasen();
+     *   jasen.parse("   3  |  Ankka Aku   | 123");
+     *   Jasen kopio = jasen.clone();
+     *   kopio.toString() === jasen.toString();
+     *   jasen.parse("   4  |  Ankka Tupu   | 123");
+     *   kopio.toString().equals(jasen.toString()) === false;
+     * </pre>
+     */
+    @Override
+    public Osake clone() throws CloneNotSupportedException {
+        Osake uusi;
+        uusi = (Osake) super.clone();
+        return uusi;
+    }
+    
     /**
      * Lisää uuden osakkeen tietorakenteeseen. Ottaa osakkeen omistukseensa.
      * @param stock lisättävän osakkeen viite.
@@ -75,6 +97,8 @@ public class Osakkeet implements Iterable<Osake> {
         changed = true;
     }
     
+    
+
     /**
      * Palauttaa viitteen i:teen osakkeeseen.
      * @param i monennenko osakkeen viite halutaan

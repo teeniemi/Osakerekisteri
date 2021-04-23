@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxOsakerekisteri.BuyGUIController">
    <center>
@@ -40,7 +41,12 @@
       </GridPane>
    </center>
    <top>
-      <Label text="Buy Stocks" BorderPane.alignment="CENTER" />
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Buy Stocks" />
+            <Label fx:id="labelVirhe" text="" />
+         </children>
+      </VBox>
    </top>
    <bottom>
       <ButtonBar BorderPane.alignment="CENTER">

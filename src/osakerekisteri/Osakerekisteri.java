@@ -282,4 +282,10 @@ public class Osakerekisteri {
 			return transactions.giveTransactions(osake.getId());
 		}
 
+
+		public void replace(Transaktio transaction) {
+			transactions.replace(transaction);
+			
+		}
+
 }

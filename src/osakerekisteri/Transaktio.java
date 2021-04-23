@@ -2,6 +2,7 @@ package osakerekisteri;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.time.LocalDate;
 import java.util.Random;
 
 import fi.jyu.mit.ohj2.Mjonot;
@@ -34,7 +35,7 @@ import fi.jyu.mit.ohj2.Mjonot;
 public class Transaktio {
     
     private int     transactionId;
-    private String  date;
+    private LocalDate  date = LocalDate.now();
     private String  type;
     private double  stockPrice;
     private int     amount;
@@ -146,7 +147,7 @@ public class Transaktio {
     	return type;
     }
     
-    public String getDate() {
+    public LocalDate getDate() {
     	return date;
     }
     
@@ -225,7 +226,7 @@ public class Transaktio {
         StringBuilder sb = new StringBuilder(line);
         setTransactionId(Mjonot.erota(sb, '|', getTransactionId()));
         setStockId(Mjonot.erota(sb, '|', getStockId()));
-        date = Mjonot.erota(sb, '|', date);
+        date = LocalDate.parse(Mjonot.erota(sb, '|', date.toString()));
         type = Mjonot.erota(sb, '|', type);
         stockPrice = Mjonot.erota(sb, '|', stockPrice);
         amount = Mjonot.erota(sb, '|', amount);
@@ -238,6 +239,28 @@ public class Transaktio {
 		stockId = newId;
 		
 	}
+    
+    /**
+     * Tehdään identtinen klooni transaktiosta
+     * @return Object kloonattu jäsen
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException 
+     *   Harrastus har = new Harrastus();
+     *   har.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
+     *   Harrastus kopio = har.clone();
+     *   kopio.toString() === har.toString();
+     *   har.parse("   1   |  11  |   Uinti  | 1949 | 22 t ");
+     *   kopio.toString().equals(har.toString()) === false;
+     * </pre>
+     */
+    @Override
+    public Transaktio clone() throws CloneNotSupportedException { 
+        Transaktio klooni = new Transaktio();
+        klooni.parse(this.toString());
+        return klooni;
+        
+    }
 
 
 	/**
@@ -263,7 +286,7 @@ public class Transaktio {
      * @return määrä
      */
     public String setAmount(int s) {
-        if (s < 0) return "nyt v oikeesti. yritäppä vielä...";
+        if (s < 0) return "";
         this.amount = s;
         return null;
     }
@@ -274,10 +297,20 @@ public class Transaktio {
      * @return osakkeen hinta
      */
     public String setPrice(double s) {
-        if (s < 0) return "nyt v oikeesti. yritäppä vielä...";
+        if (s < 0) return "";
         this.stockPrice = s;
         return null;
     }
+
+
+	public String setExpenses(double s) {
+		if (s < 0) return "";
+		this.expenses = s;
+		return null;
+	}
+
+
+		
 
 
     /**

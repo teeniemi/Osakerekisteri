@@ -48,9 +48,10 @@
                   <MenuItem mnemonicParsing="false" onAction="#handleExport" text="Export" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" onAction="#handleEdit" text="Edit">
+          <Menu mnemonicParsing="false" text="Edit">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#handleDelete" text="Delete Stock" />
+                     <MenuItem mnemonicParsing="false" onAction="#handleEdit" text="Edit Stock" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" onAction="#handleHelp" text="Help">

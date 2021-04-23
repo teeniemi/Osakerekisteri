@@ -34,7 +34,7 @@ public class Transaktiot implements Iterable<Transaktio> {
     private boolean                     changed = false;
 
     /** Taulukko transaktioista */
-    private final Collection<Transaktio> entries        = new ArrayList<Transaktio>();
+    private final List<Transaktio> entries        = new ArrayList<Transaktio>();
 
 
     /**
@@ -274,6 +274,17 @@ public class Transaktiot implements Iterable<Transaktio> {
             if (trans.getStockId() == stockId) found.add(trans);
         return found;
     }
+    
+
+	public void replace(Transaktio transaction) {
+		for (int i = 0; i < getAmount(); i++) {
+			if (entries.get(i).getTransactionId() == transaction.getTransactionId()) {
+				entries.set(i, transaction);
+				changed = true;
+			}	
+		}
+	}
+    
 
 
     /**
