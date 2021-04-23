@@ -112,6 +112,7 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
         switch (k) {
            case 1 : virhe = transactionAtPlace.setAmount(Mjonot.erotaInt(s, -1)); break;
            case 2 : virhe = transactionAtPlace.setPrice(Mjonot.erotaDouble(s, -1)); break;
+           case 3 : virhe = transactionAtPlace.setExpenses(Mjonot.erotaDouble(s, -1)); break;
            default:
         }
         if (virhe == null) {
