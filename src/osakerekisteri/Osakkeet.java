@@ -23,7 +23,7 @@ import fi.jyu.mit.ohj2.WildChars;
  * | - ei tiedä Osakerekisteristä, Osakkeesta eikä      |                   |
  * |   käyttöliittymästä                                |                   |
  * | - osaa tallentaa tiedostoon                        |                   |
- * | - osaa etsiä ja lajitella                          |                   |
+ * | - osaa searchä ja lajitella                          |                   |
  * | - osaa lisätä ja poistaa osakkeita                 |                   |
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
@@ -48,17 +48,17 @@ public class Osakkeet implements Iterable<Osake> {
     
     
     /**
-     * Tehdään identtinen klooni jäsenestä
-     * @return Object kloonattu jäsen
+     * Tehdään identtinen klooni osakkeesta
+     * @return Object kloonattu osake
      * @example
      * <pre name="test">
      * #THROWS CloneNotSupportedException 
-     *   Jasen jasen = new Jasen();
-     *   jasen.parse("   3  |  Ankka Aku   | 123");
-     *   Jasen kopio = jasen.clone();
-     *   kopio.toString() === jasen.toString();
-     *   jasen.parse("   4  |  Ankka Tupu   | 123");
-     *   kopio.toString().equals(jasen.toString()) === false;
+     *   Osake stock = new Osake();
+     *   stock.parse("1|Nokia Oyj|200|3.12|624.00|"); 
+     *   Osake kopio = stock.clone();
+     *   kopio.toString() === stock.toString();
+     *   stock.parse("2|Olvi Oyj|20|20.00|400.00|");
+     *   kopio.toString().equals(stock.toString()) === false;
      * </pre>
      */
     @Override
@@ -89,7 +89,7 @@ public class Osakkeet implements Iterable<Osake> {
      * stocks.give(3) === stock1; #THROWS IndexOutOfBoundsException 
      * stocks.add(stock1); stocks.getAmount() === 4;
      * stocks.add(stock1); stocks.getAmount() === 5;
-     * stocks.add(stock1);  #THROWS StoreException
+     * stocks.add(stock1);
      * </pre>
      */
     public void add(Osake stock) throws StoreException {
@@ -130,33 +130,33 @@ public class Osakkeet implements Iterable<Osake> {
      * 
      * @example
      * <pre name="test">
-     * #THROWS SailoException 
+     * #THROWS StoreException 
      * #import java.io.File;
      * 
-     *  Jasenet jasenet = new Jasenet();
-     *  Jasen aku1 = new Jasen(), aku2 = new Jasen();
-     *  aku1.vastaaAkuAnkka();
-     *  aku2.vastaaAkuAnkka();
-     *  String hakemisto = "testikelmit";
-     *  String tiedNimi = hakemisto+"/nimet";
-     *  File ftied = new File(tiedNimi+".dat");
-     *  File dir = new File(hakemisto);
+     *  Osakeet stocks = new Osakeet();
+     *  Osake stock1 = new Osake(), stock2 = new Osake();
+     *  stock1.giveStock();
+     *  stock2.giveStock();
+     *  String directory = "teststocks";
+     *  String fileName = directory+"/stocks";
+     *  File ftied = new File(fileName+".dat");
+     *  File dir = new File(directory);
      *  dir.mkdir();
      *  ftied.delete();
-     *  jasenet.lueTiedostosta(tiedNimi); #THROWS SailoException
-     *  jasenet.lisaa(aku1);
-     *  jasenet.lisaa(aku2);
-     *  jasenet.tallenna();
-     *  jasenet = new Jasenet();            // Poistetaan vanhat luomalla uusi
-     *  jasenet.lueTiedostosta(tiedNimi);  // johon ladataan tiedot tiedostosta.
-     *  Iterator<Jasen> i = jasenet.iterator();
-     *  i.next() === aku1;
-     *  i.next() === aku2;
+     *  stocks.readFromFile(fileName); #THROWS SailoException
+     *  stocks.add(stock1);
+     *  stocks.add(stock2);
+     *  stocks.save();
+     *  stocks = new Osakeet();            // Poistetaan vanhat luomalla uusi
+     *  stocks.readFromFile(fileName);  // johon ladataan tiedot tiedostosta.
+     *  Iterator<Osake> i = stocks.iterator();
+     *  i.next() === stock1;
+     *  i.next() === stock2;
      *  i.hasNext() === false;
-     *  jasenet.lisaa(aku2);
-     *  jasenet.tallenna();
+     *  stocks.add(stock2);
+     *  stocks.save();
      *  ftied.delete() === true;
-     *  File fbak = new File(tiedNimi+".bak");
+     *  File fbak = new File(fileName+".bak");
      *  fbak.delete() === true;
      *  dir.delete() === true;
      * </pre>
@@ -234,11 +234,11 @@ public class Osakkeet implements Iterable<Osake> {
     /**
      * Tallentaa osakkeen tiedostoon.
      * <pre>
-     * Kelmien kerho
+     * Osakerekisteri
      * 20
      * ; kommenttirivi
-     * 2|Ankka Aku|121103-706Y|Paratiisitie 13|12345|ANKKALINNA|12-1234|||1996|50.0|30.0|Velkaa Roopelle
-     * 3|Ankka Tupu|121153-706Y|Paratiisitie 13|12345|ANKKALINNA|12-1234|||1996|50.0|30.0|Velkaa Roopelle
+     * 1|Nordea Oyj|1243|1231.0|124.0|
+     * 5|Olvi Oyj|22|49.0|1000.0|
      * </pre>
      * @throws StoreException jos talletus epäonnistuu
      */
@@ -286,9 +286,9 @@ public class Osakkeet implements Iterable<Osake> {
 
         Osake stock1 = new Osake(), stock2 = new Osake();
         stock1.register();
-        stock1.giveStock();
+         //stock1.giveStock(); --> stock1.give(); ??? TODO
         stock2.register();
-        stock2.giveStock();
+        //stock2.giveStock();
 
 
         try {
@@ -298,7 +298,7 @@ public class Osakkeet implements Iterable<Osake> {
 
             System.out.println("============= Osakkeet test =================");
             
-            // tallenna tässä tiedosto
+            // save tässä tiedosto
             stocks.save();
             stocks = new Osakkeet();
             // lueppa tiedosto
@@ -317,41 +317,41 @@ public class Osakkeet implements Iterable<Osake> {
     
 	
 	/**
-     * Luokka jäsenten iteroimiseksi.
+     * Luokka osakkeiden iteroimiseksi.
      * @example
      * <pre name="test">
      * #THROWS SailoException 
      * #PACKAGEIMPORT
      * #import java.util.*;
      * 
-     * Jasenet jasenet = new Jasenet();
-     * Jasen aku1 = new Jasen(), aku2 = new Jasen();
-     * aku1.rekisteroi(); aku2.rekisteroi();
+     * Osakeet stocks = new Osakeet();
+     * Osake stock1 = new Osake(), stock2 = new Osake();
+     * stock1.rekisteroi(); stock2.rekisteroi();
      *
-     * jasenet.lisaa(aku1); 
-     * jasenet.lisaa(aku2); 
-     * jasenet.lisaa(aku1); 
+     * stocks.add(stock1); 
+     * stocks.add(stock2); 
+     * stocks.add(stock1); 
      * 
      * StringBuffer ids = new StringBuffer(30);
-     * for (Jasen jasen:jasenet)   // Kokeillaan for-silmukan toimintaa
-     *   ids.append(" "+jasen.getTunnusNro());           
+     * for (Osake stock:stocks)   // Kokeillaan for-silmukan toimintaa
+     *   ids.append(" "+stock.getTunnusNro());           
      * 
-     * String tulos = " " + aku1.getTunnusNro() + " " + aku2.getTunnusNro() + " " + aku1.getTunnusNro();
+     * String tulos = " " + stock1.getTunnusNro() + " " + stock2.getTunnusNro() + " " + stock1.getTunnusNro();
      * 
      * ids.toString() === tulos; 
      * 
      * ids = new StringBuffer(30);
-     * for (Iterator<Jasen>  i=jasenet.iterator(); i.hasNext(); ) { // ja iteraattorin toimintaa
-     *   Jasen jasen = i.next();
-     *   ids.append(" "+jasen.getTunnusNro());           
+     * for (Iterator<Osake>  i=stocks.iterator(); i.hasNext(); ) { // ja iteraattorin toimintaa
+     *   Osake stock = i.next();
+     *   ids.append(" "+stock.getTunnusNro());           
      * }
      * 
      * ids.toString() === tulos;
      * 
-     * Iterator<Jasen>  i=jasenet.iterator();
-     * i.next() == aku1  === true;
-     * i.next() == aku2  === true;
-     * i.next() == aku1  === true;
+     * Iterator<Osake>  i=stocks.iterator();
+     * i.next() == stock1  === true;
+     * i.next() == stock2  === true;
+     * i.next() == stock1  === true;
      * 
      * i.next();  #THROWS NoSuchElementException
      *  
@@ -366,9 +366,9 @@ public class Osakkeet implements Iterable<Osake> {
 		}
 
 		/**
-         * Annetaan seuraava jäsen
-         * @return seuraava jäsen
-         * @throws NoSuchElementException jos seuraava alkiota ei enää ole
+         * Annetaan seuraava osake
+         * @return seuraava osake
+         * @throws NoSuchElementException jos seuraava osaketta ei enää ole
          * @see java.util.Iterator#next()
          */
         @Override
@@ -400,24 +400,24 @@ public class Osakkeet implements Iterable<Osake> {
     
     /**
      * @param hakuehto käyttäjän syöttämä hakuehto
-     * @param k etsittävän kentän indeksi  
+     * @param k searchttävän kentän indeksi  
      * @return tietorakenteen löytyneistä osakkeista
      * @example 
      * <pre name="test"> 
      * #THROWS SailoException  
-     * Jasen jasen4 = new Jasen(); jasen4.parse("4|Ankka Iines|030245-115V|Ankkakuja 9"); 
-     * Jasen jasen5 = new Jasen(); jasen5.parse("5|Ankka Roope|091007-408U|Ankkakuja 12"); 
-     * jasenet.lisaa(jasen1); jasenet.lisaa(jasen2); jasenet.lisaa(jasen3); jasenet.lisaa(jasen4); jasenet.lisaa(jasen5)
-     * List<Jasen> loytyneet;  
-     * loytyneet = (List<Jasen>)jasenet.etsi("*s*",1);  
+     * Osake stock4 = new Osake(); stock4.parse("1|Nokia Oyj|200|3.12|624.00|"); 
+     * Osake stock5 = new Osake(); stock5.parse("2|Olvi Oyj|80|35.00|2800.00|"); 
+     * stocks.add(stock1); stocks.add(stock2); stocks.add(stock3); stocks.add(stock4); stocks.add(stock5)
+     * List<Osake> loytyneet;  
+     * loytyneet = (List<Osake>)stocks.search("*s*",1);  
      * loytyneet.size() === 2;  
-     * loytyneet.get(0) == jasen3 === true;  
-     * loytyneet.get(1) == jasen4 === true;      
-     * loytyneet = (List<Jasen>)jasenet.etsi("*7-*",2);  
+     * loytyneet.get(0) == stock3 === true;  
+     * loytyneet.get(1) == stock4 === true;      
+     * loytyneet = (List<Osake>)stocks.search("*7-*",2);  
      * loytyneet.size() === 2;  
-     * loytyneet.get(0) == jasen3 === true;  
-     * loytyneet.get(1) == jasen5 === true;    
-     * loytyneet = (List<Jasen>)jasenet.etsi(null,-1);  
+     * loytyneet.get(0) == stock3 === true;  
+     * loytyneet.get(1) == stock5 === true;    
+     * loytyneet = (List<Osake>)stocks.search(null,-1);  
      * loytyneet.size() === 5;  
      * </pre> 
      */ 
@@ -434,6 +434,4 @@ public class Osakkeet implements Iterable<Osake> {
             //  TODO: lajittelua varten vertailija  
             return loytyneet; 
         }
-
-
 }
