@@ -43,6 +43,7 @@ public class OsakerekisteriGUIController implements Initializable {
     @FXML private ScrollPane panelStock;
     @FXML private ListChooser<Osake> chooserStocks;
     @FXML private StringGrid<Transaktio> gridActions;
+    @FXML private ComboBoxChooser<String> cbListSearch;
     
     
     /**
@@ -124,8 +125,6 @@ public class OsakerekisteriGUIController implements Initializable {
         save();
     }
     
-   
-    
     /**
      * Hakee tietokannassa olevia osakkeita.
      */
@@ -142,15 +141,21 @@ public class OsakerekisteriGUIController implements Initializable {
         sell();
     }
     
-    
+    @FXML void handleListSearch() {
+        search(0);
+    }
+
+
     //============================= Java koodia tästä alaspäin ==================================
     
-    private String osakerekisterinNimi = "STONK MANAGER 9000";
+    private String osakerekisterinNimi = "stocks";
     private Osakerekisteri osakerekisteri;
     private Osake stockAtPlace;
     private Transaktio transactionAtPlace;
     private TextArea areaStock = new TextArea();
     private TextArea areaTransaction = new TextArea();
+    private static Osake apuStock = new Osake();
+    private static Transaktio apuTransaction = new Transaktio();
 
     /**
      * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
@@ -308,7 +313,7 @@ public class OsakerekisteriGUIController implements Initializable {
     protected void newStock() {
         Osake newStock = new Osake();
         newStock.register();
-        newStock.giveStock();
+        newStock.giveStock(0);
         try {
             osakerekisteri.add(newStock);
         } catch (StoreException e) {
@@ -394,13 +399,46 @@ public class OsakerekisteriGUIController implements Initializable {
     }
     
     /**
+     * Hakee osakkeiden tiedot listaan
+     * @param stockId osakkeen id, joka aktivoidaan haun jälkeen  
+     */
+    private void search(int stockId) {
+            int id = stockId; // id osakkeen numero, joka aktivoidaan haun jälkeen 
+            if ( id <= 0 ) { 
+                Osake kohdalla = stockAtPlace; 
+                if ( kohdalla != null ) id = kohdalla.getId(); 
+            }
+            
+            int k = cbListSearch.getSelectionModel().getSelectedIndex() + apuStock.firstField(); 
+            String ehto = textSearch.getText(); 
+            if (ehto.indexOf('*') < 0) ehto = "*" + ehto + "*"; 
+            
+            chooserStocks.clear();
+
+            int index = 0;
+            Collection<Osake> stocks;
+            try {
+                stocks = osakerekisteri.etsi(ehto, k);
+                int i = 0;
+                for (Osake stock:stocks) {
+                    if (stock.getId() == id) index = i;
+                    chooserStocks.add(stock.getName(), stock);
+                    i++;
+                }
+            } catch (StoreException ex) {
+                Dialogs.showMessageDialog("Jäsenen hakemisessa ongelmia! " + ex.getMessage());
+            }
+            chooserStocks.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
+        }
+    
+    /**
      * TESTIMIELESSÄ TEHTY METODI
      */
     private void addStock() {
         try {
             Osake osake = new Osake();
             osake.register();
-            osake.giveStock();
+            osake.giveStock(0);
 			osakerekisteri.add(osake);
 			get(osake.getId());
 		} catch (StoreException e) {
@@ -461,7 +499,4 @@ public class OsakerekisteriGUIController implements Initializable {
         format();
         
     }
-
-	
-
 }

@@ -8,8 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import fi.jyu.mit.ohj2.WildChars;
@@ -93,7 +96,7 @@ public class Osakkeet implements Iterable<Osake> {
      * </pre>
      */
     public void add(Osake stock) throws StoreException {
-        if (amount >= entries.length) throw new StoreException("Too many entries");
+        if (amount >= entries.length) entries = Arrays.copyOf(entries, amount+20);
         entries[amount] = stock;
         amount++;
         changed = true;
@@ -427,11 +430,11 @@ public class Osakkeet implements Iterable<Osake> {
             if ( hakuehto != null && hakuehto.length() > 0 ) ehto = hakuehto; 
             int hk = k; 
             if ( hk < 0 ) hk = 1;
-            Collection<Osake> loytyneet = new ArrayList<Osake>(); 
+            List<Osake> loytyneet = new ArrayList<Osake>(); 
             for (Osake stock : this) { 
                 if (WildChars.onkoSamat(stock.giveStock(hk), ehto)) loytyneet.add(stock);   
             } 
-            //  TODO: lajittelua varten vertailija  
+            Collections.sort(loytyneet, new Osake.Compare(hk)); 
             return loytyneet; 
         }
 }

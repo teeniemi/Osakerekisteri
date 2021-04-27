@@ -2,6 +2,7 @@ package osakerekisteri;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Comparator;
 
 import fi.jyu.mit.ohj2.Mjonot;
 
@@ -108,6 +109,32 @@ public class Osake {
 		return stockId;
 	}
 	
+    /**
+     * Eka kenttä joka on mielekäs kysyttäväksi
+     * @return ekan kentän indeksi
+     */
+    @Override
+    public int firstField() {
+        return 1;
+    }
+
+	 /** 
+     * Jäsenten vertailija 
+     */ 
+    public static class Compare implements Comparator<Osake> { 
+        private int k;  
+         
+        @SuppressWarnings("javadoc") 
+        public Compare(int k) { 
+            this.k = k; 
+        } 
+         
+        @Override 
+        public int compare(Osake stock1, Osake stock2) { 
+            return stock1.giveStock(k).compareToIgnoreCase(stock2.giveStock(k)); 
+        }
+    } 
+
 	/**
 	 * Antaa k:n kentän sisällön merkkijonona
 	 * @param k monennenko kentän sisältö palautetaan
@@ -209,32 +236,56 @@ if (s == " " || s == "") return "";
 return this.stockName = s;
  }
 
+/**
+* @param s määrä
+* @return virheilmoitus, null jos ok
+*/
 public String setAmount(int s) {
     if (s < 0) return "";
     this.amount = s;
     return null;
 }
 
+/**
+* @param s keskihinta
+* @return virheilmoitus, null jos ok
+*/
 public String setAveragePrice(double s) {
     if (s < 0) return "";
     this.averagePrice = s;
     return null;
 }
 
+/**
+* @param s kokonaishinta
+* @return virheilmoitus, null jos ok
+*/
 public String setTotalPrice(double s) {
     if (s < 0) return "";
     this.totalPrice = s;
     return null;
 }
 
+
+/**
+ * @return määrä
+ */
 public String getAmount() {
     return amount+"";
 }
 
+
+/**
+ * @return keskihinta
+ */
 public String getAveragePrice() {
     return averagePrice+"";
 }
 
+
+/**
+ * @return kokonaishinta
+ */
 public String getTotalPrice() {
     return totalPrice+"";
 }
