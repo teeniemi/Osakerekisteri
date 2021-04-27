@@ -138,8 +138,12 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
         edits[2].setText(String.valueOf(transaction.getExpenses()));
     }
     
+    /**
+     * @param date päivämäärä joka alustetaan
+     * @param transaction transaktio
+     */
     public static void showDate(DatePicker date, Transaktio transaction) {
-    	LocalDate pvm = LocalDate.of(1, 2, 3);
+    	LocalDate pvm = LocalDate.of(21, 1, 1);
     	date.setValue(pvm);
     }
     

@@ -102,7 +102,7 @@ public class Osakerekisteri {
          * @throws StoreException Jos jotakin menee väärin
          */ 
         public Collection<Osake> etsi(String hakuehto, int k) throws StoreException { 
-            return stocks.etsi(hakuehto, k); 
+            return stocks.search(hakuehto, k); 
         } 
         
 

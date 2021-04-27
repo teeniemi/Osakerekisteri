@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import fi.jyu.mit.ohj2.WildChars;
+
 /**
  * |------------------------------------------------------------------------|
  * | Luokan nimi: osakkeet                              | Avustajat:        |
@@ -395,33 +397,43 @@ public class Osakkeet implements Iterable<Osake> {
     public Iterator<Osake> iterator() {
         return new OsakkeetIterator();
     }
-
-
-    /** 
-     * Palauttaa "taulukossa" hakuehtoon vastaavien jäsenten viitteet 
-     * @param hakuehto hakuehto 
-     * @param k etsittävän kentän indeksi
-     * @return tietorakenteen löytyneistä jäsenistä 
+    
+    /**
+     * @param hakuehto käyttäjän syöttämä hakuehto
+     * @param k etsittävän kentän indeksi  
+     * @return tietorakenteen löytyneistä osakkeista
      * @example 
      * <pre name="test"> 
-     * #THROWS SailoException
-     *   Osakkeet osake = new Osake(); 
-     *   Osake osake1 = new Osake(); osake1.parse("1|Ankka Aku|030201-115H|Paratiisitie 13|"); 
-     *   Osake osake2 = new Osake(); osake2.parse("2|Ankka Tupu030552-123B|"); 
-     *   Osake osake3 = new Osake(); osake3.parse("3|Susi Sepe|121237-121V131313|Perämetsä"); 
-     *   Osake osake4 = new Osake(); osake4.parse("4|Ankka Iines|030245-115V|Ankkakuja 9"); 
-     *   Osake osake5 = new Osake(); osake5.parse("5|Ankka Roope|091007-408U|Ankkakuja 12"); 
-     *   stocks.add(osake1); stocks.add(osake2); stocks.add(osake3); stocks.add(osake4); stocks.add(osake5);
-     *   // TODO: toistaiseksi palauttaa kaikki osakkeet 
+     * #THROWS SailoException  
+     * Jasen jasen4 = new Jasen(); jasen4.parse("4|Ankka Iines|030245-115V|Ankkakuja 9"); 
+     * Jasen jasen5 = new Jasen(); jasen5.parse("5|Ankka Roope|091007-408U|Ankkakuja 12"); 
+     * jasenet.lisaa(jasen1); jasenet.lisaa(jasen2); jasenet.lisaa(jasen3); jasenet.lisaa(jasen4); jasenet.lisaa(jasen5)
+     * List<Jasen> loytyneet;  
+     * loytyneet = (List<Jasen>)jasenet.etsi("*s*",1);  
+     * loytyneet.size() === 2;  
+     * loytyneet.get(0) == jasen3 === true;  
+     * loytyneet.get(1) == jasen4 === true;      
+     * loytyneet = (List<Jasen>)jasenet.etsi("*7-*",2);  
+     * loytyneet.size() === 2;  
+     * loytyneet.get(0) == jasen3 === true;  
+     * loytyneet.get(1) == jasen5 === true;    
+     * loytyneet = (List<Jasen>)jasenet.etsi(null,-1);  
+     * loytyneet.size() === 5;  
      * </pre> 
      */ 
-    @SuppressWarnings("unused")
-    public Collection<Osake> etsi(String hakuehto, int k) { 
-        Collection<Osake> found = new ArrayList<Osake>(); 
-        for (Osake stock : this) { 
-            found.add(stock);
-        } 
-        return found; 
-    }
+    
+        public Collection<Osake> search(String hakuehto, int k) { 
+            String ehto = "*"; 
+            if ( hakuehto != null && hakuehto.length() > 0 ) ehto = hakuehto; 
+            int hk = k; 
+            if ( hk < 0 ) hk = 1;
+            Collection<Osake> loytyneet = new ArrayList<Osake>(); 
+            for (Osake stock : this) { 
+                if (WildChars.onkoSamat(stock.giveStock(hk), ehto)) loytyneet.add(stock);   
+            } 
+            //  TODO: lajittelua varten vertailija  
+            return loytyneet; 
+        }
+
 
 }

@@ -109,14 +109,18 @@ public class Osake {
 	}
 	
 	/**
-	 * Haetaan osakkeen tiedot
+	 * Antaa k:n kentän sisällön merkkijonona
+	 * @param k monennenko kentän sisältö palautetaan
+	 * @return kentän sisältö merkkijonona
 	 */
-	
-	public void giveStock() {
-		stockName = "Nokia Oyj";
-		amount = 500;
-		averagePrice = 2.20;
-		totalPrice = 1100.00;
+	public String giveStock(int k) {
+		switch ( k ) {
+		case 0: return "" + stockName;
+		case 1: return "" + amount;
+		case 2: return "" + averagePrice;
+		case 3: return "" + totalPrice;
+		default: return "Ee oo";
+		}
 	}
 	
 	/**
@@ -194,13 +198,6 @@ public class Osake {
 		stock.register();
 		stock2.register();
 		
-		stock.print(System.out);
-		stock.giveStock();
-		stock.print(System.out);
-		
-		stock2.print(System.out);
-		stock2.giveStock();
-		stock2.print(System.out);
 	}
 
 /**
