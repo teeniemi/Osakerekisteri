@@ -5,6 +5,8 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -12,18 +14,24 @@
 
 <BorderPane prefHeight="295.0" prefWidth="468.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxOsakerekisteri.NameController">
 	<center>
-		<VBox alignment="CENTER" style="-fx-background-color: #ffff99;" BorderPane.alignment="CENTER">
+		<VBox alignment="CENTER" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
 			<children>
 				<Label alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="OSAKEREKISTERI">
 					<font>
 						<Font name="Arial Bold" size="24.0" />
 					</font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
 				</Label>
-				<Label alignment="BOTTOM_CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" text="">
-					<font>
-						<Font name="System Bold Italic" size="20.0" />
-					</font>
-				</Label>
+            <ImageView fitHeight="264.0" fitWidth="631.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../kuvat/Stonk_man.jpg" />
+               </image>
+            </ImageView>
 			</children>
 		</VBox>
 	</center>
