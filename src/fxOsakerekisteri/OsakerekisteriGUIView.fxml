@@ -69,7 +69,7 @@
             <SplitPane dividerPositions="0.5, 0.5, 0.5, 0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
               <items>
                   <Label text="Search" />
-                  <ComboBoxChooser fx:id="listSearch" onAction="#handleListSearch" prefHeight="25.0" prefWidth="196.0" />
+                  <ComboBoxChooser fx:id="cbListSearch" onAction="#handleListSearch" prefHeight="25.0" prefWidth="196.0" />
                   <TextField fx:id="textSearch" onAction="#handleSearchCriteria" />
                   <Label text="Stock Name">
                      <padding>
@@ -107,26 +107,23 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                            <children>
                               <Label text="Stock" GridPane.rowIndex="3" />
-                              <Label text="ID" GridPane.rowIndex="4" />
-                              <Label text="Owned Since" GridPane.rowIndex="5" />
-                              <Label text="Amount" GridPane.rowIndex="6" />
-                              <Label text="Avg Stock Price" GridPane.rowIndex="7" />
-                              <Label text="Expenses" GridPane.rowIndex="8" />
-                              <Label text="Total Price" GridPane.rowIndex="9" />
-                              <Label text="Nokia Oyj" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <Label text="1" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <Label text="30.11.2017" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                              <Label text="200" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                              <Label text="27.32 €" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                              <Label text="54.56 €" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                              <Label text="5518.64 €" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                              <Label text="Owned Since" GridPane.rowIndex="4" />
+                              <Label text="Amount" GridPane.rowIndex="5" />
+                              <Label text="Avg Stock Price" GridPane.rowIndex="6" />
+                              <Label text="Expenses" GridPane.rowIndex="7" />
+                              <Label text="Total Price" GridPane.rowIndex="8" />
+                              <Label fx:id="labelStock" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label fx:id="labelOwned" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label fx:id="labelAmount" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <Label fx:id="labelAvgPrice" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <Label fx:id="labelExpenses" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                              <Label fx:id="labelTotalPrice" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                            </children>
                         </GridPane>
                      </content>

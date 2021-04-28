@@ -113,7 +113,6 @@ public class Osake {
      * Eka kenttä joka on mielekäs kysyttäväksi
      * @return ekan kentän indeksi
      */
-    @Override
     public int firstField() {
         return 1;
     }
@@ -149,6 +148,19 @@ public class Osake {
 		default: return "Ee oo";
 		}
 	}
+	
+	public String getQuestion(int k) {
+		switch ( k ) {
+		case 0: return "ID";
+		case 1: return "Stock Name";
+		case 2: return "Amount";
+		case 3: return "Average Price";
+		case 4: return "Total Price";
+		default: return "Ee oo";
+		}
+	}
+	
+	
 	
 	/**
 	* Asettaa tunnusnumeron ja samalla varmistaa että
@@ -288,5 +300,9 @@ public String getAveragePrice() {
  */
 public String getTotalPrice() {
     return totalPrice+"";
+}
+
+public int getFields() {
+	return 5;
 }
 }

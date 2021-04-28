@@ -236,9 +236,9 @@ public class Osakerekisteri {
 
                 Osake stock1 = new Osake(), stock2 = new Osake();
                 stock1.register();
-                stock1.giveStock();
+                stock1.giveStock(0);
                 stock2.register();
-                stock2.giveStock();
+                stock2.giveStock(2);
                 Transaktio transaktio1 = new Transaktio();
                 transaktio1.register();
                 transaktio1.testi(stock1.getId());
@@ -287,5 +287,54 @@ public class Osakerekisteri {
 			transactions.replace(transaction);
 			
 		}
+
+
+		public double getAverage(Osake stockAtPlace) {
+			return transactions.getAverage(stockAtPlace.getId());
+			
+		}
+
+
+		public String getDate(Osake stockAtPlace) {
+			return transactions.getDate(stockAtPlace.getId());
+		}
+
+
+		public String getStockAmount(Osake stockAtPlace) {
+			return transactions.getStockAmount(stockAtPlace.getId());
+		}
+
+
+		public String getExpenses(Osake stockAtPlace) {
+			return transactions.getExpenses(stockAtPlace.getId());
+		}
+
+
+		public String getTotalPrice(Osake stockAtPlace) {
+			return transactions.getTotalPrice(stockAtPlace.getId());
+		}
+
+
+		public int deleteStock(Osake stock) {
+			if ( stock == null ) return 0;
+	        int ret = stocks.delete(stock.getId()); 
+	        transactions.deleteStocksTransactions(stock.getId()); 
+	        return ret; 
+	    }
+		
+		 /** 
+	     * Poistaa tämän harrastuksen 
+	     * @param harrastus poistettava harrastus 
+	     * @example
+	     * <pre name="test">
+	     * #THROWS Exception
+	     *   alustaKerho();
+	     *   kerho.annaHarrastukset(aku1).size() === 2;
+	     *   kerho.poistaHarrastus(pitsi11);
+	     *   kerho.annaHarrastukset(aku1).size() === 1;
+	     */ 
+	    public void deleteTransaction(Transaktio transaction) { 
+	        transactions.delete(transaction); 
+	    }
 
 }

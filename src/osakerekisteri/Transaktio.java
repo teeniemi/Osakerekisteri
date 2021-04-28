@@ -309,19 +309,57 @@ public class Transaktio {
 		return null;
 	}
 
-
-		
-
+	/**
+     * @return transaktioiden kenttien lukumäärä
+     */
+	public int getFields() {
+		return 6;
+	}
+	
+	/**
+     * @return ensimmäinen käyttäjän syötettävän kentän indeksi
+     */
+    public int firstField() {
+        return 1;
+    }
 
     /**
-     * @param s keskiarvohinta
-     * @return keskiarvohinta
-
-    public String setAveragePrice(double s) {
-        double ka = 0;
-        if (s < 0) return "nyt v oikeesti. yritäppä vielä...";
-        this.averagePrice = totalPrice / amount;
-        return null;
-    }
+     * @param k Minkä kentän sisältö halutaan
+     * @return valitun kentän sisältö
+     * @example
+     * <pre name="test">
+     *   Harrastus har = new Harrastus();
+     *   har.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
+     *   har.anna(0) === "2";   
+     *   har.anna(1) === "10";   
+     *   har.anna(2) === "Kalastus";   
+     *   har.anna(3) === "1949";   
+     *   har.anna(4) === "22";   
+     *   
+     * </pre>
      */
+
+	public String giveTransaction(int k) {
+		switch (k) {
+        case 0:
+            return "" + type;
+        case 1:
+            return "" + date;
+        case 2:
+            return "" + amount;
+        case 3:
+            return "" + stockPrice;
+        case 4:
+            return "" + expenses;
+        case 5:
+            return "" + totalPrice;
+        default:
+            return "???";
+	}
+    
+
+    }
+
+
+		
 }

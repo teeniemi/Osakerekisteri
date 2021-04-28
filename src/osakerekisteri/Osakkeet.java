@@ -41,6 +41,7 @@ public class Osakkeet implements Iterable<Osake> {
     private Osake            entries[]      = new Osake[MAX_STOCKS];
     private boolean changed 				= false;
     private String fileBasicName 			= "stocks";
+    private int lkm							= 0;
     
     /**
      * Oletusmuodostaja
@@ -427,7 +428,7 @@ public class Osakkeet implements Iterable<Osake> {
     
         public Collection<Osake> search(String hakuehto, int k) { 
             String ehto = "*"; 
-            if ( hakuehto != null && hakuehto.length() > 0 ) ehto = hakuehto; 
+            if ( hakuehto != null && hakuehto.length() > 0 ) ehto = hakuehto + "*"; 
             int hk = k; 
             if ( hk < 0 ) hk = 1;
             List<Osake> loytyneet = new ArrayList<Osake>(); 
@@ -437,4 +438,65 @@ public class Osakkeet implements Iterable<Osake> {
             Collections.sort(loytyneet, new Osake.Compare(hk)); 
             return loytyneet; 
         }
+
+
+	public int delete(int id) {
+		int ind = searchId(id); 
+        if (ind < 0) return 0; 
+        lkm--; 
+        for (int i = ind; i < lkm; i++) 
+            entries[i] = entries[i + 1]; 
+        entries[lkm] = null; 
+        changed = true; 
+        return 1; 
+    }
+
+	
+	/** 
+     * Etsii jäsenen id:n perusteella 
+     * @param id tunnusnumero, jonka mukaan etsitään 
+     * @return löytyneen jäsenen indeksi tai -1 jos ei löydy 
+     * <pre name="test"> 
+     * #THROWS SailoException  
+     * Jasenet jasenet = new Jasenet(); 
+     * Jasen aku1 = new Jasen(), aku2 = new Jasen(), aku3 = new Jasen(); 
+     * aku1.rekisteroi(); aku2.rekisteroi(); aku3.rekisteroi(); 
+     * int id1 = aku1.getTunnusNro(); 
+     * jasenet.lisaa(aku1); jasenet.lisaa(aku2); jasenet.lisaa(aku3); 
+     * jasenet.etsiId(id1+1) === 1; 
+     * jasenet.etsiId(id1+2) === 2; 
+     * </pre> 
+     */ 
+
+	private int searchId(int id) {
+		for (int i = 0; i < lkm; i++) 
+            if (id == entries[i].getId()) return i; 
+        return -1; 
+    } 
+	
+	/** TÄLLÄ HETKELLÄ TÄTÄ EI TAIDETA KUTSUA MISSÄÄN
+     * Etsii jäsenen id:n perusteella 
+     * @param id tunnusnumero, jonka mukaan etsitään 
+     * @return jäsen jolla etsittävä id tai null 
+     * <pre name="test"> 
+     * #THROWS SailoException  
+     * Jasenet jasenet = new Jasenet(); 
+     * Jasen aku1 = new Jasen(), aku2 = new Jasen(), aku3 = new Jasen(); 
+     * aku1.rekisteroi(); aku2.rekisteroi(); aku3.rekisteroi(); 
+     * int id1 = aku1.getTunnusNro(); 
+     * jasenet.lisaa(aku1); jasenet.lisaa(aku2); jasenet.lisaa(aku3); 
+     * jasenet.annaId(id1  ) == aku1 === true; 
+     * jasenet.annaId(id1+1) == aku2 === true; 
+     * jasenet.annaId(id1+2) == aku3 === true; 
+     * </pre> 
+     */ 
+    public Osake giveId(int id) { 
+        for (Osake stock : this) { 
+            if (id == stock.getId()) return stock; 
+        } 
+        return null; 
+    } 
+
+
+
 }

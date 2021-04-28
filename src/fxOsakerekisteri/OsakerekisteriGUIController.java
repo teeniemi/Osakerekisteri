@@ -46,6 +46,28 @@ public class OsakerekisteriGUIController implements Initializable {
     @FXML private ComboBoxChooser<String> cbListSearch;
     
     
+    @FXML
+    private Label labelStock;
+
+    @FXML
+    private Label labelOwned;
+
+    @FXML
+    private Label labelAmount;
+
+    @FXML
+    private Label labelAvgPrice;
+
+    @FXML
+    private Label labelExpenses;
+    
+
+    @FXML
+    private Label labelTotalPrice;
+
+    
+    
+    
     /**
      * Näyttää tietoja sovelluksesta.
      */
@@ -65,7 +87,7 @@ public class OsakerekisteriGUIController implements Initializable {
      * Poistaa valitun osakkeen.
      */
     @FXML void handleDelete() {
-    	ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIDelete.fxml"), "Delete STONKS", null, "");
+    	delete();
     }
     
     @FXML void handleAddCompany() {
@@ -138,7 +160,7 @@ public class OsakerekisteriGUIController implements Initializable {
      */
     @FXML void handleSellStocks() {
     	ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUISell.fxml"), "Sell STONKS", null, ""); 
-        sell();
+        // sell();
     }
     
     @FXML void handleListSearch() {
@@ -163,14 +185,18 @@ public class OsakerekisteriGUIController implements Initializable {
      * Alustetaan myös osakelistan kuuntelija 
      */
     protected void format() {
-        panelStock.setContent(areaStock);
+        // panelStock.setContent(areaStock);
         areaStock.setFont(new Font("Courier New", 12));
         panelStock.setFitToHeight(true);
-        var otsikot = new String[]{"Transaction ID", "Type", "Date", "Amount", "Stock Price €", "Expenses €", "Total Price €"};
+        var otsikot = new String[]{"Type", "Date", "Amount", "Stock Price €", "Expenses €", "Total Price €"};
         gridActions.initTable(otsikot);
 
 
         chooserStocks.clear();
+        cbListSearch.clear(); 
+        for (int k = apuStock.firstField(); k < apuStock.getFields(); k++) 
+        	cbListSearch.add(apuStock.getQuestion(k), null); 
+        cbListSearch.getSelectionModel().select(0); 
         chooserStocks.addSelectionListener(e -> showStock());
     }
     
@@ -192,11 +218,13 @@ public class OsakerekisteriGUIController implements Initializable {
         stockAtPlace = chooserStocks.getSelectedObject();
         
         if (stockAtPlace == null) return;
-
-        areaStock.setText("");
-        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaStock)) {
-            stockAtPlace.print(os);
-        }
+        labelStock.setText(stockAtPlace.giveStock(0));
+        double average = osakerekisteri.getAverage(stockAtPlace);
+        labelAvgPrice.setText(average+"");
+        labelOwned.setText(osakerekisteri.getDate(stockAtPlace));
+        labelAmount.setText(osakerekisteri.getStockAmount(stockAtPlace));
+        labelExpenses.setText(osakerekisteri.getExpenses(stockAtPlace));
+        labelTotalPrice.setText(osakerekisteri.getTotalPrice(stockAtPlace));
         updateTransactions();
 			
     
@@ -267,7 +295,7 @@ public class OsakerekisteriGUIController implements Initializable {
     protected void get(int stockId) {
     	
         String ehto = textSearch.getText(); 
-        int k  = 0; // ei toteutettu koskaan, joten turha
+        int k  = cbListSearch.getSelectedIndex(); // ei toteutettu koskaan, joten turha
         
         chooserStocks.clear();
 
@@ -467,7 +495,7 @@ public class OsakerekisteriGUIController implements Initializable {
     	List <Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
         gridActions.clear();
 		for (Transaktio transaction:transactions) {
-			gridActions.add(transaction, transaction.getTransactionId()+"", transaction.getType(), transaction.getDate().toString(), transaction.getAmount()+"", transaction.getStockPrice()+"", transaction.getExpenses()+"", transaction.getTotalPrice()+"");
+			gridActions.add(transaction, transaction.getType(), transaction.getDate().toString(), transaction.getAmount()+"", transaction.getStockPrice()+"", transaction.getExpenses()+"", transaction.getTotalPrice()+"");
 		}
     	
     }
@@ -489,9 +517,70 @@ public class OsakerekisteriGUIController implements Initializable {
     }
 
     
-    private void sell() {
-        Dialogs.showMessageDialog("Myit osakkeen! Ei toimi vielä.");
+    private void delete() {
+        Osake stock = stockAtPlace;
+        if (stock == null) return;
+        if (( !Dialogs.showQuestionDialog("Delete", "Delete stonk?: " + stock.getName(), "Yes", "Nope") ))
+        return;
+        osakerekisteri.deleteStock(stock);
+        int index = chooserStocks.getSelectedIndex();
+        search(0);
+        chooserStocks.setSelectedIndex(index);
     }
+    
+    /**
+     * Poistetaan harrastustaulukosta valitulla kohdalla oleva harrastus. 
+     */
+    private void poistaHarrastus() {
+        int row = gridActions.getRowNr();
+        if ( row < 0 ) return;
+        Transaktio transaction = gridActions.getObject();
+        if ( transaction == null ) return;
+        osakerekisteri.deleteTransaction(transaction);
+        showTransactions(stockAtPlace);
+        int transactions = gridActions.getItems().size(); 
+        if ( row >= transactions ) row = transactions -1;
+        gridActions.getFocusModel().focus(row);
+        gridActions.getSelectionModel().select(row);
+    }
+
+
+    private void showTransactions(Osake stockAtPlace) {
+    	gridActions.clear();
+        if ( stockAtPlace == null ) return;
+        
+        try {
+            List<Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
+            if ( transactions.size() == 0 ) return;
+            for (Transaktio transaction: transactions)
+                showTransaction(transaction);
+        } catch (StoreException e) {
+            showError(e.getMessage());
+        } 
+    }
+
+	private void showTransaction(Transaktio transaction) {
+		int fields = transaction.getFields(); 
+        String[] row = new String[fields-transaction.firstField()]; 
+        for (int i=0, k=transaction.firstField(); k < fields; i++, k++) 
+            row[i] = transaction.giveTransaction(k); 
+        gridActions.add(transaction,row);
+    }
+
+	/*
+     * Poistetaan listalta valittu jäsen
+     */
+    private void poistaJasen() {
+        Osake stock = stockAtPlace;
+        if ( stock == null ) return;
+        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko jäsen: " + stock.getName(), "Kyllä", "Ei") )
+            return;
+        osakerekisteri.deleteStock(stock);
+        int index = chooserStocks.getSelectedIndex();
+        search(0);
+        chooserStocks.setSelectedIndex(index);
+    }
+
     
 
     @Override

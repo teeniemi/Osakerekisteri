@@ -321,4 +321,167 @@ public class Transaktiot implements Iterable<Transaktio> {
 
     }
 
+
+	public double getAverage(int id) {
+		double apu = 0;
+		int lkm = 0;
+		for (Transaktio trans : entries) {
+			if (trans.getStockId() == id) {
+				apu = apu + trans.getStockPrice();
+				lkm++;
+			}
+		}
+			
+		return apu / lkm;
+	}
+
+
+	public String getDate(int id) {
+		for (Transaktio trans : entries) {
+			if (trans.getStockId() == id) return trans.getDate()+"";
+		}
+		return "ee oo";
+	}
+
+
+	public String getStockAmount(int id) {
+		for (Transaktio trans : entries) {
+			if (trans.getStockId() == id) return trans.getAmount()+"";
+	}
+		return "ee oo";
+
+}
+
+
+	public String getExpenses(int id) {
+		for (Transaktio trans : entries) {
+			if (trans.getStockId() == id) return trans.getExpenses()+"";
+	}
+		return "ee oo";
+}
+
+
+	public String getTotalPrice(int id) {
+		for (Transaktio trans : entries) {
+			if (trans.getStockId() == id) return trans.getTotalPrice()+"";
+	}
+		return "ee oo";
+	}
+
+	/**
+     * Poistaa kaikki tietyn tietyn jäsenen harrastukset
+     * @param tunnusNro viite siihen, mihin liittyvät tietueet poistetaan
+	 * @return 
+     * @return montako poistettiin 
+     * @example
+     * <pre name="test">
+     *  Harrastukset harrasteet = new Harrastukset();
+     *  Harrastus pitsi21 = new Harrastus(); pitsi21.vastaaPitsinNyplays(2);
+     *  Harrastus pitsi11 = new Harrastus(); pitsi11.vastaaPitsinNyplays(1);
+     *  Harrastus pitsi22 = new Harrastus(); pitsi22.vastaaPitsinNyplays(2); 
+     *  Harrastus pitsi12 = new Harrastus(); pitsi12.vastaaPitsinNyplays(1); 
+     *  Harrastus pitsi23 = new Harrastus(); pitsi23.vastaaPitsinNyplays(2); 
+     *  harrasteet.lisaa(pitsi21);
+     *  harrasteet.lisaa(pitsi11);
+     *  harrasteet.lisaa(pitsi22);
+     *  harrasteet.lisaa(pitsi12);
+     *  harrasteet.lisaa(pitsi23);
+     *  harrasteet.poistaJasenenHarrastukset(2) === 3;  harrasteet.getLkm() === 2;
+     *  harrasteet.poistaJasenenHarrastukset(3) === 0;  harrasteet.getLkm() === 2;
+     *  List<Harrastus> h = harrasteet.annaHarrastukset(2);
+     *  h.size() === 0; 
+     *  h = harrasteet.annaHarrastukset(1);
+     *  h.get(0) === pitsi11;
+     *  h.get(1) === pitsi12;
+     * </pre>
+     */
+	public int deleteStocksTransactions(int id) {
+        int n = 0;
+        for (Iterator<Transaktio> it = entries.iterator(); it.hasNext();) {
+            Transaktio transaction = it.next();
+            if ( transaction.getStockId() == id ) {
+                it.remove();
+                n++;
+            }
+        }
+        if (n > 0) changed = true;
+        return n;
+    }
+
+
+	/**
+     * Poistaa valitun harrastuksen
+     * @param harrastus poistettava harrastus
+     * @return tosi jos löytyi poistettava tietue 
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * #import java.io.File;
+     *  Harrastukset harrasteet = new Harrastukset();
+     *  Harrastus pitsi21 = new Harrastus(); pitsi21.vastaaPitsinNyplays(2);
+     *  Harrastus pitsi11 = new Harrastus(); pitsi11.vastaaPitsinNyplays(1);
+     *  Harrastus pitsi22 = new Harrastus(); pitsi22.vastaaPitsinNyplays(2); 
+     *  Harrastus pitsi12 = new Harrastus(); pitsi12.vastaaPitsinNyplays(1); 
+     *  Harrastus pitsi23 = new Harrastus(); pitsi23.vastaaPitsinNyplays(2); 
+     *  harrasteet.lisaa(pitsi21);
+     *  harrasteet.lisaa(pitsi11);
+     *  harrasteet.lisaa(pitsi22);
+     *  harrasteet.lisaa(pitsi12);
+     *  harrasteet.poista(pitsi23) === false ; harrasteet.getLkm() === 4;
+     *  harrasteet.poista(pitsi11) === true;   harrasteet.getLkm() === 3;
+     *  List<Harrastus> h = harrasteet.annaHarrastukset(1);
+     *  h.size() === 1; 
+     *  h.get(0) === pitsi12;
+     * </pre>
+     */
+    public boolean delete(Transaktio transaction) {
+        boolean ret = entries.remove(transaction);
+        if (ret) changed = true;
+        return ret;
+    }
+    
+    /**
+     * Poistaa kaikki tietyn tietyn jäsenen harrastukset
+     * @param tunnusNro viite siihen, mihin liittyvät tietueet poistetaan
+     * @return montako poistettiin 
+     * @example
+     * <pre name="test">
+     *  Harrastukset harrasteet = new Harrastukset();
+     *  Harrastus pitsi21 = new Harrastus(); pitsi21.vastaaPitsinNyplays(2);
+     *  Harrastus pitsi11 = new Harrastus(); pitsi11.vastaaPitsinNyplays(1);
+     *  Harrastus pitsi22 = new Harrastus(); pitsi22.vastaaPitsinNyplays(2); 
+     *  Harrastus pitsi12 = new Harrastus(); pitsi12.vastaaPitsinNyplays(1); 
+     *  Harrastus pitsi23 = new Harrastus(); pitsi23.vastaaPitsinNyplays(2); 
+     *  harrasteet.lisaa(pitsi21);
+     *  harrasteet.lisaa(pitsi11);
+     *  harrasteet.lisaa(pitsi22);
+     *  harrasteet.lisaa(pitsi12);
+     *  harrasteet.lisaa(pitsi23);
+     *  harrasteet.poistaJasenenHarrastukset(2) === 3;  harrasteet.getLkm() === 2;
+     *  harrasteet.poistaJasenenHarrastukset(3) === 0;  harrasteet.getLkm() === 2;
+     *  List<Harrastus> h = harrasteet.annaHarrastukset(2);
+     *  h.size() === 0; 
+     *  h = harrasteet.annaHarrastukset(1);
+     *  h.get(0) === pitsi11;
+     *  h.get(1) === pitsi12;
+     * </pre>
+     */
+    public int poistaJasenenHarrastukset(int id) {
+        int n = 0;
+        for (Iterator<Transaktio> it = entries.iterator(); it.hasNext();) {
+            Transaktio transaction = it.next();
+            if ( transaction.getStockId() == id ) {
+                it.remove();
+                n++;
+            }
+        }
+        if (n > 0) changed = true;
+        return n;
+    }
+
+
+
+	
+		
+
 }
