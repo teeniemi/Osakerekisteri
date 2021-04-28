@@ -12,8 +12,6 @@ import java.util.List;
 public class Osakerekisteri {
         private Osakkeet stocks = new Osakkeet();
         private Transaktiot transactions = new Transaktiot();
-        private String owner;
-
 
         /**
          * Palautaa osakerekisterin osakemäärän
@@ -31,17 +29,6 @@ public class Osakerekisteri {
          */
         public int delete(@SuppressWarnings("unused") int nr) {
             return 0;
-        }
-        
-        /**
-         * 
-         * @param owner eli osakerekisterin omistaja, joka valitaan, kun käyttäjä käynnistää ohjelman
-         * @return owner
-         */
-        
-        public String setOwner(String owner) {
-        	this.owner = owner;
-        	return owner;
         }
 
 
@@ -91,18 +78,17 @@ public class Osakerekisteri {
         public void save() throws StoreException {
             stocks.save();
             transactions.save();
-            // TODO: yritä tallettaa toinen vaikka toinen epäonnistuisi
         }
         
         /** 
-         * Palauttaa "taulukossa" hakuehtoon vastaavien jäsenten viitteet 
-         * @param hakuehto hakuehto  
+         * Palauttaa "taulukossa" hstockehtoon vastaavien jäsenten viitteet 
+         * @param hstockehto hstockehto  
          * @param k etsittävän kentän indeksi  
          * @return tietorakenteen löytyneistä jäsenistä 
          * @throws StoreException Jos jotakin menee väärin
          */ 
-        public Collection<Osake> etsi(String hakuehto, int k) throws StoreException { 
-            return stocks.search(hakuehto, k); 
+        public Collection<Osake> etsi(String hstockehto, int k) throws StoreException { 
+            return stocks.search(hstockehto, k); 
         } 
         
 
@@ -133,15 +119,15 @@ public class Osakerekisteri {
          * #import java.io.*;
          * #import java.util.*;
          * 
-         *  Kerho kerho = new Kerho();
+         *  Osakerekisteri osakerekisteri = new Osakerekisteri();
          *  
-         *  Jasen aku1 = new Jasen(); aku1.vastaaAkuAnkka(); aku1.rekisteroi();
-         *  Jasen aku2 = new Jasen(); aku2.vastaaAkuAnkka(); aku2.rekisteroi();
-         *  Harrastus pitsi21 = new Harrastus(); pitsi21.vastaaPitsinNyplays(aku2.getTunnusNro());
-         *  Harrastus pitsi11 = new Harrastus(); pitsi11.vastaaPitsinNyplays(aku1.getTunnusNro());
-         *  Harrastus pitsi22 = new Harrastus(); pitsi22.vastaaPitsinNyplays(aku2.getTunnusNro()); 
-         *  Harrastus pitsi12 = new Harrastus(); pitsi12.vastaaPitsinNyplays(aku1.getTunnusNro()); 
-         *  Harrastus pitsi23 = new Harrastus(); pitsi23.vastaaPitsinNyplays(aku2.getTunnusNro());
+         *  Osake stock1 = new Osake(); stock1.testi(); stock1.register();
+         *  Osake stock2 = new Osake(); stock2.testi(); stock2.register();
+         *  Transaktio trans21 = new Transaktio(); trans21.testi(stock2.getId());
+         *  Transaktio trans11 = new Transaktio(); trans11.testi(stock1.getId());
+         *  Transaktio trans22 = new Transaktio(); trans22.testi(stock2.getId()); 
+         *  Transaktio trans12 = new Transaktio(); trans12.testi(stock1.getId()); 
+         *  Transaktio trans23 = new Transaktio(); trans23.testi(stock2.getId());
          *   
          *  String hakemisto = "testikelmit";
          *  File dir = new File(hakemisto);
@@ -150,36 +136,36 @@ public class Osakerekisteri {
          *  dir.mkdir();  
          *  ftied.delete();
          *  fhtied.delete();
-         *  kerho.lueTiedostosta(hakemisto); #THROWS SailoException
-         *  kerho.lisaa(aku1);
-         *  kerho.lisaa(aku2);
-         *  kerho.lisaa(pitsi21);
-         *  kerho.lisaa(pitsi11);
-         *  kerho.lisaa(pitsi22);
-         *  kerho.lisaa(pitsi12);
-         *  kerho.lisaa(pitsi23);
-         *  kerho.tallenna();
-         *  kerho = new Kerho();
-         *  kerho.lueTiedostosta(hakemisto);
-         *  Collection<Jasen> kaikki = kerho.etsi("",-1); 
-         *  Iterator<Jasen> it = kaikki.iterator();
-         *  it.next() === aku1;
-         *  it.next() === aku2;
+         *  osakerekisteri.readFromFile(hakemisto); #THROWS SailoException
+         *  osakerekisteri.add(stock1);
+         *  osakerekisteri.add(stock2);
+         *  osakerekisteri.add(trans21);
+         *  osakerekisteri.add(trans11);
+         *  osakerekisteri.add(trans22);
+         *  osakerekisteri.add(trans12);
+         *  osakerekisteri.add(trans23);
+         *  osakerekisteri.tallenna();
+         *  osakerekisteri = new Osakerekisteri();
+         *  osakerekisteri.readFromFile(hakemisto);
+         *  Collection<Osake> kaikki = osakerekisteri.etsi("",-1); 
+         *  Iterator<Osake> it = kaikki.iterator();
+         *  it.next() === stock1;
+         *  it.next() === stock2;
          *  it.hasNext() === false;
-         *  List<Harrastus> loytyneet = kerho.annaHarrastukset(aku1);
-         *  Iterator<Harrastus> ih = loytyneet.iterator();
-         *  ih.next() === pitsi11;
-         *  ih.next() === pitsi12;
+         *  List<Transaktio> loytyneet = osakerekisteri.giveTransactions(stock1);
+         *  Iterator<Transaktio> ih = loytyneet.iterator();
+         *  ih.next() === trans11;
+         *  ih.next() === trans12;
          *  ih.hasNext() === false;
-         *  loytyneet = kerho.annaHarrastukset(aku2);
+         *  loytyneet = osakerekisteri.giveTransactions(stock2);
          *  ih = loytyneet.iterator();
-         *  ih.next() === pitsi21;
-         *  ih.next() === pitsi22;
-         *  ih.next() === pitsi23;
+         *  ih.next() === trans21;
+         *  ih.next() === trans22;
+         *  ih.next() === trans23;
          *  ih.hasNext() === false;
-         *  kerho.lisaa(aku2);
-         *  kerho.lisaa(pitsi23);
-         *  kerho.tallenna();
+         *  osakerekisteri.add(stock2);
+         *  osakerekisteri.add(trans23);
+         *  osakerekisteri.tallenna();
          *  ftied.delete()  === true;
          *  fhtied.delete() === true;
          *  File fbak = new File(hakemisto+"/nimet.bak");
@@ -200,7 +186,7 @@ public class Osakerekisteri {
 
 
         /**
-         * Tallenttaa kerhon tiedot tiedostoon.  
+         * Tallenttaa osakerekisterin tiedot tiedostoon.  
          * Vaikka jäsenten tallettamien epäonistuisi, niin yritetään silti tallettaa
          * harrastuksia ennen poikkeuksen heittämistä.
          * @throws StoreException jos tallettamisessa ongelmia
@@ -272,49 +258,82 @@ public class Osakerekisteri {
         }
 
 
-		public void add(Transaktio transaktio1) {
-			transactions.add(transaktio1);
-			
+		/**
+		 * @param transaktio lisää transaktion
+		 */
+		public void add(Transaktio transaktio) {
+			transactions.add(transaktio);
 		}
 
 
+		/**
+		 * @param osake osake
+		 * @return osakkeen transaktiot
+		 */
 		public List<Transaktio> giveTransactions(Osake osake) {
 			return transactions.giveTransactions(osake.getId());
 		}
 
 
+		/**
+		 * @param transaction korvaa transaktion
+		 */
 		public void replace(Transaktio transaction) {
 			transactions.replace(transaction);
 			
 		}
 
 
+		/**
+		 * @param stockAtPlace osake
+		 * @return palauttaa osakkeen keskiarvohinnan
+		 */
 		public double getAverage(Osake stockAtPlace) {
 			return transactions.getAverage(stockAtPlace.getId());
 			
 		}
 
 
+		/**
+		 * @param stockAtPlace osake
+		 * @return palauttaa osakkeen päivämäärän
+		 */
 		public String getDate(Osake stockAtPlace) {
 			return transactions.getDate(stockAtPlace.getId());
 		}
 
 
+		/**
+		 * @param stockAtPlace osake
+		 * @return palauttaa osakemäärän
+		 */
 		public String getStockAmount(Osake stockAtPlace) {
 			return transactions.getStockAmount(stockAtPlace.getId());
 		}
 
 
+		/**
+		 * @param stockAtPlace osake
+		 * @return palauttaa kulut
+		 */
 		public String getExpenses(Osake stockAtPlace) {
 			return transactions.getExpenses(stockAtPlace.getId());
 		}
 
 
+		/**
+		 * @param stockAtPlace osake
+		 * @return palauttaa kokonaishinnan
+		 */
 		public String getTotalPrice(Osake stockAtPlace) {
 			return transactions.getTotalPrice(stockAtPlace.getId());
 		}
 
 
+		/**
+		 * @param stock osake
+		 * @return poistaa osakkeen
+		 */
 		public int deleteStock(Osake stock) {
 			if ( stock == null ) return 0;
 	        int ret = stocks.delete(stock.getId()); 
@@ -323,15 +342,15 @@ public class Osakerekisteri {
 	    }
 		
 		 /** 
-	     * Poistaa tämän harrastuksen 
-	     * @param harrastus poistettava harrastus 
+	     * Poistaa tämän transaktion
+		 * @param transaction poistettava transaktio
 	     * @example
 	     * <pre name="test">
 	     * #THROWS Exception
-	     *   alustaKerho();
-	     *   kerho.annaHarrastukset(aku1).size() === 2;
-	     *   kerho.poistaHarrastus(pitsi11);
-	     *   kerho.annaHarrastukset(aku1).size() === 1;
+	     *   alustaOsakerekisteri();
+	     *   osakerekisteri.giveTransactions(stock1).size() === 2;
+	     *   osakerekisteri.poistaTransaktio(trans11);
+	     *   osakerekisteri.giveTransactions(stock1).size() === 1;
 	     */ 
 	    public void deleteTransaction(Transaktio transaction) { 
 	        transactions.delete(transaction); 

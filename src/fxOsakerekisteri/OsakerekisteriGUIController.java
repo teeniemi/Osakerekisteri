@@ -67,7 +67,6 @@ public class OsakerekisteriGUIController implements Initializable {
 
     
     
-    
     /**
      * Näyttää tietoja sovelluksesta.
      */
@@ -136,8 +135,9 @@ public class OsakerekisteriGUIController implements Initializable {
     @FXML void handlePrint() {
       //tuleeko tähän "OsakerekisteriGUIPrint.fxml" vai "OsakerekisteriGUIView.fxml"
        // ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIPrint.fxml"), "Print STONKS", null, ""); 
-       // print();
-        addStock();
+       //print();
+        PrintGUIController printCtrl = PrintGUIController.print(null); 
+        printChosen(printCtrl.getTextArea()); 
     }
 
     /**
@@ -212,7 +212,7 @@ public class OsakerekisteriGUIController implements Initializable {
     
     
     /**
-     * Näyttää listasta valitun osakkeen tiedot, tilapäisesti yhteen isoon edit-kenttään
+     * Näyttää listasta valitun osakkeen tiedot
      */
     protected void showStock() {
         stockAtPlace = chooserStocks.getSelectedObject();
@@ -226,8 +226,6 @@ public class OsakerekisteriGUIController implements Initializable {
         labelExpenses.setText(osakerekisteri.getExpenses(stockAtPlace));
         labelTotalPrice.setText(osakerekisteri.getTotalPrice(stockAtPlace));
         updateTransactions();
-			
-    
     }
 
     
@@ -383,8 +381,7 @@ public class OsakerekisteriGUIController implements Initializable {
     public void printChosen(TextArea text) {
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
             os.println("Tulostetaan kaikki osakkeet");
-            for (int i = 0; i < osakerekisteri.getStocks(); i++) {
-                Osake stock = osakerekisteri.giveStock(i);
+            for (Osake stock : chooserStocks.getObjects()) {
                 print(os, stock);
                 os.println("\n\n");
             }

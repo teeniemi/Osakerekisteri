@@ -143,28 +143,48 @@ public class Transaktio {
         return stockId;
     }
     
+    /**
+     * @return tyyppi
+     */
     public String getType() {
     	return type;
     }
     
+    /**
+     * @return pvm
+     */
     public LocalDate getDate() {
     	return date;
     }
     
+    /**
+     * @return määrä
+     */
     public int getAmount() {
     	return amount;
     }
     
+    /**
+     * @return hinta
+     */
     public double getStockPrice() {
     	return stockPrice;
     }
     
+    /**
+     * @return kulut
+     */
     public double getExpenses() {
     	return expenses;
     }
     
+    /**
+     * @return kokonaishinta
+     */
     public double getTotalPrice() {
-    	return totalPrice;
+        double total = 0;
+        total = amount * stockPrice + expenses;
+    	return total;
     }
     
     

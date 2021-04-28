@@ -55,6 +55,16 @@ public class Osake {
         return stockName;
     }
 	
+    
+    /**
+    * Apumetodi, jolla saadaan täytettyä testiarvot osakkeelle.
+    * @param id id joka annetaan osakkeelle
+    */
+   public void testi(int id) {
+       stockId = id;
+   }
+
+
 	/**
 	 * Tulostetaan osakkeen tiedot
 	 * @param out tietovirta, johon tulostetaan

@@ -322,6 +322,10 @@ public class Transaktiot implements Iterable<Transaktio> {
     }
 
 
+	/**
+	 * @param id osakkeen id
+	 * @return keskihinta id:n omistamalle osakkeelle
+	 */
 	public double getAverage(int id) {
 		double apu = 0;
 		int lkm = 0;
@@ -331,11 +335,14 @@ public class Transaktiot implements Iterable<Transaktio> {
 				lkm++;
 			}
 		}
-			
 		return apu / lkm;
 	}
 
 
+	/**
+	 * @param id osakkeen id
+	 * @return pvm
+	 */
 	public String getDate(int id) {
 		for (Transaktio trans : entries) {
 			if (trans.getStockId() == id) return trans.getDate()+"";
@@ -344,34 +351,53 @@ public class Transaktiot implements Iterable<Transaktio> {
 	}
 
 
+	/**
+	 * @param id osakkeen id
+	 * @return kpl kokonaismäärä
+	 */
 	public String getStockAmount(int id) {
-		for (Transaktio trans : entries) {
-			if (trans.getStockId() == id) return trans.getAmount()+"";
+		int amount = 0;
+	    for (Transaktio trans : entries) {
+			if (trans.getStockId() == id) {
+			    amount = amount + trans.getAmount();
+			}
 	}
-		return "ee oo";
-
+        return amount+"";
 }
 
 
+	/**
+	 * @param id osakkeen id
+	 * @return kulut
+	 */
 	public String getExpenses(int id) {
-		for (Transaktio trans : entries) {
-			if (trans.getStockId() == id) return trans.getExpenses()+"";
+		double exp = 0;
+	    for (Transaktio trans : entries) {
+			if (trans.getStockId() == id) {
+			    exp = exp + trans.getExpenses();
+			}
 	}
-		return "ee oo";
+		return exp+"";
 }
 
 
+	/**
+	 * @param id osakkeen id
+	 * @return kokonaisarvo
+	 */
 	public String getTotalPrice(int id) {
+	    double total = 0;
 		for (Transaktio trans : entries) {
-			if (trans.getStockId() == id) return trans.getTotalPrice()+"";
+			if (trans.getStockId() == id) {
+			    total = total + trans.getTotalPrice();
+			}
 	}
-		return "ee oo";
+		return total+"";
 	}
 
 	/**
      * Poistaa kaikki tietyn tietyn jäsenen harrastukset
-     * @param tunnusNro viite siihen, mihin liittyvät tietueet poistetaan
-	 * @return 
+	 * @param id viite siihen, mihin liittyvät tietueet poistetaan
      * @return montako poistettiin 
      * @example
      * <pre name="test">
