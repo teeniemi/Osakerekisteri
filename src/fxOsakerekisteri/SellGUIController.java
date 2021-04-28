@@ -5,8 +5,11 @@ import java.awt.event.ActionEvent;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
+import osakerekisteri.Osakerekisteri;
 
-public class SellGUIController implements ModalControllerInterface<String>{
+public class SellGUIController implements ModalControllerInterface<Osakerekisteri>{
+	
+		private Osakerekisteri osakerekisteri;
 
 	 	@FXML void handleNope() {
 		 	nope();
@@ -26,9 +29,8 @@ public class SellGUIController implements ModalControllerInterface<String>{
 	    }
 
 		@Override
-		public String getResult() {
-			// TODO Auto-generated method stub
-			return null;
+		public Osakerekisteri getResult() {
+			return osakerekisteri;
 		}
 
 		@Override
@@ -38,7 +40,7 @@ public class SellGUIController implements ModalControllerInterface<String>{
 		}
 
 		@Override
-		public void setDefault(String arg0) {
-			// TODO Auto-generated method stub
+		public void setDefault(Osakerekisteri osakerekisteri) {
+			this.osakerekisteri = osakerekisteri;
 		}
 }

@@ -41,7 +41,6 @@ public class Osakkeet implements Iterable<Osake> {
     private Osake            entries[]      = new Osake[MAX_STOCKS];
     private boolean changed 				= false;
     private String fileBasicName 			= "stocks";
-    private int lkm							= 0;
     
     /**
      * Oletusmuodostaja
@@ -443,17 +442,17 @@ public class Osakkeet implements Iterable<Osake> {
 	public int delete(int id) {
 		int ind = searchId(id); 
         if (ind < 0) return 0; 
-        lkm--; 
-        for (int i = ind; i < lkm; i++) 
+        amount--; 
+        for (int i = ind; i < amount; i++) 
             entries[i] = entries[i + 1]; 
-        entries[lkm] = null; 
+        entries[amount] = null; 
         changed = true; 
         return 1; 
     }
 
 	
 	/** 
-     * Etsii jäsenen id:n perusteella 
+     * Etsii osakkeen id:n perusteella 
      * @param id tunnusnumero, jonka mukaan etsitään 
      * @return löytyneen jäsenen indeksi tai -1 jos ei löydy 
      * <pre name="test"> 
@@ -469,7 +468,7 @@ public class Osakkeet implements Iterable<Osake> {
      */ 
 
 	private int searchId(int id) {
-		for (int i = 0; i < lkm; i++) 
+		for (int i = 0; i < amount; i++) 
             if (id == entries[i].getId()) return i; 
         return -1; 
     } 

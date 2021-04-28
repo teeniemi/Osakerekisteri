@@ -159,7 +159,7 @@ public class OsakerekisteriGUIController implements Initializable {
      * Avaa myy osakkeita dialogin.
      */
     @FXML void handleSellStocks() {
-    	ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUISell.fxml"), "Sell STONKS", null, ""); 
+    	ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUISell.fxml"), "Sell STONKS", null, osakerekisteri); 
         // sell();
     }
     
@@ -404,8 +404,6 @@ public class OsakerekisteriGUIController implements Initializable {
         transaction.setStockId(stockAtPlace.getId());
 		transaction.register();
 		osakerekisteri.add(transaction);
-		// TÄHÄN handlebuystocks -KUTSU JA PÄIVITÄ STRING GRID TÄHÄN, KOSKA EI OSAA MUUTEN NÄYTTÄÄ get(transaction.getId());
-		// kpl-hinta ja nimi, oma lisää osake -dialogi?
     }
     
     
@@ -454,7 +452,7 @@ public class OsakerekisteriGUIController implements Initializable {
                     i++;
                 }
             } catch (StoreException ex) {
-                Dialogs.showMessageDialog("Jäsenen hakemisessa ongelmia! " + ex.getMessage());
+                Dialogs.showMessageDialog("Osakkeen hakemisessa ongelmia! " + ex.getMessage());
             }
             chooserStocks.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
         }
@@ -518,9 +516,9 @@ public class OsakerekisteriGUIController implements Initializable {
 
     
     private void delete() {
-        Osake stock = stockAtPlace;
+        Osake stock = chooserStocks.getSelectedObject();
         if (stock == null) return;
-        if (( !Dialogs.showQuestionDialog("Delete", "Delete stonk?: " + stock.getName(), "Yes", "Nope") ))
+        if (( !Dialogs.showQuestionDialog("Delete", "Delete stonk? " + stock.getName(), "Yes", "Nope") ))
         return;
         osakerekisteri.deleteStock(stock);
         int index = chooserStocks.getSelectedIndex();
@@ -529,9 +527,9 @@ public class OsakerekisteriGUIController implements Initializable {
     }
     
     /**
-     * Poistetaan harrastustaulukosta valitulla kohdalla oleva harrastus. 
+     * Poistetaan transaktiotaulukosta valitulla kohdalla oleva harrastus. 
      */
-    private void poistaHarrastus() {
+    private void deleteTransactions() {
         int row = gridActions.getRowNr();
         if ( row < 0 ) return;
         Transaktio transaction = gridActions.getObject();
