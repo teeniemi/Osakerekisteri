@@ -43,19 +43,17 @@ public class PrintGUIController implements ModalControllerInterface<String> {
     
     @Override
     public void setDefault(String oletus) {
-        // if ( oletus == null ) return;
         printArea.setText(oletus);
     }
 
     
     /**
      * Mitä tehdään kun dialogi on näytetty
-     */
+     */ 
     @Override
     public void handleShown() {
         //
     }
-    
     
     /**
      * @return alue johon tulostetaan
@@ -76,32 +74,4 @@ public class PrintGUIController implements ModalControllerInterface<String> {
                                        "Tulostus", printing);
         return printingCtrl;
     }
-    /*
-    @Override
-    public String getResult() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void handleShown() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void setDefault(String oletus) {
-        // TODO Auto-generated method stub
-    }
-    
-    private void nope(){
-        Dialogs.showMessageDialog("Ei pääse vielä palaamaan päänäkymään!");
-    }
-    
-    private void print(){
-       // Dialogs.showMessageDialog("Printtaus ei vielä toimi!");
-        OsakerekisteriGUIController.showStock
-    }
-    
-    */
-
 }

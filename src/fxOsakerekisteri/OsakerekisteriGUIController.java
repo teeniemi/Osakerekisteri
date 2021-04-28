@@ -133,9 +133,6 @@ public class OsakerekisteriGUIController implements Initializable {
      * Tulostaa valitun näkymän.
      */
     @FXML void handlePrint() {
-      //tuleeko tähän "OsakerekisteriGUIPrint.fxml" vai "OsakerekisteriGUIView.fxml"
-       // ModalController.showModal(OsakerekisteriGUIController.class.getResource("OsakerekisteriGUIPrint.fxml"), "Print STONKS", null, ""); 
-       //print();
         PrintGUIController printCtrl = PrintGUIController.print(null); 
         printChosen(printCtrl.getTextArea()); 
     }
@@ -312,25 +309,6 @@ public class OsakerekisteriGUIController implements Initializable {
         }
         chooserStocks.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
     }
-
-    
-    
-    /**
-     * Hakee osakkeen tiedot listaan
-     * @param stockId osakkeen Id, joka aktivoidaan haun jälkeen
-
-    protected void get(int stockId) {
-        chooserStocks.clear();
-
-        int index = 0;
-        for (int i = 0; i < osakerekisteri.getStocks(); i++) {
-            Osake stock = osakerekisteri.giveStock(i);
-            if (stock.getId() == stockId) index = i;
-            chooserStocks.add(stock.getName(), stock);
-        }
-        chooserStocks.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
-    }
-     */
     
     
     /**
@@ -355,11 +333,8 @@ public class OsakerekisteriGUIController implements Initializable {
     public void setOsakerekisteri(Osakerekisteri osakerekisteri) {
         this.osakerekisteri = osakerekisteri;
         showStock();
-       // ModalController.showModal(StartGUIController.class.getResource("OsakerekisteriGUIStart.fxml"), "Portfolio", null, osakerekisteri); 
     }
     
-
-
     /**
      * Tulostaa osakkeen tiedot
      * @param os tietovirta johon tulostetaan
@@ -482,9 +457,6 @@ public class OsakerekisteriGUIController implements Initializable {
 		updateTransactions();
     }
     
-    /**
-     * 
-     */
     
     private void updateTransactions() {
     	List <Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
@@ -492,7 +464,6 @@ public class OsakerekisteriGUIController implements Initializable {
 		for (Transaktio transaction:transactions) {
 			gridActions.add(transaction, transaction.getType(), transaction.getDate().toString(), transaction.getAmount()+"", transaction.getStockPrice()+"", transaction.getExpenses()+"", transaction.getTotalPrice()+"");
 		}
-    	
     }
     
     private void export() {
@@ -506,11 +477,6 @@ public class OsakerekisteriGUIController implements Initializable {
     private void help() {
         Dialogs.showMessageDialog("Apua ei vielä saatavilla.");
     }
-    
-    private void print() {
-        Dialogs.showMessageDialog("Printataan. Printtaus ei vielä toimi!");
-    }
-
     
     private void delete() {
         Osake stock = chooserStocks.getSelectedObject();
@@ -561,21 +527,6 @@ public class OsakerekisteriGUIController implements Initializable {
             row[i] = transaction.giveTransaction(k); 
         gridActions.add(transaction,row);
     }
-
-	/*
-     * Poistetaan listalta valittu jäsen
-     */
-    private void poistaJasen() {
-        Osake stock = stockAtPlace;
-        if ( stock == null ) return;
-        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko jäsen: " + stock.getName(), "Kyllä", "Ei") )
-            return;
-        osakerekisteri.deleteStock(stock);
-        int index = chooserStocks.getSelectedIndex();
-        search(0);
-        chooserStocks.setSelectedIndex(index);
-    }
-
     
 
     @Override
