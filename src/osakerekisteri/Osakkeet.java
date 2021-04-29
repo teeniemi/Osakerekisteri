@@ -50,26 +50,6 @@ public class Osakkeet implements Iterable<Osake> {
     }
     
     
-    /**
-     * Tehdään identtinen klooni osakkeesta
-     * @return Object kloonattu osake
-     * @example
-     * <pre name="test">
-     * #THROWS CloneNotSupportedException 
-     *   Osake stock = new Osake();
-     *   stock.parse("1|Nokia Oyj|200|3.12|624.00|"); 
-     *   Osake kopio = stock.clone();
-     *   kopio.toString() === stock.toString();
-     *   stock.parse("2|Olvi Oyj|20|20.00|400.00|");
-     *   kopio.toString().equals(stock.toString()) === false;
-     * </pre>
-     */
-    @Override
-    public Osake clone() throws CloneNotSupportedException {
-        Osake uusi;
-        uusi = (Osake) super.clone();
-        return uusi;
-    }
     
     /**
      * Lisää uuden osakkeen tietorakenteeseen. Ottaa osakkeen omistukseensa.
@@ -95,7 +75,7 @@ public class Osakkeet implements Iterable<Osake> {
      * stocks.add(stock1);
      * </pre>
      */
-    public void add(Osake stock) throws StoreException {
+    public void add(Osake stock) {
         if (amount >= entries.length) entries = Arrays.copyOf(entries, amount+20);
         entries[amount] = stock;
         amount++;
@@ -136,25 +116,23 @@ public class Osakkeet implements Iterable<Osake> {
      * #THROWS StoreException 
      * #import java.io.File;
      * 
-     *  Osakeet stocks = new Osakeet();
+     *  Osakkeet stocks = new Osakkeet();
      *  Osake stock1 = new Osake(), stock2 = new Osake();
-     *  stock1.giveStock();
-     *  stock2.giveStock();
      *  String directory = "teststocks";
      *  String fileName = directory+"/stocks";
      *  File ftied = new File(fileName+".dat");
      *  File dir = new File(directory);
      *  dir.mkdir();
      *  ftied.delete();
-     *  stocks.readFromFile(fileName); #THROWS SailoException
+     *  stocks.readFromFile(fileName); #THROWS StoreException
      *  stocks.add(stock1);
      *  stocks.add(stock2);
      *  stocks.save();
-     *  stocks = new Osakeet();            // Poistetaan vanhat luomalla uusi
+     *  stocks = new Osakkeet();            // Poistetaan vanhat luomalla uusi
      *  stocks.readFromFile(fileName);  // johon ladataan tiedot tiedostosta.
      *  Iterator<Osake> i = stocks.iterator();
-     *  i.next() === stock1;
-     *  i.next() === stock2;
+     *  i.next().toString() === stock1.toString();
+     *  i.next().toString() === stock2.toString();
      *  i.hasNext() === false;
      *  stocks.add(stock2);
      *  stocks.save();
@@ -256,11 +234,12 @@ public class Osakkeet implements Iterable<Osake> {
         try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
             fo.println(getWholeFileName());
             fo.println(entries.length);
-            for (Osake stock : this) {
-                fo.println(stock.toString());
+            for (int i = 0; i < amount; i++) {
+            	fo.println(entries[i].toString());
             }
+
             //} catch ( IOException e ) { // ei heitä poikkeusta
-            //  throw new SailoException("Tallettamisessa ongelmia: " + e.getMessage());
+            //  throw new StoreException("Tallettamisessa ongelmia: " + e.getMessage());
         } catch ( FileNotFoundException ex ) {
             throw new StoreException("Tiedosto " + ftied.getName() + " ei aukea");
         } catch ( IOException ex ) {
@@ -323,13 +302,13 @@ public class Osakkeet implements Iterable<Osake> {
      * Luokka osakkeiden iteroimiseksi.
      * @example
      * <pre name="test">
-     * #THROWS SailoException 
+     * #THROWS StoreException 
      * #PACKAGEIMPORT
      * #import java.util.*;
      * 
-     * Osakeet stocks = new Osakeet();
+     * Osakkeet stocks = new Osakkeet();
      * Osake stock1 = new Osake(), stock2 = new Osake();
-     * stock1.rekisteroi(); stock2.rekisteroi();
+     * stock1.register(); stock2.register();
      *
      * stocks.add(stock1); 
      * stocks.add(stock2); 
@@ -337,16 +316,16 @@ public class Osakkeet implements Iterable<Osake> {
      * 
      * StringBuffer ids = new StringBuffer(30);
      * for (Osake stock:stocks)   // Kokeillaan for-silmukan toimintaa
-     *   ids.append(" "+stock.getTunnusNro());           
+     *   ids.append(" "+stock.getId());           
      * 
-     * String tulos = " " + stock1.getTunnusNro() + " " + stock2.getTunnusNro() + " " + stock1.getTunnusNro();
+     * String tulos = " " + stock1.getId() + " " + stock2.getId() + " " + stock1.getId();
      * 
      * ids.toString() === tulos; 
      * 
      * ids = new StringBuffer(30);
      * for (Iterator<Osake>  i=stocks.iterator(); i.hasNext(); ) { // ja iteraattorin toimintaa
      *   Osake stock = i.next();
-     *   ids.append(" "+stock.getTunnusNro());           
+     *   ids.append(" "+stock.getId());           
      * }
      * 
      * ids.toString() === tulos;
@@ -407,21 +386,21 @@ public class Osakkeet implements Iterable<Osake> {
      * @return tietorakenteen löytyneistä osakkeista
      * @example 
      * <pre name="test"> 
-     * #THROWS SailoException  
-     * Osake stock4 = new Osake(); stock4.parse("1|Nokia Oyj|200|3.12|624.00|"); 
-     * Osake stock5 = new Osake(); stock5.parse("2|Olvi Oyj|80|35.00|2800.00|"); 
-     * stocks.add(stock1); stocks.add(stock2); stocks.add(stock3); stocks.add(stock4); stocks.add(stock5)
+     * #THROWS StoreException 
+     * Osakkeet stocks = new Osakkeet();
+     * Osake stock3 = new Osake(); stock3.parse("1|Nokia Oyj|200|3.12|624.00|");
+     * Osake stock4 = new Osake(); stock4.parse("2|Nokia Oyj|200|3.12|624.00|"); 
+     * Osake stock5 = new Osake(); stock5.parse("3|Olvi Oyj|80|35.00|2800.00|"); 
+     * stocks.add(stock3); stocks.add(stock4); stocks.add(stock5);
      * List<Osake> loytyneet;  
-     * loytyneet = (List<Osake>)stocks.search("*s*",1);  
+     * loytyneet = (List<Osake>)stocks.search("*s*",0);  
+     * loytyneet.size() === 0;      
+     * loytyneet = (List<Osake>)stocks.search("*N*",0);  
      * loytyneet.size() === 2;  
      * loytyneet.get(0) == stock3 === true;  
-     * loytyneet.get(1) == stock4 === true;      
-     * loytyneet = (List<Osake>)stocks.search("*7-*",2);  
-     * loytyneet.size() === 2;  
-     * loytyneet.get(0) == stock3 === true;  
-     * loytyneet.get(1) == stock5 === true;    
+     * loytyneet.get(1) == stock4 === true;    
      * loytyneet = (List<Osake>)stocks.search(null,-1);  
-     * loytyneet.size() === 5;  
+     * loytyneet.size() === 3;  
      * </pre> 
      */ 
     
@@ -456,37 +435,37 @@ public class Osakkeet implements Iterable<Osake> {
      * @param id tunnusnumero, jonka mukaan etsitään 
      * @return löytyneen jäsenen indeksi tai -1 jos ei löydy 
      * <pre name="test"> 
-     * #THROWS SailoException  
-     * Jasenet jasenet = new Jasenet(); 
-     * Jasen aku1 = new Jasen(), aku2 = new Jasen(), aku3 = new Jasen(); 
-     * aku1.rekisteroi(); aku2.rekisteroi(); aku3.rekisteroi(); 
-     * int id1 = aku1.getTunnusNro(); 
-     * jasenet.lisaa(aku1); jasenet.lisaa(aku2); jasenet.lisaa(aku3); 
-     * jasenet.etsiId(id1+1) === 1; 
-     * jasenet.etsiId(id1+2) === 2; 
+     * #THROWS StoreException  
+     * Osakkeet stocks = new Osakkeet(); 
+     * Osake aku1 = new Osake(), aku2 = new Osake(), aku3 = new Osake(); 
+     * aku1.register(); aku2.register(); aku3.register(); 
+     * int id1 = aku1.getId(); 
+     * stocks.add(aku1); stocks.add(aku2); stocks.add(aku3); 
+     * stocks.searchId(id1+1) === 1; 
+     * stocks.searchId(id1+2) === 2; 
      * </pre> 
      */ 
 
-	private int searchId(int id) {
+	public int searchId(int id) {
 		for (int i = 0; i < amount; i++) 
             if (id == entries[i].getId()) return i; 
         return -1; 
     } 
 	
 	/** TÄLLÄ HETKELLÄ TÄTÄ EI TAIDETA KUTSUA MISSÄÄN
-     * Etsii jäsenen id:n perusteella 
+     * Etsii osakkeen id:n perusteella 
      * @param id tunnusnumero, jonka mukaan etsitään 
-     * @return jäsen jolla etsittävä id tai null 
+     * @return osake jolla etsittävä id tai null 
      * <pre name="test"> 
-     * #THROWS SailoException  
-     * Jasenet jasenet = new Jasenet(); 
-     * Jasen aku1 = new Jasen(), aku2 = new Jasen(), aku3 = new Jasen(); 
-     * aku1.rekisteroi(); aku2.rekisteroi(); aku3.rekisteroi(); 
-     * int id1 = aku1.getTunnusNro(); 
-     * jasenet.lisaa(aku1); jasenet.lisaa(aku2); jasenet.lisaa(aku3); 
-     * jasenet.annaId(id1  ) == aku1 === true; 
-     * jasenet.annaId(id1+1) == aku2 === true; 
-     * jasenet.annaId(id1+2) == aku3 === true; 
+     * #THROWS StoreException  
+     * Osakkeet stocks = new Osakkeet(); 
+     * Osake aku1 = new Osake(), aku2 = new Osake(), aku3 = new Osake(); 
+     * aku1.register(); aku2.register(); aku3.register(); 
+     * int id1 = aku1.getId(); 
+     * stocks.add(aku1); stocks.add(aku2); stocks.add(aku3); 
+     * stocks.giveId(id1  ) == aku1 === true; 
+     * stocks.giveId(id1+1) == aku2 === true; 
+     * stocks.giveId(id1+2) == aku3 === true; 
      * </pre> 
      */ 
     public Osake giveId(int id) { 

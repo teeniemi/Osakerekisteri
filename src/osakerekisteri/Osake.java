@@ -32,7 +32,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  *
  */
 
-public class Osake {
+public class Osake implements Cloneable{
 	
 	private int 		stockId = 0;
 	private String 		stockName = "";
@@ -47,8 +47,8 @@ public class Osake {
      * @example
      * <pre name="test">
      *   Osake stock = new Osake();
-     *   stock.giveStock();
-     *   stock.getName() =R= "Nokia Oyj.*";
+     *   stock.giveStock(0);
+     *   stock.getName() =R= "";
      * </pre>
      */
     public String getName() {
@@ -57,11 +57,14 @@ public class Osake {
 	
     
     /**
-    * Apumetodi, jolla saadaan täytettyä testiarvot osakkeelle.
-    * @param id id joka annetaan osakkeelle
-    */
-   public void testi(int id) {
-       stockId = id;
+     * Apumetodi, jolla saadaan täytettyä testiarvot Osakkeelle
+     * Kaikki arvot arvotaan, jotta kahdella transaktiolla ei olisi
+     * samoja tietoja.
+     */
+
+   public void testi() {
+	    stockName = "Nokia Oyj";
+	    amount = 100;
    }
 
 
@@ -94,12 +97,12 @@ public class Osake {
 	 * @example
 	 * <pre name="test">
 	 * Osake osake1 = new Osake();
-	 * osake1.getNextId() === 0;
-	 * osake1.register() === 1;
+	 * osake1.getId() === 0;
+	 * osake1.register() === 2;
 	 * Osake osake2 = new Osake();
 	 * osake2.register();
-	 * int n1 = osake1.getNextId();
-	 * int n2 = osake2.getNextId();
+	 * int n1 = osake1.getId();
+	 * int n2 = osake2.getId();
 	 * n1 === n2-1;
 	 * </pre>
 	 */
@@ -170,6 +173,29 @@ public class Osake {
 		}
 	}
 	
+	/**
+     * Tehdään identtinen klooni osakkeesta
+     * @return Object kloonattu osake
+	 * @throws CloneNotSupportedException 
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException 
+     *   Osake stock = new Osake();
+     *   stock.parse("1|Nokia Oyj|200|3.12|624.00|"); 
+     *   Osake kopio = stock.clone();
+     *   kopio.toString() === stock.toString();
+     *   stock.parse("2|Olvi Oyj|20|20.00|400.00|");
+     *   kopio.toString().equals(stock.toString()) === false;
+     * </pre>
+     */
+    @Override
+    public Osake clone() throws CloneNotSupportedException {
+        Osake uusi;
+        uusi = (Osake) super.clone();
+        return uusi;
+    }
+    
+	
 	
 	
 	/**
@@ -190,7 +216,7 @@ public class Osake {
      * <pre name="test">
      *   Osake stock = new Osake();
      *   stock.parse("1|Nokia Oyj|200|3.12|624.00|");
-     *   stock.toString().startsWith("1|Nokia Oyj|200|3.12|624.00|") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
+     *   stock.toString().startsWith("1|Nokia Oyj|200|3.12|624.00|") === false; // on enemmäkin kuin 3 kenttää, siksi loppu |
      * </pre>  
      */
     @Override
@@ -213,8 +239,8 @@ public class Osake {
      * <pre name="test">
      *   Osake stock = new Osake();
      *   stock.parse("1|Nokia Oyj|200|3.12|624.00|");
-     *   stock.getId() === 3;
-     *   stock.toString().startsWith("1|Nokia Oyj|200|3.12|624.00|") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
+     *   stock.getId() === 1;
+     *   stock.toString().startsWith("1|Nokia Oyj|200|3.12|") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
      *
      *   stock.register();
      *   int n = stock.getId();

@@ -205,8 +205,8 @@ public class Transaktio {
      * @example
      * <pre name="test">
      *   Transaktio transaktio = new Transaktio();
-     *   transaktio.parse("1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |");
-     *   transaktio.toString()    === "1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |";
+     *   transaktio.parse("1 | 1 | 2007-11-30 | Osto | 27.32 | 200 | 54.64 | 5518.64 |");
+     *   transaktio.toString()    === "1|1|2007-11-30|Osto|27.32|200|54.64|5518.64|";
      * </pre>
      */
     @Override
@@ -231,14 +231,14 @@ public class Transaktio {
      * <pre name="test">
      *   Transaktio transaction = new Transaktio();
      *   transaction.parse("1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |");
-     *   transaction.getId() === 3;
+     *   transaction.getTransactionId() === 3;
      *   transaction.toString().startsWith("1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
      *
      *   transaction.register();
-     *   int n = transaction.getId();
+     *   int n = transaction.getTransactionId();
      *   transaction.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
      *   transaction.register();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
-     *   transaction.getId() === n+20+1;
+     *   transaction.getTransactionId() === n+20+1;
      *     
      * </pre>
      */
@@ -266,12 +266,12 @@ public class Transaktio {
      * @example
      * <pre name="test">
      * #THROWS CloneNotSupportedException 
-     *   Harrastus har = new Harrastus();
-     *   har.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
-     *   Harrastus kopio = har.clone();
-     *   kopio.toString() === har.toString();
-     *   har.parse("   1   |  11  |   Uinti  | 1949 | 22 t ");
-     *   kopio.toString().equals(har.toString()) === false;
+     *   Transaktio trans = new Transaktio();
+     *   trans.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
+     *   Transaktio klooni = trans.clone();
+     *   klooni.toString() === trans.toString();
+     *   trans.parse("   1   |  11  |   Uinti  | 1949 | 22 t ");
+     *   klooni.toString().equals(trans.toString()) === false;
      * </pre>
      */
     @Override
@@ -348,13 +348,13 @@ public class Transaktio {
      * @return valitun kentän sisältö
      * @example
      * <pre name="test">
-     *   Harrastus har = new Harrastus();
-     *   har.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
-     *   har.anna(0) === "2";   
-     *   har.anna(1) === "10";   
-     *   har.anna(2) === "Kalastus";   
-     *   har.anna(3) === "1949";   
-     *   har.anna(4) === "22";   
+     *   Transaktio trans = new Transaktio();
+     *   trans.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
+     *   trans.giveTransaction(0) === "2";   
+     *   trans.giveTransaction(1) === "10";   
+     *   trans.giveTransaction(2) === "Kalastus";   
+     *   trans.giveTransaction(3) === "1949";   
+     *   trans.giveTransaction(4) === "22";   
      *   
      * </pre>
      */

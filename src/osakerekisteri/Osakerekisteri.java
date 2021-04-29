@@ -9,6 +9,50 @@ import java.util.List;
  * @version 1.3.2021
  *
  */
+
+/**
+ * Osakerekisteri-luokka, joka huolehtii osakkeista.  Pääosin kaikki metodit
+ * ovat vain "välittäjämetodeja" jäsenistöön.
+ *
+ * Testien alustus
+ * @example
+ * <pre name="testJAVA">
+ * #import osakerekisteri.StoreException;
+ *  private Osakerekisteri osakerekisteri;
+ *  private Osake stock1;
+ *  private Osake stock2;
+ *  private int jid1;
+ *  private int jid2;
+ *  private Transaktio trans21;
+ *  private Transaktio trans11;
+ *  private Transaktio trans22; 
+ *  private Transaktio trans12; 
+ *  private Transaktio trans23;
+ *  
+ *  @SuppressWarnings("javadoc")
+ *  public void alustaOsakerekisteri() {
+ *  osakerekisteri = new Osakerekisteri();
+ *  stock1 = new Osake(); stock1.testi(); stock1.register();
+ *  stock2 = new Osake(); stock2.testi(); stock2.register();
+ *  trans21 = new Transaktio(); trans21.testi(stock2.getId());
+ *  trans11 = new Transaktio(); trans11.testi(stock1.getId());
+ *  trans22 = new Transaktio(); trans22.testi(stock2.getId()); 
+ *  trans12 = new Transaktio(); trans12.testi(stock1.getId()); 
+ *  trans23 = new Transaktio(); trans23.testi(stock2.getId());
+ *    try {
+ *    osakerekisteri.add(stock1);
+ *    osakerekisteri.add(stock2);
+ *    osakerekisteri.add(trans21);
+ *    osakerekisteri.add(trans11);
+ *    osakerekisteri.add(trans22);
+ *    osakerekisteri.add(trans12);
+ *    osakerekisteri.add(trans23);
+ *    } catch ( Exception e) {
+ *       System.err.println(e.getMessage());
+ *    }
+ *  }
+ * </pre>
+*/
 public class Osakerekisteri {
         private Osakkeet stocks = new Osakkeet();
         private Transaktiot transactions = new Transaktiot();
@@ -53,7 +97,7 @@ public class Osakerekisteri {
          * osakerekisteri.giveStock(3) === stock1; #THROWS IndexOutOfBoundsException 
          * osakerekisteri.add(stock1); osakerekisteri.getStocks() === 4;
          * osakerekisteri.add(stock1); osakerekisteri.getStocks() === 5;
-         * osakerekisteri.add(stock1); #THROWS StoreException
+         * osakerekisteri.add(stock1);
          * </pre>
          */
         public void add(Osake stock) throws StoreException {
@@ -115,61 +159,46 @@ public class Osakerekisteri {
          * 
          * @example
          * <pre name="test">
-         * #THROWS SailoException 
+         * #THROWS StoreException 
          * #import java.io.*;
          * #import java.util.*;
-         * 
-         *  Osakerekisteri osakerekisteri = new Osakerekisteri();
-         *  
-         *  Osake stock1 = new Osake(); stock1.testi(); stock1.register();
-         *  Osake stock2 = new Osake(); stock2.testi(); stock2.register();
-         *  Transaktio trans21 = new Transaktio(); trans21.testi(stock2.getId());
-         *  Transaktio trans11 = new Transaktio(); trans11.testi(stock1.getId());
-         *  Transaktio trans22 = new Transaktio(); trans22.testi(stock2.getId()); 
-         *  Transaktio trans12 = new Transaktio(); trans12.testi(stock1.getId()); 
-         *  Transaktio trans23 = new Transaktio(); trans23.testi(stock2.getId());
-         *   
+         * osakerekisteri = new Osakerekisteri();
          *  String hakemisto = "testikelmit";
          *  File dir = new File(hakemisto);
-         *  File ftied  = new File(hakemisto+"/nimet.dat");
-         *  File fhtied = new File(hakemisto+"/harrastukset.dat");
+         *  File ftied  = new File(hakemisto+"/stocks.dat");
+         *  File fhtied = new File(hakemisto+"/transactions.dat");
          *  dir.mkdir();  
          *  ftied.delete();
          *  fhtied.delete();
-         *  osakerekisteri.readFromFile(hakemisto); #THROWS SailoException
-         *  osakerekisteri.add(stock1);
-         *  osakerekisteri.add(stock2);
-         *  osakerekisteri.add(trans21);
-         *  osakerekisteri.add(trans11);
-         *  osakerekisteri.add(trans22);
-         *  osakerekisteri.add(trans12);
-         *  osakerekisteri.add(trans23);
+         *  osakerekisteri.readFromFile(hakemisto); #THROWS StoreException
+         *  alustaOsakerekisteri();
+         *  osakerekisteri.setTiedosto(hakemisto);
          *  osakerekisteri.tallenna();
          *  osakerekisteri = new Osakerekisteri();
          *  osakerekisteri.readFromFile(hakemisto);
          *  Collection<Osake> kaikki = osakerekisteri.etsi("",-1); 
          *  Iterator<Osake> it = kaikki.iterator();
-         *  it.next() === stock1;
-         *  it.next() === stock2;
+         *  it.next().toString() === stock1.toString();
+         *  it.next().toString() === stock2.toString();
          *  it.hasNext() === false;
          *  List<Transaktio> loytyneet = osakerekisteri.giveTransactions(stock1);
          *  Iterator<Transaktio> ih = loytyneet.iterator();
-         *  ih.next() === trans11;
-         *  ih.next() === trans12;
+         *  ih.next().toString() === trans11.toString();
+         *  ih.next().toString() === trans12.toString();
          *  ih.hasNext() === false;
          *  loytyneet = osakerekisteri.giveTransactions(stock2);
          *  ih = loytyneet.iterator();
-         *  ih.next() === trans21;
-         *  ih.next() === trans22;
-         *  ih.next() === trans23;
+         *  ih.next().toString() === trans21.toString();
+         *  ih.next().toString() === trans22.toString();
+         *  ih.next().toString() === trans23.toString();
          *  ih.hasNext() === false;
          *  osakerekisteri.add(stock2);
          *  osakerekisteri.add(trans23);
          *  osakerekisteri.tallenna();
          *  ftied.delete()  === true;
          *  fhtied.delete() === true;
-         *  File fbak = new File(hakemisto+"/nimet.bak");
-         *  File fhbak = new File(hakemisto+"/harrastukset.bak");
+         *  File fbak = new File(hakemisto+"/stocks.bak");
+         *  File fhbak = new File(hakemisto+"/transactions.bak");
          *  fbak.delete() === true;
          *  fhbak.delete() === true;
          *  dir.delete() === true;
@@ -349,7 +378,7 @@ public class Osakerekisteri {
 	     * #THROWS Exception
 	     *   alustaOsakerekisteri();
 	     *   osakerekisteri.giveTransactions(stock1).size() === 2;
-	     *   osakerekisteri.poistaTransaktio(trans11);
+	     *   osakerekisteri.deleteTransaction(trans11);
 	     *   osakerekisteri.giveTransactions(stock1).size() === 1;
 	     */ 
 	    public void deleteTransaction(Transaktio transaction) { 

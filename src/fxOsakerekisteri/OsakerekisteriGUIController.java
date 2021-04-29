@@ -430,21 +430,9 @@ public class OsakerekisteriGUIController implements Initializable {
         }
     
     /**
-     * TESTIMIELESSÄ TEHTY METODI
+     * Muokkaa transaktioita
+     * @throws CloneNotSupportedException
      */
-    private void addStock() {
-        try {
-            Osake osake = new Osake();
-            osake.register();
-            osake.giveStock(0);
-			osakerekisteri.add(osake);
-			get(osake.getId());
-		} catch (StoreException e) {
-			Dialogs.showMessageDialog("Too many entries");
-		}
-    }
-    
-    
     private void edit() throws CloneNotSupportedException {
     	int r = gridActions.getRowNr();
     	Transaktio transaction = gridActions.getObject(r);
@@ -457,7 +445,10 @@ public class OsakerekisteriGUIController implements Initializable {
 		updateTransactions();
     }
     
-    
+    /**
+     * 
+     * Päivittää transaktiolistan
+     */
     private void updateTransactions() {
     	List <Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
         gridActions.clear();

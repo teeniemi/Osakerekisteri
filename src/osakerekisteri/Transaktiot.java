@@ -63,31 +63,31 @@ public class Transaktiot implements Iterable<Transaktio> {
      * 
      * @example
      * <pre name="test">
-     * #THROWS SailoException 
+     * #THROWS StoreException 
      * #import java.io.File;
      * 
-     *  Jasenet jasenet = new Jasenet();
-     *  Jasen aku1 = new Jasen(), aku2 = new Jasen();
-     *  aku1.vastaaAkuAnkka();
-     *  aku2.vastaaAkuAnkka();
+     *  Osakkeet stocks = new Osakkeet();
+     *  Osake aku1 = new Osake(), aku2 = new Osake();
+     *  aku1.testi();
+     *  aku2.testi();
      *  String hakemisto = "testikelmit";
      *  String tiedNimi = hakemisto+"/nimet";
      *  File ftied = new File(tiedNimi+".dat");
      *  File dir = new File(hakemisto);
      *  dir.mkdir();
      *  ftied.delete();
-     *  jasenet.lueTiedostosta(tiedNimi); #THROWS SailoException
-     *  jasenet.lisaa(aku1);
-     *  jasenet.lisaa(aku2);
-     *  jasenet.tallenna();
-     *  jasenet = new Jasenet();            // Poistetaan vanhat luomalla uusi
-     *  jasenet.lueTiedostosta(tiedNimi);  // johon ladataan tiedot tiedostosta.
-     *  Iterator<Jasen> i = jasenet.iterator();
-     *  i.next() === aku1;
-     *  i.next() === aku2;
+     *  stocks.readFromFile(tiedNimi); #THROWS StoreException
+     *  stocks.add(aku1);
+     *  stocks.add(aku2);
+     *  stocks.save();
+     *  stocks = new Osakkeet();            // Poistetaan vanhat luomalla uusi
+     *  stocks.readFromFile(tiedNimi);  // johon ladataan tiedot tiedostosta.
+     *  Iterator<Osake> i = stocks.iterator();
+     *  i.next().toString() === aku1.toString();
+     *  i.next().toString() === aku2.toString();
      *  i.hasNext() === false;
-     *  jasenet.lisaa(aku2);
-     *  jasenet.tallenna();
+     *  stocks.add(aku2);
+     *  stocks.save();
      *  ftied.delete() === true;
      *  File fbak = new File(tiedNimi+".bak");
      *  fbak.delete() === true;
@@ -207,12 +207,12 @@ public class Transaktiot implements Iterable<Transaktio> {
      * #PACKAGEIMPORT
      * #import java.util.*;
      * 
-     *  Transaktiot transaktio = new Transaktiot();
-     *  Transaktio trans21 = new Transaktio(2); transaktiot.lisaa(trans21);
-     *  Transaktio trans11 = new Transaktio(1); transaktiot.lisaa(trans11);
-     *  Transaktio trans22 = new Transaktio(2); transaktiot.lisaa(trans22);
-     *  Transaktio trans12 = new Transaktio(1); transaktiot.lisaa(trans12);
-     *  Transaktio trans23 = new Transaktio(2); transaktiot.lisaa(trans23);
+     *  Transaktiot transaktiot = new Transaktiot();
+     *  Transaktio trans21 = new Transaktio(2); transaktiot.add(trans21);
+     *  Transaktio trans11 = new Transaktio(1); transaktiot.add(trans11);
+     *  Transaktio trans22 = new Transaktio(2); transaktiot.add(trans22);
+     *  Transaktio trans12 = new Transaktio(1); transaktiot.add(trans12);
+     *  Transaktio trans23 = new Transaktio(2); transaktiot.add(trans23);
      * 
      *  Iterator<Transaktio> i2=transaktiot.iterator();
      *  i2.next() === trans21;
@@ -225,8 +225,8 @@ public class Transaktiot implements Iterable<Transaktio> {
      *  int n = 0;
      *  int jnrot[] = {2,1,2,1,2};
      *  
-     *  for ( Transaktio har:transaktiot ) { 
-     *    har.getJasenNro() === jnrot[n]; n++;  
+     *  for ( Transaktio trans:transaktiot ) { 
+     *    trans.getStockId() === jnrot[n]; n++;  
      *  }
      *  
      *  n === 5;
@@ -248,21 +248,21 @@ public class Transaktiot implements Iterable<Transaktio> {
      * #import java.util.*;
      * 
      *  Transaktiot transaktiot = new Transaktiot();
-     *  Transaktio trans21 = new Transaktio(2); transaktiot.lisaa(trans21);
-     *  Transaktio trans11 = new Transaktio(1); transaktiot.lisaa(trans11);
-     *  Transaktio trans22 = new Transaktio(2); transaktiot.lisaa(trans22);
-     *  Transaktio trans12 = new Transaktio(1); transaktiot.lisaa(trans12);
-     *  Transaktio trans23 = new Transaktio(2); transaktiot.lisaa(trans23);
-     *  Transaktio trans51 = new Transaktio(5); transaktiot.lisaa(trans51);
+     *  Transaktio trans21 = new Transaktio(2); transaktiot.add(trans21);
+     *  Transaktio trans11 = new Transaktio(1); transaktiot.add(trans11);
+     *  Transaktio trans22 = new Transaktio(2); transaktiot.add(trans22);
+     *  Transaktio trans12 = new Transaktio(1); transaktiot.add(trans12);
+     *  Transaktio trans23 = new Transaktio(2); transaktiot.add(trans23);
+     *  Transaktio trans51 = new Transaktio(5); transaktiot.add(trans51);
      *  
      *  List<Transaktio> loytyneet;
-     *  loytyneet = transaktiot.annaTransaktiot(3);
+     *  loytyneet = transaktiot.giveTransactions(3);
      *  loytyneet.size() === 0; 
-     *  loytyneet = transaktiot.annaTransaktiot(1);
+     *  loytyneet = transaktiot.giveTransactions(1);
      *  loytyneet.size() === 2; 
      *  loytyneet.get(0) == trans11 === true;
      *  loytyneet.get(1) == trans12 === true;
-     *  loytyneet = transaktiot.annaTransaktiot(5);
+     *  loytyneet = transaktiot.giveTransactions(5);
      *  loytyneet.size() === 1; 
      *  loytyneet.get(0) == trans51 === true;
      * </pre> 
@@ -401,22 +401,22 @@ public class Transaktiot implements Iterable<Transaktio> {
      * @return montako poistettiin 
      * @example
      * <pre name="test">
-     *  Harrastukset harrasteet = new Harrastukset();
-     *  Harrastus pitsi21 = new Harrastus(); pitsi21.vastaaPitsinNyplays(2);
-     *  Harrastus pitsi11 = new Harrastus(); pitsi11.vastaaPitsinNyplays(1);
-     *  Harrastus pitsi22 = new Harrastus(); pitsi22.vastaaPitsinNyplays(2); 
-     *  Harrastus pitsi12 = new Harrastus(); pitsi12.vastaaPitsinNyplays(1); 
-     *  Harrastus pitsi23 = new Harrastus(); pitsi23.vastaaPitsinNyplays(2); 
-     *  harrasteet.lisaa(pitsi21);
-     *  harrasteet.lisaa(pitsi11);
-     *  harrasteet.lisaa(pitsi22);
-     *  harrasteet.lisaa(pitsi12);
-     *  harrasteet.lisaa(pitsi23);
-     *  harrasteet.poistaJasenenHarrastukset(2) === 3;  harrasteet.getLkm() === 2;
-     *  harrasteet.poistaJasenenHarrastukset(3) === 0;  harrasteet.getLkm() === 2;
-     *  List<Harrastus> h = harrasteet.annaHarrastukset(2);
+     *  Transaktiot transactions = new Transaktiot();
+     *  Transaktio pitsi21 = new Transaktio(); pitsi21.testi(2);
+     *  Transaktio pitsi11 = new Transaktio(); pitsi11.testi(1);
+     *  Transaktio pitsi22 = new Transaktio(); pitsi22.testi(2); 
+     *  Transaktio pitsi12 = new Transaktio(); pitsi12.testi(1); 
+     *  Transaktio pitsi23 = new Transaktio(); pitsi23.testi(2); 
+     *  transactions.add(pitsi21);
+     *  transactions.add(pitsi11);
+     *  transactions.add(pitsi22);
+     *  transactions.add(pitsi12);
+     *  transactions.add(pitsi23);
+     *  transactions.deleteStocksTransactions(2) === 3;  transactions.getAmount() === 2;
+     *  transactions.deleteStocksTransactions(3) === 0;  transactions.getAmount() === 2;
+     *  List<Transaktio> h = transactions.giveTransactions(2);
      *  h.size() === 0; 
-     *  h = harrasteet.annaHarrastukset(1);
+     *  h = transactions.giveTransactions(1);
      *  h.get(0) === pitsi11;
      *  h.get(1) === pitsi12;
      * </pre>
@@ -441,21 +441,21 @@ public class Transaktiot implements Iterable<Transaktio> {
      * @return tosi jos löytyi poistettava tietue 
      * @example
      * <pre name="test">
-     * #THROWS SailoException 
+     * #THROWS StoreException 
      * #import java.io.File;
-     *  Harrastukset harrasteet = new Harrastukset();
-     *  Harrastus pitsi21 = new Harrastus(); pitsi21.vastaaPitsinNyplays(2);
-     *  Harrastus pitsi11 = new Harrastus(); pitsi11.vastaaPitsinNyplays(1);
-     *  Harrastus pitsi22 = new Harrastus(); pitsi22.vastaaPitsinNyplays(2); 
-     *  Harrastus pitsi12 = new Harrastus(); pitsi12.vastaaPitsinNyplays(1); 
-     *  Harrastus pitsi23 = new Harrastus(); pitsi23.vastaaPitsinNyplays(2); 
-     *  harrasteet.lisaa(pitsi21);
-     *  harrasteet.lisaa(pitsi11);
-     *  harrasteet.lisaa(pitsi22);
-     *  harrasteet.lisaa(pitsi12);
-     *  harrasteet.poista(pitsi23) === false ; harrasteet.getLkm() === 4;
-     *  harrasteet.poista(pitsi11) === true;   harrasteet.getLkm() === 3;
-     *  List<Harrastus> h = harrasteet.annaHarrastukset(1);
+     *  Transaktiot transactions = new Transaktiot();
+     *  Transaktio pitsi21 = new Transaktio(); pitsi21.testi(2);
+     *  Transaktio pitsi11 = new Transaktio(); pitsi11.testi(1);
+     *  Transaktio pitsi22 = new Transaktio(); pitsi22.testi(2); 
+     *  Transaktio pitsi12 = new Transaktio(); pitsi12.testi(1); 
+     *  Transaktio pitsi23 = new Transaktio(); pitsi23.testi(2); 
+     *  transactions.add(pitsi21);
+     *  transactions.add(pitsi11);
+     *  transactions.add(pitsi22);
+     *  transactions.add(pitsi12);
+     *  transactions.delete(pitsi23) === false ; transactions.getAmount() === 4;
+     *  transactions.delete(pitsi11) === true;   transactions.getAmount() === 3;
+     *  List<Transaktio> h = transactions.giveTransactions(1);
      *  h.size() === 1; 
      *  h.get(0) === pitsi12;
      * </pre>
@@ -472,22 +472,22 @@ public class Transaktiot implements Iterable<Transaktio> {
      * @return montako poistettiin 
      * @example
      * <pre name="test">
-     *  Harrastukset harrasteet = new Harrastukset();
-     *  Harrastus pitsi21 = new Harrastus(); pitsi21.vastaaPitsinNyplays(2);
-     *  Harrastus pitsi11 = new Harrastus(); pitsi11.vastaaPitsinNyplays(1);
-     *  Harrastus pitsi22 = new Harrastus(); pitsi22.vastaaPitsinNyplays(2); 
-     *  Harrastus pitsi12 = new Harrastus(); pitsi12.vastaaPitsinNyplays(1); 
-     *  Harrastus pitsi23 = new Harrastus(); pitsi23.vastaaPitsinNyplays(2); 
-     *  harrasteet.lisaa(pitsi21);
-     *  harrasteet.lisaa(pitsi11);
-     *  harrasteet.lisaa(pitsi22);
-     *  harrasteet.lisaa(pitsi12);
-     *  harrasteet.lisaa(pitsi23);
-     *  harrasteet.poistaJasenenHarrastukset(2) === 3;  harrasteet.getLkm() === 2;
-     *  harrasteet.poistaJasenenHarrastukset(3) === 0;  harrasteet.getLkm() === 2;
-     *  List<Harrastus> h = harrasteet.annaHarrastukset(2);
+     *  Transaktiot transactions = new Transaktiot();
+     *  Transaktio pitsi21 = new Transaktio(); pitsi21.testi(2);
+     *  Transaktio pitsi11 = new Transaktio(); pitsi11.testi(1);
+     *  Transaktio pitsi22 = new Transaktio(); pitsi22.testi(2); 
+     *  Transaktio pitsi12 = new Transaktio(); pitsi12.testi(1); 
+     *  Transaktio pitsi23 = new Transaktio(); pitsi23.testi(2); 
+     *  transactions.add(pitsi21);
+     *  transactions.add(pitsi11);
+     *  transactions.add(pitsi22);
+     *  transactions.add(pitsi12);
+     *  transactions.add(pitsi23);
+     *  transactions.deleteStocksTransactions(2) === 3;  transactions.getAmount() === 2;
+     *  transactions.deleteStocksTransactions(3) === 0;  transactions.getAmount() === 2;
+     *  List<Transaktio> h = transactions.giveTransactions(2);
      *  h.size() === 0; 
-     *  h = harrasteet.annaHarrastukset(1);
+     *  h = transactions.giveTransactions(1);
      *  h.get(0) === pitsi11;
      *  h.get(1) === pitsi12;
      * </pre>
