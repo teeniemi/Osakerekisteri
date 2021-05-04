@@ -54,7 +54,6 @@ public class Osakkeet implements Iterable<Osake> {
     /**
      * Lisää uuden osakkeen tietorakenteeseen. Ottaa osakkeen omistukseensa.
      * @param stock lisättävän osakkeen viite.
-     * @throws StoreException jos tietorakenne on täynnä
      * @example
      * <pre name="test">
      * #THROWS StoreException 
@@ -418,6 +417,10 @@ public class Osakkeet implements Iterable<Osake> {
         }
 
 
+	/**
+	 * @param id poistettavan osakkeen id
+	 * @return poistettu määrä, aina 1
+	 */
 	public int delete(int id) {
 		int ind = searchId(id); 
         if (ind < 0) return 0; 

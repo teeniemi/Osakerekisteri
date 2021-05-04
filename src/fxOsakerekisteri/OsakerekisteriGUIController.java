@@ -1,31 +1,22 @@
 package fxOsakerekisteri;
 
-import java.awt.Desktop;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
-import fi.jyu.mit.fxgui.ModalControllerInterface;
 import fi.jyu.mit.fxgui.StringGrid;
 import fi.jyu.mit.fxgui.TextAreaOutputStream;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import osakerekisteri.Osake;
 import osakerekisteri.Osakerekisteri;
@@ -170,11 +161,8 @@ public class OsakerekisteriGUIController implements Initializable {
     private String osakerekisterinNimi = "stocks";
     private Osakerekisteri osakerekisteri;
     private Osake stockAtPlace;
-    private Transaktio transactionAtPlace;
     private TextArea areaStock = new TextArea();
-    private TextArea areaTransaction = new TextArea();
     private static Osake apuStock = new Osake();
-    private static Transaktio apuTransaction = new Transaktio();
 
     /**
      * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
@@ -233,7 +221,6 @@ public class OsakerekisteriGUIController implements Initializable {
      */
     protected String readFile(String name) {
     	osakerekisterinNimi = name;
-        setTitle("Osakerekisteri - " + osakerekisterinNimi);
         try {
             osakerekisteri.readFromFile(name); // lukee nimen osakerekisteri.java aliohjelmaa käyttäen
             get(0);
@@ -361,10 +348,6 @@ public class OsakerekisteriGUIController implements Initializable {
                 os.println("\n\n");
             }
         }
-    }
-    
-    private void setTitle(String title) {
-        // ModalController.getStage(searchCriteria).setTitle(title);
     }
     
     // luodaan uusi osake ja rekisteröidään se 
@@ -501,14 +484,10 @@ public class OsakerekisteriGUIController implements Initializable {
     	gridActions.clear();
         if ( stockAtPlace == null ) return;
         
-        try {
-            List<Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
-            if ( transactions.size() == 0 ) return;
-            for (Transaktio transaction: transactions)
-                showTransaction(transaction);
-        } catch (StoreException e) {
-            showError(e.getMessage());
-        } 
+        List<Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
+        if ( transactions.size() == 0 ) return;
+        for (Transaktio transaction: transactions)
+            showTransaction(transaction); 
     }
 
 	private void showTransaction(Transaktio transaction) {

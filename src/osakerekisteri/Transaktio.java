@@ -3,7 +3,6 @@ package osakerekisteri;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.time.LocalDate;
-import java.util.Random;
 
 import fi.jyu.mit.ohj2.Mjonot;
 
@@ -60,22 +59,21 @@ public class Transaktio {
         out.println(" Total Price " + String.format("%4.2f", totalPrice) + " €");
         out.println("--------------------------");
     }
-    
+
     
     /**
-     * Alustetaan harrastus.  Toistaiseksi ei tarvitse tehdä mitään
+     * Alustetaan tietyn osakkeen transaktio.  
+     * @param stockId osakkeen id
      */
-    public Transaktio() {
-        // Vielä ei tarvita mitään
+    public Transaktio(int stockId) {
+        this.stockId = stockId;
     }
 
 
     /**
-     * Alustetaan tietyn osakkeen transaktio.  
-     * @param stockId osakkeen viitenumero
+     * Alustetaan transaktio. Toistaiseksi ei tarvitse tehdä mitään
      */
-    public Transaktio(int stockId) {
-        this.stockId = stockId;
+    public Transaktio() {
     }
 
 
@@ -86,7 +84,6 @@ public class Transaktio {
      * @param nro viite osakkeeseen, jonka transaktiosta on kyse
      */
     public void testi(int nro) {
-    	
         stockId = nro;
         stockPrice = Math.random()*100;
         amount = (int)(Math.random()*100);
@@ -118,7 +115,6 @@ public class Transaktio {
      *   n1 === n2-1;
      * </pre>
      */
-    
     public int register() {
         transactionId = nextId;
         nextId++;
@@ -135,13 +131,13 @@ public class Transaktio {
 
 
     /**
-     * TODO: Hakeeko tämä saman ID:n mikä osakkeessa on?
      * Palautetaan mille osakkeelle transaktio kuuluu
      * @return osakkeen id
      */
     public int getStockId() {
         return stockId;
     }
+    
     
     /**
      * @return tyyppi
@@ -150,12 +146,14 @@ public class Transaktio {
     	return type;
     }
     
+    
     /**
      * @return pvm
      */
     public LocalDate getDate() {
     	return date;
     }
+    
     
     /**
      * @return määrä
@@ -164,6 +162,7 @@ public class Transaktio {
     	return amount;
     }
     
+    
     /**
      * @return hinta
      */
@@ -171,12 +170,14 @@ public class Transaktio {
     	return stockPrice;
     }
     
+    
     /**
      * @return kulut
      */
     public double getExpenses() {
     	return expenses;
     }
+    
     
     /**
      * @return kokonaishinta
@@ -199,6 +200,7 @@ public class Transaktio {
         if (transactionId >= nextId) nextId = transactionId + 1;
     }
 
+    
     /**
      * Palauttaa transaktion tiedot merkkijonona jonka voi tallentaa tiedostoon.
      * @return transaktio tolppaeroteltuna merkkijonona 
@@ -222,11 +224,11 @@ public class Transaktio {
                 totalPrice + "|";
     }
     
+    
     /**
      * Selvittää transaktion tiedot | erotellusta merkkijonosta
      * Pitää huolen että nextId on suurempi kuin tuleva transactionId.
      * @param line josta transaktion tiedot otetaan
-     * 
      * @example
      * <pre name="test">
      *   Transaktio transaction = new Transaktio();
@@ -255,51 +257,14 @@ public class Transaktio {
         
     }
     
-    public void setStockId(int newId) {
-		stockId = newId;
-		
-	}
     
     /**
-     * Tehdään identtinen klooni transaktiosta
-     * @return Object kloonattu jäsen
-     * @example
-     * <pre name="test">
-     * #THROWS CloneNotSupportedException 
-     *   Transaktio trans = new Transaktio();
-     *   trans.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
-     *   Transaktio klooni = trans.clone();
-     *   klooni.toString() === trans.toString();
-     *   trans.parse("   1   |  11  |   Uinti  | 1949 | 22 t ");
-     *   klooni.toString().equals(trans.toString()) === false;
-     * </pre>
+     * @param newId asetetaan osakkeelle uusi id.
      */
-    @Override
-    public Transaktio clone() throws CloneNotSupportedException { 
-        Transaktio klooni = new Transaktio();
-        klooni.parse(this.toString());
-        return klooni;
-        
-    }
-
-
-	/**
-     * TODO: Mitä pääohjelmaan?
-     * @param args ei käytössä
-     */
-    public static void main(String[] args) {
-        Transaktio transaktio = new Transaktio();
-        Transaktio transaktio2 = new Transaktio();
-        
-        // transaktio.rekisteroi();
-        // transaktio2.rekisteroi();
-        
-        transaktio.tulosta(System.out);
-        // transaktio.vastaaTransaktio();
-
-        transaktio2.tulosta(System.out);
-        // transaktio2.vastaaTransaktio();
-    }
+    public void setStockId(int newId) {
+		stockId = newId;
+	}
+    
 
     /**
      * @param s määrä
@@ -321,8 +286,44 @@ public class Transaktio {
         this.stockPrice = s;
         return null;
     }
+    
+    /**
+     * Tehdään identtinen klooni transaktiosta
+     * @return Object kloonattu jäsen
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException 
+     *   Transaktio trans = new Transaktio();
+     *   trans.parse("1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |");
+     *   Transaktio klooni = trans.clone();
+     *   klooni.toString() === trans.toString();
+     *   trans.parse("2 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |");
+     *   klooni.toString().equals(trans.toString()) === false;
+     * </pre>
+     */
+    @Override
+    public Transaktio clone() throws CloneNotSupportedException { 
+        Transaktio klooni = new Transaktio();
+        klooni.parse(this.toString());
+        return klooni;
+        
+    }
 
 
+    /**
+     * @param args ei käytössä
+     */
+    public static void main(String[] args) {
+        Transaktio transaktio = new Transaktio();
+        Transaktio transaktio2 = new Transaktio();
+        transaktio.tulosta(System.out);
+        transaktio2.tulosta(System.out);
+    }
+
+	/**
+	 * @param s kulut
+	 * @return osakkeen kulut
+	 */
 	public String setExpenses(double s) {
 		if (s < 0) return "";
 		this.expenses = s;
@@ -349,12 +350,13 @@ public class Transaktio {
      * @example
      * <pre name="test">
      *   Transaktio trans = new Transaktio();
-     *   trans.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
-     *   trans.giveTransaction(0) === "2";   
-     *   trans.giveTransaction(1) === "10";   
-     *   trans.giveTransaction(2) === "Kalastus";   
-     *   trans.giveTransaction(3) === "1949";   
-     *   trans.giveTransaction(4) === "22";   
+     *   trans.parse("1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 | 1 |");
+     *   trans.giveTransaction(0) === "Osto";   
+     *   trans.giveTransaction(1) === "30.11.2007";   
+     *   trans.giveTransaction(2) === "200";   
+     *   trans.giveTransaction(3) === "27.32";   
+     *   trans.giveTransaction(4) === "54.64";
+     *   trans.giveTransaction(5) === "5518.64";     
      *   
      * </pre>
      */
@@ -376,10 +378,5 @@ public class Transaktio {
         default:
             return "???";
 	}
-    
-
-    }
-
-
-		
+    }	
 }

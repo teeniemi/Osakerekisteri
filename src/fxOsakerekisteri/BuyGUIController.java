@@ -4,20 +4,16 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
-import fi.jyu.mit.fxgui.StringGrid;
 import fi.jyu.mit.ohj2.Mjonot;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import osakerekisteri.Osake;
 import osakerekisteri.Osakerekisteri;
 import osakerekisteri.Transaktio;
 
@@ -85,7 +81,7 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
             edit.setOnKeyReleased( e -> kasitteleMuutosTransaktioon(k, (TextField)(e.getSource())));
         }
         showTransaction(edits, transactionAtPlace);
-        showDate(editDate, transactionAtPlace);
+        showDate(editDate);
     }
     
     /**
@@ -140,9 +136,8 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
     
     /**
      * @param date päivämäärä joka alustetaan
-     * @param transaction transaktio
      */
-    public static void showDate(DatePicker date, Transaktio transaction) {
+    public static void showDate(DatePicker date) {
     	LocalDate pvm = LocalDate.of(21, 1, 1);
     	date.setValue(pvm);
     }

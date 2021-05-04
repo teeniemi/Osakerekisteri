@@ -9,7 +9,6 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import fi.jyu.mit.ohj2.Mjonot;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -156,7 +155,6 @@ public class OsakeDialogController implements ModalControllerInterface<Osake>, I
     
     /**
      * Luodaan osakkeen kysymisdialogi ja palautetaan sama tietue muutettuna tai null
-     * TODO: korjattava toimimaan
      * @param modalityStage mille ollaan modaalisia, null = sovellukselle
      * @param oletus mitä dataan näytetään oletuksena
      * @return null jos painetaan Cancel, muuten täytetty tietue
@@ -168,7 +166,4 @@ public class OsakeDialogController implements ModalControllerInterface<Osake>, I
                     modalityStage, oletus, null 
                 );
     }
-
 }
-
-

@@ -1,15 +1,11 @@
 package fxOsakerekisteri;
 
-
-import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.print.PrinterJob;
 import javafx.scene.control.TextArea;
 import javafx.scene.web.WebEngine;
-import osakerekisteri.Transaktio;
 
 /**
  * @author jesse korolainen & teemu nieminen
@@ -54,6 +50,7 @@ public class PrintGUIController implements ModalControllerInterface<String> {
     public void handleShown() {
         //
     }
+    
     
     /**
      * @return alue johon tulostetaan

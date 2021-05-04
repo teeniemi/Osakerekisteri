@@ -1,12 +1,15 @@
 package fxOsakerekisteri;
 
-import java.awt.event.ActionEvent;
-
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 import osakerekisteri.Osakerekisteri;
 
+/**
+ * @author jesse korolainen & teemu nieminen
+ * @version 4.5.2021
+ *
+ */
 public class SellGUIController implements ModalControllerInterface<Osakerekisteri>{
 	
 		private Osakerekisteri osakerekisteri;
@@ -35,8 +38,7 @@ public class SellGUIController implements ModalControllerInterface<Osakerekister
 
 		@Override
 		public void handleShown() {
-			// TODO Auto-generated method stub
-			
+			//
 		}
 
 		@Override

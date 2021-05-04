@@ -67,9 +67,9 @@ public class Transaktiot implements Iterable<Transaktio> {
      * #import java.io.File;
      * 
      *  Osakkeet stocks = new Osakkeet();
-     *  Osake aku1 = new Osake(), aku2 = new Osake();
-     *  aku1.testi();
-     *  aku2.testi();
+     *  Osake stock1 = new Osake(), stock2 = new Osake();
+     *  stock1.testi();
+     *  stock2.testi();
      *  String hakemisto = "testikelmit";
      *  String tiedNimi = hakemisto+"/nimet";
      *  File ftied = new File(tiedNimi+".dat");
@@ -77,16 +77,16 @@ public class Transaktiot implements Iterable<Transaktio> {
      *  dir.mkdir();
      *  ftied.delete();
      *  stocks.readFromFile(tiedNimi); #THROWS StoreException
-     *  stocks.add(aku1);
-     *  stocks.add(aku2);
+     *  stocks.add(stock1);
+     *  stocks.add(stock2);
      *  stocks.save();
      *  stocks = new Osakkeet();            // Poistetaan vanhat luomalla uusi
      *  stocks.readFromFile(tiedNimi);  // johon ladataan tiedot tiedostosta.
      *  Iterator<Osake> i = stocks.iterator();
-     *  i.next().toString() === aku1.toString();
-     *  i.next().toString() === aku2.toString();
+     *  i.next().toString() === stock1.toString();
+     *  i.next().toString() === stock2.toString();
      *  i.hasNext() === false;
-     *  stocks.add(aku2);
+     *  stocks.add(stock2);
      *  stocks.save();
      *  ftied.delete() === true;
      *  File fbak = new File(tiedNimi+".bak");
@@ -276,6 +276,9 @@ public class Transaktiot implements Iterable<Transaktio> {
     }
     
 
+	/**
+	 * @param transaction transaktio
+	 */
 	public void replace(Transaktio transaction) {
 		for (int i = 0; i < getAmount(); i++) {
 			if (entries.get(i).getTransactionId() == transaction.getTransactionId()) {
@@ -396,29 +399,29 @@ public class Transaktiot implements Iterable<Transaktio> {
 	}
 
 	/**
-     * Poistaa kaikki tietyn tietyn jäsenen harrastukset
+     * Poistaa kaikki tietyn tietyn osakkeen transaktiot
 	 * @param id viite siihen, mihin liittyvät tietueet poistetaan
      * @return montako poistettiin 
      * @example
      * <pre name="test">
      *  Transaktiot transactions = new Transaktiot();
-     *  Transaktio pitsi21 = new Transaktio(); pitsi21.testi(2);
-     *  Transaktio pitsi11 = new Transaktio(); pitsi11.testi(1);
-     *  Transaktio pitsi22 = new Transaktio(); pitsi22.testi(2); 
-     *  Transaktio pitsi12 = new Transaktio(); pitsi12.testi(1); 
-     *  Transaktio pitsi23 = new Transaktio(); pitsi23.testi(2); 
-     *  transactions.add(pitsi21);
-     *  transactions.add(pitsi11);
-     *  transactions.add(pitsi22);
-     *  transactions.add(pitsi12);
-     *  transactions.add(pitsi23);
+     *  Transaktio trans21 = new Transaktio(); trans21.testi(2);
+     *  Transaktio trans11 = new Transaktio(); trans11.testi(1);
+     *  Transaktio trans22 = new Transaktio(); trans22.testi(2); 
+     *  Transaktio trans12 = new Transaktio(); trans12.testi(1); 
+     *  Transaktio trans23 = new Transaktio(); trans23.testi(2); 
+     *  transactions.add(trans21);
+     *  transactions.add(trans11);
+     *  transactions.add(trans22);
+     *  transactions.add(trans12);
+     *  transactions.add(trans23);
      *  transactions.deleteStocksTransactions(2) === 3;  transactions.getAmount() === 2;
      *  transactions.deleteStocksTransactions(3) === 0;  transactions.getAmount() === 2;
      *  List<Transaktio> h = transactions.giveTransactions(2);
      *  h.size() === 0; 
      *  h = transactions.giveTransactions(1);
-     *  h.get(0) === pitsi11;
-     *  h.get(1) === pitsi12;
+     *  h.get(0) === trans11;
+     *  h.get(1) === trans12;
      * </pre>
      */
 	public int deleteStocksTransactions(int id) {
@@ -437,27 +440,27 @@ public class Transaktiot implements Iterable<Transaktio> {
 
 	/**
      * Poistaa valitun harrastuksen
-     * @param harrastus poistettava harrastus
+     * @param transaction poistettava transaktio
      * @return tosi jos löytyi poistettava tietue 
      * @example
      * <pre name="test">
      * #THROWS StoreException 
      * #import java.io.File;
      *  Transaktiot transactions = new Transaktiot();
-     *  Transaktio pitsi21 = new Transaktio(); pitsi21.testi(2);
-     *  Transaktio pitsi11 = new Transaktio(); pitsi11.testi(1);
-     *  Transaktio pitsi22 = new Transaktio(); pitsi22.testi(2); 
-     *  Transaktio pitsi12 = new Transaktio(); pitsi12.testi(1); 
-     *  Transaktio pitsi23 = new Transaktio(); pitsi23.testi(2); 
-     *  transactions.add(pitsi21);
-     *  transactions.add(pitsi11);
-     *  transactions.add(pitsi22);
-     *  transactions.add(pitsi12);
-     *  transactions.delete(pitsi23) === false ; transactions.getAmount() === 4;
-     *  transactions.delete(pitsi11) === true;   transactions.getAmount() === 3;
+     *  Transaktio trans21 = new Transaktio(); trans21.testi(2);
+     *  Transaktio trans11 = new Transaktio(); trans11.testi(1);
+     *  Transaktio trans22 = new Transaktio(); trans22.testi(2); 
+     *  Transaktio trans12 = new Transaktio(); trans12.testi(1); 
+     *  Transaktio trans23 = new Transaktio(); trans23.testi(2); 
+     *  transactions.add(trans21);
+     *  transactions.add(trans11);
+     *  transactions.add(trans22);
+     *  transactions.add(trans12);
+     *  transactions.delete(trans23) === false; transactions.getAmount() === 4;
+     *  transactions.delete(trans11) === true;   transactions.getAmount() === 3;
      *  List<Transaktio> h = transactions.giveTransactions(1);
      *  h.size() === 1; 
-     *  h.get(0) === pitsi12;
+     *  h.get(0) === trans12;
      * </pre>
      */
     public boolean delete(Transaktio transaction) {
@@ -467,32 +470,32 @@ public class Transaktiot implements Iterable<Transaktio> {
     }
     
     /**
-     * Poistaa kaikki tietyn tietyn jäsenen harrastukset
-     * @param tunnusNro viite siihen, mihin liittyvät tietueet poistetaan
+     * Poistaa kaikki tietyn tietyn osakkeen transaktiot
+     * @param id viite siihen, mihin liittyvät tietueet poistetaan
      * @return montako poistettiin 
      * @example
      * <pre name="test">
      *  Transaktiot transactions = new Transaktiot();
-     *  Transaktio pitsi21 = new Transaktio(); pitsi21.testi(2);
-     *  Transaktio pitsi11 = new Transaktio(); pitsi11.testi(1);
-     *  Transaktio pitsi22 = new Transaktio(); pitsi22.testi(2); 
-     *  Transaktio pitsi12 = new Transaktio(); pitsi12.testi(1); 
-     *  Transaktio pitsi23 = new Transaktio(); pitsi23.testi(2); 
-     *  transactions.add(pitsi21);
-     *  transactions.add(pitsi11);
-     *  transactions.add(pitsi22);
-     *  transactions.add(pitsi12);
-     *  transactions.add(pitsi23);
+     *  Transaktio trans21 = new Transaktio(); trans21.testi(2);
+     *  Transaktio trans11 = new Transaktio(); trans11.testi(1);
+     *  Transaktio trans22 = new Transaktio(); trans22.testi(2); 
+     *  Transaktio trans12 = new Transaktio(); trans12.testi(1); 
+     *  Transaktio trans23 = new Transaktio(); trans23.testi(2); 
+     *  transactions.add(trans21);
+     *  transactions.add(trans11);
+     *  transactions.add(trans22);
+     *  transactions.add(trans12);
+     *  transactions.add(trans23);
      *  transactions.deleteStocksTransactions(2) === 3;  transactions.getAmount() === 2;
      *  transactions.deleteStocksTransactions(3) === 0;  transactions.getAmount() === 2;
      *  List<Transaktio> h = transactions.giveTransactions(2);
      *  h.size() === 0; 
      *  h = transactions.giveTransactions(1);
-     *  h.get(0) === pitsi11;
-     *  h.get(1) === pitsi12;
+     *  h.get(0) === trans11;
+     *  h.get(1) === trans12;
      * </pre>
-     */
-    public int poistaJasenenHarrastukset(int id) {
+     */ 
+    public int deleteStockTransactions(int id) {
         int n = 0;
         for (Iterator<Transaktio> it = entries.iterator(); it.hasNext();) {
             Transaktio transaction = it.next();
@@ -503,11 +506,5 @@ public class Transaktiot implements Iterable<Transaktio> {
         }
         if (n > 0) changed = true;
         return n;
-    }
-
-
-
-	
-		
-
+    }	
 }

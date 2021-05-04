@@ -162,6 +162,10 @@ public class Osake implements Cloneable{
 		}
 	}
 	
+	/**
+	 * @param k listaan tulevat arvot
+	 * @return listan arvot
+	 */
 	public String getQuestion(int k) {
 		switch ( k ) {
 		case 0: return "ID";
@@ -176,7 +180,6 @@ public class Osake implements Cloneable{
 	/**
      * Tehdään identtinen klooni osakkeesta
      * @return Object kloonattu osake
-	 * @throws CloneNotSupportedException 
      * @example
      * <pre name="test">
      * #THROWS CloneNotSupportedException 
@@ -338,6 +341,9 @@ public String getTotalPrice() {
     return totalPrice+"";
 }
 
+/**
+ * @return 5 kenttää
+ */
 public int getFields() {
 	return 5;
 }
