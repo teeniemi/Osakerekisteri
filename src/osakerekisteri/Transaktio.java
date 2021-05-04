@@ -31,7 +31,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @version 1.3.2021
  *
  */
-public class Transaktio {
+public class Transaktio implements Cloneable {
     
     private int     transactionId;
     private LocalDate  date = LocalDate.now();
@@ -102,7 +102,7 @@ public class Transaktio {
     
     /**
      * Antaa transaktion seuraavan rekisterinumeron.
-     * @return transaktion uusi tunnus_nro
+     * @return transaktion uusi id
      * @example
      * <pre name="test">
      *   Transaktio trans1 = new Transaktio();
@@ -226,20 +226,20 @@ public class Transaktio {
     
     
     /**
-     * Selvittää transaktion tiedot | erotellusta merkkijonosta
+     * Selvittää transaktion tiedot | erotellusta merkkijonosta.
      * Pitää huolen että nextId on suurempi kuin tuleva transactionId.
      * @param line josta transaktion tiedot otetaan
      * @example
      * <pre name="test">
      *   Transaktio transaction = new Transaktio();
      *   transaction.parse("1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |");
-     *   transaction.getTransactionId() === 3;
+     *   transaction.getTransactionId() === 1;
      *   transaction.toString().startsWith("1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
      *
      *   transaction.register();
      *   int n = transaction.getTransactionId();
      *   transaction.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
-     *   transaction.register();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
+     *   transaction.register();            // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
      *   transaction.getTransactionId() === n+20+1;
      *     
      * </pre>
@@ -289,15 +289,15 @@ public class Transaktio {
     
     /**
      * Tehdään identtinen klooni transaktiosta
-     * @return Object kloonattu jäsen
+     * @return Object kloonattu transaktio
      * @example
      * <pre name="test">
      * #THROWS CloneNotSupportedException 
      *   Transaktio trans = new Transaktio();
-     *   trans.parse("1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |");
+     *   trans.parse("1|30.11.2007|Osto|27.32|200|54.64|5518.64|1");
      *   Transaktio klooni = trans.clone();
      *   klooni.toString() === trans.toString();
-     *   trans.parse("2 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |");
+     *   trans.parse("2|30.11.2007|Myynti|25.00|100|10.00|2500.00|1");
      *   klooni.toString().equals(trans.toString()) === false;
      * </pre>
      */
@@ -306,9 +306,7 @@ public class Transaktio {
         Transaktio klooni = new Transaktio();
         klooni.parse(this.toString());
         return klooni;
-        
     }
-
 
     /**
      * @param args ei käytössä
@@ -350,14 +348,13 @@ public class Transaktio {
      * @example
      * <pre name="test">
      *   Transaktio trans = new Transaktio();
-     *   trans.parse("1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 | 1 |");
+     *   trans.parse("Osto|30.11.2007|200|27.32|54.64|5518.64|");
      *   trans.giveTransaction(0) === "Osto";   
      *   trans.giveTransaction(1) === "30.11.2007";   
      *   trans.giveTransaction(2) === "200";   
      *   trans.giveTransaction(3) === "27.32";   
      *   trans.giveTransaction(4) === "54.64";
      *   trans.giveTransaction(5) === "5518.64";     
-     *   
      * </pre>
      */
 

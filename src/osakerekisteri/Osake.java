@@ -199,8 +199,6 @@ public class Osake implements Cloneable{
     }
     
 	
-	
-	
 	/**
 	* Asettaa tunnusnumeron ja samalla varmistaa että
 	* seuraava numero on aina suurempi kuin tähän mennessä suurin.
