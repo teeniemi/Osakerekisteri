@@ -359,6 +359,7 @@ public class OsakerekisteriGUIController implements Initializable {
         transaction.setStockId(stockAtPlace.getId());
 		transaction.register();
 		osakerekisteri.add(transaction);
+		updateTransactions();
     }
     
     
@@ -368,7 +369,6 @@ public class OsakerekisteriGUIController implements Initializable {
     private void addCompany() {
         try {
             Osake stock = new Osake();
-            // TODO: tässä kohtaa pitää mennä OsakeDialogControlleriin hakemaan tietoa, mutta miten?
             stock = OsakeDialogController.askStock(null, stock); // TÄTÄ EI VARMAANKAAN TARVITA KOSKA EI TARVITSE TARKISTAA OSAKKEITA?
             if (stock == null) return;
             stock.register();
@@ -430,7 +430,7 @@ public class OsakerekisteriGUIController implements Initializable {
     
     /**
      * 
-     * Päivittää transaktiolistan
+     * Päivittää osakkeen transaktiolistan, kun sitä klikataan
      */
     private void updateTransactions() {
     	List <Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
@@ -496,6 +496,7 @@ public class OsakerekisteriGUIController implements Initializable {
         for (int i=0, k=transaction.firstField(); k < fields; i++, k++) 
             row[i] = transaction.giveTransaction(k); 
         gridActions.add(transaction,row);
+       
     }
     
 

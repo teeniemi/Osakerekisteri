@@ -35,7 +35,7 @@ public class Transaktio implements Cloneable {
     
     private int     transactionId;
     private LocalDate  date = LocalDate.now();
-    private String  type;
+    private String  type = "";
     private double  stockPrice;
     private int     amount;
     private double  expenses;
@@ -232,9 +232,9 @@ public class Transaktio implements Cloneable {
      * @example
      * <pre name="test">
      *   Transaktio transaction = new Transaktio();
-     *   transaction.parse("1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |");
+     *   transaction.parse("1 | 1 | 2007-11-30 | Osto | 27.32 | 200 | 54.64 | 5518.64 |");
      *   transaction.getTransactionId() === 1;
-     *   transaction.toString().startsWith("1 | 1 | 30.11.2007 | Osto | 27.32 | 200 | 54.64 | 5518.64 |") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
+     *   transaction.toString().startsWith("1|1|2007-11-30|Osto|27.32|200|54.64|5518.64|") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
      *
      *   transaction.register();
      *   int n = transaction.getTransactionId();
@@ -294,10 +294,10 @@ public class Transaktio implements Cloneable {
      * <pre name="test">
      * #THROWS CloneNotSupportedException 
      *   Transaktio trans = new Transaktio();
-     *   trans.parse("1|30.11.2007|Osto|27.32|200|54.64|5518.64|1");
+     *   trans.parse("1|1|2007-11-30|Osto|27.32|200|54.64|5518.64|1");
      *   Transaktio klooni = trans.clone();
      *   klooni.toString() === trans.toString();
-     *   trans.parse("2|30.11.2007|Myynti|25.00|100|10.00|2500.00|1");
+     *   trans.parse("2|2|2007-11-30|Myynti|25.00|100|10.00|2500.00|1");
      *   klooni.toString().equals(trans.toString()) === false;
      * </pre>
      */
@@ -348,9 +348,9 @@ public class Transaktio implements Cloneable {
      * @example
      * <pre name="test">
      *   Transaktio trans = new Transaktio();
-     *   trans.parse("Osto|30.11.2007|200|27.32|54.64|5518.64|");
+     *   trans.parse("1|1|2007-11-30|Osto|27.32|200|54.64|5518.64|");
      *   trans.giveTransaction(0) === "Osto";   
-     *   trans.giveTransaction(1) === "30.11.2007";   
+     *   trans.giveTransaction(1) === "2007-11-30";   
      *   trans.giveTransaction(2) === "200";   
      *   trans.giveTransaction(3) === "27.32";   
      *   trans.giveTransaction(4) === "54.64";
