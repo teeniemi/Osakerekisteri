@@ -26,7 +26,7 @@ import java.util.*;
  * |-------------------------------------------------------------------------
  *
  * @author Jesse Korolainen & Teemu Nieminen
- * @version 1.0, 6.4.2021
+ * @version 6.5.2021
  */
 public class Transaktiot implements Iterable<Transaktio> {
 
@@ -49,7 +49,6 @@ public class Transaktiot implements Iterable<Transaktio> {
      * Lisää uuden transaktion tietorakenteeseen.  Ottaa transaktion omistukseensa.
      * @param trans lisättävä transaktio.  Huom tietorakenne muuttuu omistajaksi
      */
-
     public void add(Transaktio trans) {
         entries.add(trans);
         changed = true;
@@ -68,8 +67,8 @@ public class Transaktiot implements Iterable<Transaktio> {
      * 
      *  Osakkeet stocks = new Osakkeet();
      *  Osake stock1 = new Osake(), stock2 = new Osake();
-     *  stock1.testi();
-     *  stock2.testi();
+     *  stock1.testi(1);
+     *  stock2.testi(2);
      *  String hakemisto = "testikelmit";
      *  String tiedNimi = hakemisto+"/nimet";
      *  File ftied = new File(tiedNimi+".dat");
@@ -167,7 +166,6 @@ public class Transaktiot implements Iterable<Transaktio> {
      * Asettaa tiedoston perusnimen ilman tarkenninta
      * @param file tallennustiedoston perusnimi
      */
-
     public void setFileBasicName(String file) {
         fileBasicName = file;
     }
@@ -176,7 +174,6 @@ public class Transaktiot implements Iterable<Transaktio> {
      * Palauttaa tiedoston nimen, jota käytetään tallennukseen
      * @return tallennustiedoston nimi
      */
-    
     public String getFileBasicName() {
         return fileBasicName;
     }
@@ -267,7 +264,6 @@ public class Transaktiot implements Iterable<Transaktio> {
      *  loytyneet.get(0) == trans51 === true;
      * </pre> 
      */
-
     public List<Transaktio> giveTransactions(int stockId) {
         List<Transaktio> found = new ArrayList<Transaktio>();
         for (Transaktio trans : entries)
@@ -277,8 +273,19 @@ public class Transaktiot implements Iterable<Transaktio> {
     
 
 	/**
+	 * Vaihdetaan transaktion tietoja, jos käyttäjä muokkaa sitä.
 	 * @param transaction transaktio
-	 */
+	 * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException 
+     *   Transaktio transaction = new Transaktio();
+     *   transaction.parse("1|Nokia Oyj|200|3.12|624.00|"); 
+     *   Transaktio kopio = transaction.replace();
+     *   kopio.toString() === transaction.toString();
+     *   transaction.parse("1|Nokia Oyj|20|20.00|400.00|");
+     *   kopio.toString().equals(transaction.toString()) === false;
+     * </pre>
+     */
 	public void replace(Transaktio transaction) {
 		for (int i = 0; i < getAmount(); i++) {
 			if (entries.get(i).getTransactionId() == transaction.getTransactionId()) {
@@ -291,7 +298,7 @@ public class Transaktiot implements Iterable<Transaktio> {
 
 
     /**
-     * Testiohjelma harrastuksille
+     * Testiohjelma transaktioille
      * @param args ei käytössä
      */
     public static void main(String[] args) {
@@ -326,8 +333,17 @@ public class Transaktiot implements Iterable<Transaktio> {
 
 
 	/**
+	 * Haetaan transaktion osakkeiden keskiarvohinta.
 	 * @param id osakkeen id
 	 * @return keskihinta id:n omistamalle osakkeelle
+     * @example
+     * <pre name="test">
+     * Transaktio transaction = new Transaktio();
+     * transaction.parse("1|Nokia Oyj|100|1.0|100.00|");
+     * Transaktio transaction2 = new Transaktio();
+     * transaction2.parse("1|Nokia Oyj|100|2.0|200.00|"); 
+     * getAverage(1) ~~~ 1.5;
+     * </pre>
 	 */
 	public double getAverage(int id) {
 		double apu = 0;
@@ -343,6 +359,7 @@ public class Transaktiot implements Iterable<Transaktio> {
 
 
 	/**
+	 * Haetaan transaktion pvm.
 	 * @param id osakkeen id
 	 * @return pvm
 	 */
@@ -355,6 +372,7 @@ public class Transaktiot implements Iterable<Transaktio> {
 
 
 	/**
+	 * Haetaan transaktion osakkeiden määrä.
 	 * @param id osakkeen id
 	 * @return kpl kokonaismäärä
 	 */
@@ -370,6 +388,7 @@ public class Transaktiot implements Iterable<Transaktio> {
 
 
 	/**
+	 * Haetaan transaktion osakeiden kulut.
 	 * @param id osakkeen id
 	 * @return kulut
 	 */
@@ -385,6 +404,7 @@ public class Transaktiot implements Iterable<Transaktio> {
 
 
 	/**
+	 * Haetaan transaktion osakeiden kokonaishinta.
 	 * @param id osakkeen id
 	 * @return kokonaisarvo
 	 */
@@ -439,7 +459,7 @@ public class Transaktiot implements Iterable<Transaktio> {
 
 
 	/**
-     * Poistaa valitun harrastuksen
+     * Poistaa valitun transaktion
      * @param transaction poistettava transaktio
      * @return tosi jos löytyi poistettava tietue 
      * @example

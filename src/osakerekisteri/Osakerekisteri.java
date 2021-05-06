@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @author Jesse Korolainen & Teemu Nieminen
- * @version 1.3.2021
+ * @version 6.5.2021
  *
  */
 
@@ -32,8 +32,8 @@ import java.util.List;
  *  @SuppressWarnings("javadoc")
  *  public void alustaOsakerekisteri() {
  *  osakerekisteri = new Osakerekisteri();
- *  stock1 = new Osake(); stock1.testi(); stock1.register();
- *  stock2 = new Osake(); stock2.testi(); stock2.register();
+ *  stock1 = new Osake(); stock1.testi(1); stock1.register();
+ *  stock2 = new Osake(); stock2.testi(2); stock2.register();
  *  trans21 = new Transaktio(); trans21.testi(stock2.getId());
  *  trans11 = new Transaktio(); trans11.testi(stock1.getId());
  *  trans22 = new Transaktio(); trans22.testi(stock2.getId()); 
@@ -135,8 +135,6 @@ public class Osakerekisteri {
             return stocks.search(hstockehto, k); 
         } 
         
-
-
         /**
          * Asettaa tiedostojen perusnimet
          * @param nimi uusi nimi
@@ -149,8 +147,6 @@ public class Osakerekisteri {
             stocks.setFileBasicName(hakemistonNimi + "stocks");
             transactions.setFileBasicName(hakemistonNimi + "transactions");
         }
-        
-        
         
         /**
          * Lukee osakerekisterin tiedot tiedostosta
@@ -213,7 +209,6 @@ public class Osakerekisteri {
             transactions.readFromFile();
         }
 
-
         /**
          * Tallenttaa osakerekisterin tiedot tiedostoon.  
          * Vaikka jäsenten tallettamien epäonistuisi, niin yritetään silti tallettaa
@@ -236,9 +231,6 @@ public class Osakerekisteri {
             if ( !"".equals(virhe) ) throw new StoreException(virhe);
         }
         
-        
-
-
         /**
          * Testiohjelma osakerekisterista
          * @param args ei käytössä
@@ -276,11 +268,7 @@ public class Osakerekisteri {
                     for (Transaktio alkio : transaktiot) {
                     	alkio.print(System.out);
                     }
-                    	
-        
-                  
                 }
-
             } catch (StoreException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -288,6 +276,7 @@ public class Osakerekisteri {
 
 
 		/**
+		 * Lisätään transaktio
 		 * @param transaktio lisää transaktion
 		 */
 		public void add(Transaktio transaktio) {
@@ -296,6 +285,7 @@ public class Osakerekisteri {
 
 
 		/**
+		 * Lisätään transaktiot osakkeelle
 		 * @param osake osake
 		 * @return osakkeen transaktiot
 		 */
@@ -305,25 +295,26 @@ public class Osakerekisteri {
 
 
 		/**
+		 * Vaihdetaan transaktio
 		 * @param transaction korvaa transaktion
 		 */
 		public void replace(Transaktio transaction) {
-			transactions.replace(transaction);
-			
+			transactions.replace(transaction);	
 		}
 
 
 		/**
+		 * Haetaan osakkeen keskiarvohinta
 		 * @param stockAtPlace osake
 		 * @return palauttaa osakkeen keskiarvohinnan
 		 */
 		public double getAverage(Osake stockAtPlace) {
 			return transactions.getAverage(stockAtPlace.getId());
-			
 		}
 
 
 		/**
+		 * Haetaan päivämäärä
 		 * @param stockAtPlace osake
 		 * @return palauttaa osakkeen päivämäärän
 		 */
@@ -331,8 +322,8 @@ public class Osakerekisteri {
 			return transactions.getDate(stockAtPlace.getId());
 		}
 
-
 		/**
+		 * Palautetaan osakkeiden määrä
 		 * @param stockAtPlace osake
 		 * @return palauttaa osakemäärän
 		 */
@@ -340,8 +331,8 @@ public class Osakerekisteri {
 			return transactions.getStockAmount(stockAtPlace.getId());
 		}
 
-
 		/**
+		 * Palautetaan osakkeen kulut
 		 * @param stockAtPlace osake
 		 * @return palauttaa kulut
 		 */
@@ -349,8 +340,8 @@ public class Osakerekisteri {
 			return transactions.getExpenses(stockAtPlace.getId());
 		}
 
-
 		/**
+		 * Palautetaan osakkeiden kokonaishinta
 		 * @param stockAtPlace osake
 		 * @return palauttaa kokonaishinnan
 		 */
@@ -358,8 +349,8 @@ public class Osakerekisteri {
 			return transactions.getTotalPrice(stockAtPlace.getId());
 		}
 
-
 		/**
+		 * Poistetaan osake
 		 * @param stock osake
 		 * @return poistaa osakkeen
 		 */
@@ -384,5 +375,4 @@ public class Osakerekisteri {
 	    public void deleteTransaction(Transaktio transaction) { 
 	        transactions.delete(transaction); 
 	    }
-
 }

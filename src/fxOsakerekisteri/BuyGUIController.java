@@ -19,7 +19,7 @@ import osakerekisteri.Transaktio;
 
 /**
  * @author Jesse Korolainen & Teemu Nieminen
- * @version 2.2.2021
+ * @version 6.5.2021
  *
  */
 public class BuyGUIController implements ModalControllerInterface<Transaktio>, Initializable{
@@ -57,7 +57,7 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
     // =========================================================
     private Transaktio transactionAtPlace;
     private TextField edits[];
-    private Osakerekisteri osakerekisteri;
+    private Osakerekisteri osakerekisteri; // homma ei toimi jos poistaa
     
     /**
      * Tyhjentään tekstikentät 
@@ -85,6 +85,7 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
     }
     
     /**
+     * Näytetään virheilmoitus jos syötetään vääränlaista tietoa.
      * @param virhe virhe
      */
     private void naytaVirhe(String virhe) {
@@ -98,7 +99,7 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
     }
     
     /**
-     * Käsitellään osakkeeseen tullut muutos
+     * Käsitellään osakkeeseen tullut muutos.
      * @param edit muuttunut kenttä
      */
     private void kasitteleMuutosTransaktioon(int k, TextField edit) {
@@ -135,6 +136,7 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
     }
     
     /**
+     * Haetaan päivämäärä.
      * @param date päivämäärä joka alustetaan
      */
     public static void showDate(DatePicker date) {

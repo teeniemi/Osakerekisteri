@@ -24,7 +24,7 @@ import osakerekisteri.StoreException;
 import osakerekisteri.Transaktio;
 /**
  * @author Jesse Korolainen & Teemu Nieminen
- * @version 18.1.2021
+ * @version 6.5.2021
  *
  */
 public class OsakerekisteriGUIController implements Initializable {
@@ -94,7 +94,6 @@ public class OsakerekisteriGUIController implements Initializable {
         try {
 			edit();
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -185,17 +184,6 @@ public class OsakerekisteriGUIController implements Initializable {
         chooserStocks.addSelectionListener(e -> showStock());
     }
     
-    private void showError(String error) {
-        if ( error == null || error.isEmpty() ) {
-            labelError.setText("");
-            labelError.getStyleClass().removeAll("error");
-            return;
-        }
-        labelError.setText(error);
-        labelError.getStyleClass().add("error");
-    }
-    
-    
     /**
      * Näyttää listasta valitun osakkeen tiedot
      */
@@ -234,7 +222,6 @@ public class OsakerekisteriGUIController implements Initializable {
      }
 
     /**
-     * TODO
      * Kysytään tiedoston nimi ja luetaan se
      * @return true jos onnistui, false jos ei
          */
@@ -350,8 +337,9 @@ public class OsakerekisteriGUIController implements Initializable {
         }
     }
     
-    // luodaan uusi osake ja rekisteröidään se 
-    
+    /**
+     *  luodaan uusi osake ja rekisteröidään se 
+     */
     private void buy() {
         Transaktio transaction = new Transaktio();
         transaction = BuyGUIController.askTransaction(null, transaction, osakerekisteri);
@@ -429,7 +417,6 @@ public class OsakerekisteriGUIController implements Initializable {
     }
     
     /**
-     * 
      * Päivittää osakkeen transaktiolistan, kun sitä klikataan
      */
     private void updateTransactions() {
@@ -452,6 +439,9 @@ public class OsakerekisteriGUIController implements Initializable {
         Dialogs.showMessageDialog("Apua ei vielä saatavilla.");
     }
     
+    /**
+     * Poistaa osakkeen
+     */
     private void delete() {
         Osake stock = chooserStocks.getSelectedObject();
         if (stock == null) return;
@@ -461,42 +451,6 @@ public class OsakerekisteriGUIController implements Initializable {
         int index = chooserStocks.getSelectedIndex();
         search(0);
         chooserStocks.setSelectedIndex(index);
-    }
-    
-    /**
-     * Poistetaan transaktiotaulukosta valitulla kohdalla oleva harrastus. 
-     */
-    private void deleteTransactions() {
-        int row = gridActions.getRowNr();
-        if ( row < 0 ) return;
-        Transaktio transaction = gridActions.getObject();
-        if ( transaction == null ) return;
-        osakerekisteri.deleteTransaction(transaction);
-        showTransactions(stockAtPlace);
-        int transactions = gridActions.getItems().size(); 
-        if ( row >= transactions ) row = transactions -1;
-        gridActions.getFocusModel().focus(row);
-        gridActions.getSelectionModel().select(row);
-    }
-
-
-    private void showTransactions(Osake stockAtPlace) {
-    	gridActions.clear();
-        if ( stockAtPlace == null ) return;
-        
-        List<Transaktio> transactions = osakerekisteri.giveTransactions(stockAtPlace);
-        if ( transactions.size() == 0 ) return;
-        for (Transaktio transaction: transactions)
-            showTransaction(transaction); 
-    }
-
-	private void showTransaction(Transaktio transaction) {
-		int fields = transaction.getFields(); 
-        String[] row = new String[fields-transaction.firstField()]; 
-        for (int i=0, k=transaction.firstField(); k < fields; i++, k++) 
-            row[i] = transaction.giveTransaction(k); 
-        gridActions.add(transaction,row);
-       
     }
     
 

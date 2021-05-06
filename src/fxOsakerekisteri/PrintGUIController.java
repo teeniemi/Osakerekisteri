@@ -8,8 +8,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.web.WebEngine;
 
 /**
- * @author jesse korolainen & teemu nieminen
- * @version 28.4.2021
+ * @author Jesse Korolainen & Teemu Nieminen
+ * @version 6.5.2021
  *
  */
 public class PrintGUIController implements ModalControllerInterface<String> {
@@ -20,6 +20,9 @@ public class PrintGUIController implements ModalControllerInterface<String> {
         ModalController.closeStage(printArea);
     }
 
+    /**
+     * Hoitaa tulostuksen
+     */
     @FXML private void handlePrint() {
         PrinterJob job = PrinterJob.createPrinterJob();
         if ( job != null && job.showPrintDialog(null) ) {
@@ -53,6 +56,7 @@ public class PrintGUIController implements ModalControllerInterface<String> {
     
     
     /**
+     * Haetaan tila tulostukselle
      * @return alue johon tulostetaan
      */
     public TextArea getTextArea() {

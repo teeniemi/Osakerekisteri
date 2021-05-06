@@ -31,7 +31,7 @@ import fi.jyu.mit.ohj2.WildChars;
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
  * @author Jesse Korolainen & Teemu Nieminen
- * @version 1.3.2021
+ * @version 6.5.2021
  *
  */
 public class Osakkeet implements Iterable<Osake> { 
@@ -148,8 +148,6 @@ public class Osakkeet implements Iterable<Osake> {
             if ( fileName == null ) throw new StoreException("Osakerekisterin nimi puuttuu");
             String line = fi.readLine();
             if ( line == null ) throw new StoreException("Maksimikoko puuttuu");
-            // int maxKoko = Mjonot.erotaInt(rivi,10); // tehdään jotakin
-
             while ( (line = fi.readLine()) != null ) {
             	line = line.trim();
                 if ( "".equals(line) || line.charAt(0) == ';' ) continue;
@@ -170,7 +168,6 @@ public class Osakkeet implements Iterable<Osake> {
      * Asettaa tiedoston perusnimen ilman tarkenninta
      * @param file tallennustiedoston perusnimi
      */
-
     public void setFileBasicName(String file) {
 		fileBasicName = file;
 	}
@@ -180,7 +177,6 @@ public class Osakkeet implements Iterable<Osake> {
      * Palauttaa tiedoston nimen, jota käytetään tallennukseen
      * @return tallennustiedoston nimi
      */
-    
     public String getFileBasicName() {
     	return fileBasicName;
     }
@@ -251,8 +247,7 @@ public class Osakkeet implements Iterable<Osake> {
     /**
      * Palauttaa rekisterin koko nimen
      * @return osakerekisterin koko nimen merkkijonona
-     */
-    
+     */   
     public String getWholeFileName() {
     	return fileName;
     }
@@ -267,9 +262,7 @@ public class Osakkeet implements Iterable<Osake> {
 
         Osake stock1 = new Osake(), stock2 = new Osake();
         stock1.register();
-         //stock1.giveStock(); --> stock1.give(); ??? TODO
         stock2.register();
-        //stock2.giveStock();
 
 
         try {
@@ -402,7 +395,6 @@ public class Osakkeet implements Iterable<Osake> {
      * loytyneet.size() === 3;  
      * </pre> 
      */ 
-    
         public Collection<Osake> search(String hakuehto, int k) { 
             String ehto = "*"; 
             if ( hakuehto != null && hakuehto.length() > 0 ) ehto = hakuehto + "*"; 
@@ -418,9 +410,32 @@ public class Osakkeet implements Iterable<Osake> {
 
 
 	/**
+	 * Poistetaan osake ja kaikki sen transaktiot.
 	 * @param id poistettavan osakkeen id
 	 * @return poistettu määrä, aina 1
-	 */
+	 * @example
+     * <pre name="test">
+     * #THROWS StoreException 
+     * #import java.io.File;
+     *  Osakkeet stocks = new Osakkeet();
+     *  Osake trans21 = new Osake(); trans21.testi(2);
+     *  Osake trans11 = new Osake(); trans11.testi(1);
+     *  Osake trans22 = new Osake(); trans22.testi(2); 
+     *  Osake trans12 = new Osake(); trans12.testi(1); 
+     *  Osake trans23 = new Osake(); trans23.testi(2); 
+     *  stocks.add(trans21);
+     *  stocks.add(trans11);
+     *  stocks.add(trans22);
+     *  stocks.add(trans12);
+     *  stocks.delete(2) === 1;  stocks.getAmount() === 3;
+     *  stocks.delete(3) === 0;  stocks.getAmount() === 3;
+     *  List<Osake> h = stocks.giveId(2);
+     *  h.size() === 0; 
+     *  h = stocks.giveId(1);
+     *  h.get(0) === null;
+     *  h.get(1) === null;
+     * </pre>
+     */
 	public int delete(int id) {
 		int ind = searchId(id); 
         if (ind < 0) return 0; 
@@ -448,14 +463,12 @@ public class Osakkeet implements Iterable<Osake> {
      * stocks.searchId(id1+2) === 2; 
      * </pre> 
      */ 
-
 	public int searchId(int id) {
 		for (int i = 0; i < amount; i++) 
             if (id == entries[i].getId()) return i; 
         return -1; 
     } 
-	
-	/** TÄLLÄ HETKELLÄ TÄTÄ EI TAIDETA KUTSUA MISSÄÄN
+	/**
      * Etsii osakkeen id:n perusteella 
      * @param id tunnusnumero, jonka mukaan etsitään 
      * @return osake jolla etsittävä id tai null 
@@ -477,7 +490,4 @@ public class Osakkeet implements Iterable<Osake> {
         } 
         return null; 
     } 
-
-
-
 }

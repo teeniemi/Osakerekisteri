@@ -2,7 +2,11 @@ package osakerekisteri;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import fi.jyu.mit.ohj2.Mjonot;
 
@@ -27,12 +31,12 @@ import fi.jyu.mit.ohj2.Mjonot;
  * | - osaa muuttaa olion tiedoston riviksi             |                   |
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
- * @author Teemu & Jesse
- * @version 1.3.2021
+ * @author Jesse Korolainen & Teemu Nieminen
+ * @version 6.5.2021
  *
  */
 
-public class Osake implements Cloneable{
+public class Osake implements Cloneable, List<Osake>{
 	
 	private int 		stockId = 0;
 	private String 		stockName = "";
@@ -60,9 +64,11 @@ public class Osake implements Cloneable{
      * Apumetodi, jolla saadaan täytettyä testiarvot Osakkeelle
      * Kaikki arvot arvotaan, jotta kahdella transaktiolla ei olisi
      * samoja tietoja.
+     * @param nro testi id
      */
 
-   public void testi() {
+   public void testi(int nro) {
+        stockId = nro;
 	    stockName = "Nokia Oyj";
 	    amount = 100;
    }
@@ -106,7 +112,6 @@ public class Osake implements Cloneable{
 	 * n1 === n2-1;
 	 * </pre>
 	 */
-	
 	public int register() {
 		this.stockId = nextId;
 		nextId++;
@@ -117,7 +122,6 @@ public class Osake implements Cloneable{
 	 * Haetaan osakkeelle id
 	 * @return osakeid
 	 */
-	
 	public int getId() {
 		return stockId;
 	}
@@ -163,6 +167,7 @@ public class Osake implements Cloneable{
 	}
 	
 	/**
+	 * Hakee k:n kentän sisällön
 	 * @param k listaan tulevat arvot
 	 * @return listan arvot
 	 */
@@ -204,7 +209,6 @@ public class Osake implements Cloneable{
 	* seuraava numero on aina suurempi kuin tähän mennessä suurin.
 	* @param id asetettava tunnusnumero
 	*/
-	
 	private void setId(int id) {
 		this.stockId = id;
 		if (stockId >= nextId) nextId = stockId + 1;
@@ -263,6 +267,7 @@ public class Osake implements Cloneable{
 	
 	
 	/**
+	 * Testipääohjelma
 	 * @param args ei käytössä
 	 */
 	public static void main(String[] args) {
@@ -277,15 +282,17 @@ public class Osake implements Cloneable{
 	}
 
 /**
-* @param s osakkeelle laitettava nimi
-* @return virheilmoitus, null jos ok
-*/
+ * Asetetaan osakkeelle nimi
+ * @param s osakkeelle laitettava nimi
+ * @return virheilmoitus, null jos ok
+ */
 public String setName(String s) {
 if (s == " " || s == "") return "";
 return this.stockName = s;
  }
 
 /**
+ * Asetetaan osakkeelle määrä
 * @param s määrä
 * @return virheilmoitus, null jos ok
 */
@@ -296,6 +303,7 @@ public String setAmount(int s) {
 }
 
 /**
+ * Asetetaan osakkeelle  keskihinta
 * @param s keskihinta
 * @return virheilmoitus, null jos ok
 */
@@ -306,6 +314,7 @@ public String setAveragePrice(double s) {
 }
 
 /**
+ * Asetetaan osakkeelle kokonaishinta
 * @param s kokonaishinta
 * @return virheilmoitus, null jos ok
 */
@@ -317,6 +326,7 @@ public String setTotalPrice(double s) {
 
 
 /**
+ * Haetaan osakkeiden määrä
  * @return määrä
  */
 public String getAmount() {
@@ -325,6 +335,7 @@ public String getAmount() {
 
 
 /**
+ * Haetaan osakkeiden keskihinta
  * @return keskihinta
  */
 public String getAveragePrice() {
@@ -333,6 +344,7 @@ public String getAveragePrice() {
 
 
 /**
+ * Haetaan osakkeiden kokonaishinta
  * @return kokonaishinta
  */
 public String getTotalPrice() {
@@ -340,9 +352,148 @@ public String getTotalPrice() {
 }
 
 /**
+ * Haetaan lisää kenttiä, jos tila loppuu kesken.
  * @return 5 kenttää
  */
 public int getFields() {
 	return 5;
+}
+
+
+@Override
+public int size() {
+    return 0;
+}
+
+
+@Override
+public boolean isEmpty() {
+    return false;
+}
+
+
+@Override
+public boolean contains(Object o) {
+    return false;
+}
+
+
+@Override
+public Iterator<Osake> iterator() {
+    return null;
+}
+
+
+@Override
+public Object[] toArray() {
+    return null;
+}
+
+
+@Override
+public <T> T[] toArray(T[] a) {
+    return null;
+}
+
+
+@Override
+public boolean add(Osake e) {
+    return false;
+}
+
+
+@Override
+public boolean remove(Object o) {
+    return false;
+}
+
+
+@Override
+public boolean containsAll(Collection<?> c) {
+    return false;
+}
+
+
+@Override
+public boolean addAll(Collection<? extends Osake> c) {
+    return false;
+}
+
+
+@Override
+public boolean addAll(int index, Collection<? extends Osake> c) {
+    return false;
+}
+
+
+@Override
+public boolean removeAll(Collection<?> c) {
+    return false;
+}
+
+
+@Override
+public boolean retainAll(Collection<?> c) {
+    return false;
+}
+
+
+@Override
+public void clear() {
+    //
+}
+
+
+@Override
+public Osake get(int index) {
+    return null;
+}
+
+
+@Override
+public Osake set(int index, Osake element) {
+    return null;
+}
+
+
+@Override
+public void add(int index, Osake element) {
+    //  
+}
+
+
+@Override
+public Osake remove(int index) {
+    return null;
+}
+
+
+@Override
+public int indexOf(Object o) {
+    return 0;
+}
+
+
+@Override
+public int lastIndexOf(Object o) {
+    return 0;
+}
+
+
+@Override
+public ListIterator<Osake> listIterator() {
+    return null;
+}
+
+
+@Override
+public ListIterator<Osake> listIterator(int index) {
+    return null;
+}
+
+
+@Override
+public List<Osake> subList(int fromIndex, int toIndex) {
+    return null;
 }
 }

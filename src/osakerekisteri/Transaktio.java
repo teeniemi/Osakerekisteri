@@ -28,7 +28,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
  * @author Jesse Korolainen & Teemu Nieminen
- * @version 1.3.2021
+ * @version 6.5.2021
  *
  */
 public class Transaktio implements Cloneable {
@@ -140,6 +140,7 @@ public class Transaktio implements Cloneable {
     
     
     /**
+     * Haetaan transaktion tyyppi.
      * @return tyyppi
      */
     public String getType() {
@@ -148,6 +149,7 @@ public class Transaktio implements Cloneable {
     
     
     /**
+     * Haetaan transaktion päivämäärä.
      * @return pvm
      */
     public LocalDate getDate() {
@@ -156,6 +158,7 @@ public class Transaktio implements Cloneable {
     
     
     /**
+     * Haetaan transaktion osakkeiden määrä.
      * @return määrä
      */
     public int getAmount() {
@@ -164,6 +167,7 @@ public class Transaktio implements Cloneable {
     
     
     /**
+     * Haetaan transaktion osakkeen hinta.
      * @return hinta
      */
     public double getStockPrice() {
@@ -172,6 +176,7 @@ public class Transaktio implements Cloneable {
     
     
     /**
+     * Haetaan transaktion kulut.
      * @return kulut
      */
     public double getExpenses() {
@@ -180,6 +185,7 @@ public class Transaktio implements Cloneable {
     
     
     /**
+     * Haetaan transaktion kokonaishinta.
      * @return kokonaishinta
      */
     public double getTotalPrice() {
@@ -194,7 +200,6 @@ public class Transaktio implements Cloneable {
     * seuraava numero on aina suurempi kuin tähän mennessä suurin.
     * @param id asetettava tunnusnumero
     */
-    
     public void setTransactionId(int id) {
         this.transactionId = id;
         if (transactionId >= nextId) nextId = transactionId + 1;
@@ -259,7 +264,8 @@ public class Transaktio implements Cloneable {
     
     
     /**
-     * @param newId asetetaan osakkeelle uusi id.
+     * Asetetaan transaktion osakkeelle uusi id.
+     * @param newId asetettava id
      */
     public void setStockId(int newId) {
 		stockId = newId;
@@ -267,8 +273,9 @@ public class Transaktio implements Cloneable {
     
 
     /**
+     * Asetetaan transaktiolle määrä jos kenttä tyhjä.
      * @param s määrä
-     * @return määrä
+     * @return "" jos arvo alle 0, null jos ei virhettä
      */
     public String setAmount(int s) {
         if (s < 0) return "";
@@ -278,8 +285,9 @@ public class Transaktio implements Cloneable {
 
 
     /**
+     * Asetetaan transaktion osakkeelle hinta jos kenttä tyhjä.
      * @param s osakkeen hinta
-     * @return osakkeen hinta
+     * @return "" jos arvo alle 0, null jos ei virhettä
      */
     public String setPrice(double s) {
         if (s < 0) return "";
@@ -309,6 +317,7 @@ public class Transaktio implements Cloneable {
     }
 
     /**
+     * Testipääohjelma
      * @param args ei käytössä
      */
     public static void main(String[] args) {
@@ -319,8 +328,9 @@ public class Transaktio implements Cloneable {
     }
 
 	/**
+     * Asetetaan transaktion osakkeelle kulut jos kenttä tyhjä.
 	 * @param s kulut
-	 * @return osakkeen kulut
+     * @return "" jos arvo alle 0, null jos ei virhettä
 	 */
 	public String setExpenses(double s) {
 		if (s < 0) return "";
@@ -329,6 +339,7 @@ public class Transaktio implements Cloneable {
 	}
 
 	/**
+	 * Lisätään kenttiä jos loppuu kesken.
      * @return transaktioiden kenttien lukumäärä
      */
 	public int getFields() {
@@ -336,6 +347,7 @@ public class Transaktio implements Cloneable {
 	}
 	
 	/**
+	 * Lisätään ensimmäinen kenttä.
      * @return ensimmäinen käyttäjän syötettävän kentän indeksi
      */
     public int firstField() {
@@ -357,7 +369,6 @@ public class Transaktio implements Cloneable {
      *   trans.giveTransaction(5) === "5518.64";     
      * </pre>
      */
-
 	public String giveTransaction(int k) {
 		switch (k) {
         case 0:

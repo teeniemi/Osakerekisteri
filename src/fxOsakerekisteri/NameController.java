@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 /**
  * @author Jesse Korolainen & Teemu Nieminen
- * @version 14.4.2021
+ * @version 6.5.2021
  *
  */
 public class NameController implements ModalControllerInterface<String> {

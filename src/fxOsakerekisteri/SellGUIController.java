@@ -6,8 +6,8 @@ import javafx.fxml.FXML;
 import osakerekisteri.Osakerekisteri;
 
 /**
- * @author jesse korolainen & teemu nieminen
- * @version 4.5.2021
+ * @author Jesse Korolainen & Teemu Nieminen
+ * @version 6.5.2021
  *
  */
 public class SellGUIController implements ModalControllerInterface<Osakerekisteri>{

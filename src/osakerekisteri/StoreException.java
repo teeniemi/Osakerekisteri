@@ -3,7 +3,7 @@ package osakerekisteri;
 /**
  * Poikkeusluokka tietorakenteesta aiheutuville poikkeuksille.
  * @author Jesse Korolainen & Teemu Nieminen
- * @version 1.3.2021
+ * @version 6.5.2021
  *
  */
 public class StoreException extends Exception {

@@ -16,8 +16,8 @@ import javafx.stage.Stage;
 import osakerekisteri.Osake;
 
 /**
- * @author jesse korolainen & teemu nieminen
- * @version 21.4.2021
+ * @author Jesse Korolainen & Teemu Nieminen
+ * @version 6.5.2021
  *
  */
 public class OsakeDialogController implements ModalControllerInterface<Osake>, Initializable { 
@@ -30,6 +30,7 @@ public class OsakeDialogController implements ModalControllerInterface<Osake>, I
 @FXML private Label labelVirhe;
 
     /**
+     * Alustetaan dialogi
      * @param url tiedoston osoite
      * @param bundle tiedosto mistä alustetaan
      */
@@ -100,7 +101,10 @@ public class OsakeDialogController implements ModalControllerInterface<Osake>, I
         editName.requestFocus();
     }
     
-    
+    /**
+     * Näytetään virheilmoitus jos syötetään vääränlaista tietoa
+     * @param virhe virheilmoitus
+     */
     private void naytaVirhe(String virhe) {
         if ( virhe == null || virhe.isEmpty() ) {
             labelVirhe.setText("");

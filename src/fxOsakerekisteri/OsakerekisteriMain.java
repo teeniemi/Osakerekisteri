@@ -11,7 +11,7 @@ import javafx.fxml.FXMLLoader;
 
 /**
  * @author Jesse Korolainen & Teemu Nieminen
- * @version 3.3.2021
+ * @version 6.5.2021
  *
  */
 public class OsakerekisteriMain extends Application {

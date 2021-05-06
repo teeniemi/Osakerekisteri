@@ -5,8 +5,8 @@ import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 
 /**
- * @author teemu
- * @version 2.2.2021
+ * @author Jesse Korolainen & Teemu Nieminen
+ * @version 6.5.2021
  *
  */
 public class DeleteGUIController implements ModalControllerInterface<String> {
