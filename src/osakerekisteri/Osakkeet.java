@@ -418,22 +418,20 @@ public class Osakkeet implements Iterable<Osake> {
      * #THROWS StoreException 
      * #import java.io.File;
      *  Osakkeet stocks = new Osakkeet();
-     *  Osake trans21 = new Osake(); trans21.testi(2);
-     *  Osake trans11 = new Osake(); trans11.testi(1);
-     *  Osake trans22 = new Osake(); trans22.testi(2); 
-     *  Osake trans12 = new Osake(); trans12.testi(1); 
-     *  Osake trans23 = new Osake(); trans23.testi(2); 
+     *  Osake trans21 = new Osake(); trans21.testi(1);
+     *  Osake trans11 = new Osake(); trans11.testi(2);
+     *  Osake trans22 = new Osake(); trans22.testi(3); 
+     *  Osake trans12 = new Osake(); trans12.testi(4); 
+     *  Osake trans23 = new Osake(); trans23.testi(5); 
      *  stocks.add(trans21);
      *  stocks.add(trans11);
      *  stocks.add(trans22);
      *  stocks.add(trans12);
      *  stocks.delete(2) === 1;  stocks.getAmount() === 3;
-     *  stocks.delete(3) === 0;  stocks.getAmount() === 3;
-     *  List<Osake> h = stocks.giveId(2);
-     *  h.size() === 0; 
-     *  h = stocks.giveId(1);
-     *  h.get(0) === null;
-     *  h.get(1) === null;
+     *  stocks.delete(3) === 1;  stocks.getAmount() === 2;
+     *  stocks.giveId(2) === null;
+     *  stocks.giveId(3) === null;
+     *  stocks.giveId(1) === trans21;
      * </pre>
      */
 	public int delete(int id) {

@@ -353,7 +353,14 @@ public class Osakerekisteri {
 		 * Poistetaan osake
 		 * @param stock osake
 		 * @return poistaa osakkeen
-		 */
+		 *  @example
+	     * <pre name="test">
+	     * #THROWS Exception
+	     *   alustaOsakerekisteri();
+	     *   osakerekisteri.giveStock(0) === stock1;
+	     *   osakerekisteri.deleteStock(stock1);
+	     *   osakerekisteri.giveStock(0).equals(stock1) === false;
+	     */ 
 		public int deleteStock(Osake stock) {
 			if ( stock == null ) return 0;
 	        int ret = stocks.delete(stock.getId()); 

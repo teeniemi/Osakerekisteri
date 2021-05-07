@@ -57,7 +57,7 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
     // =========================================================
     private Transaktio transactionAtPlace;
     private TextField edits[];
-    private Osakerekisteri osakerekisteri; // homma ei toimi jos poistaa
+   // private Osakerekisteri osakerekisteri; // homma ei toimi jos poistaa
     
     /**
      * Tyhjentään tekstikentät 
@@ -152,12 +152,12 @@ public class BuyGUIController implements ModalControllerInterface<Transaktio>, I
      * @return palauttaa Transaktio-olion, jolla voidaan katsoa, mitä käyttäjä on kirjoittanut
      */
     public static Transaktio askTransaction(Stage modality, Transaktio oletus, Osakerekisteri osakerekisteri) {
-    	return ModalController.<Transaktio, BuyGUIController> showModal(BuyGUIController.class.getResource("OsakerekisteriGUIBuy.fxml"), "Add a stock", modality, oletus, ctrl -> ctrl.setRegister(osakerekisteri));
+    	return ModalController.<Transaktio, BuyGUIController> showModal(BuyGUIController.class.getResource("OsakerekisteriGUIBuy.fxml"), "Add a stock", modality, oletus, null);
     }
     
-    private void setRegister(Osakerekisteri osakerekisteri) {
-		this.osakerekisteri = osakerekisteri;
-	}
+    //private void setRegister(Osakerekisteri osakerekisteri) {
+		//this.osakerekisteri = osakerekisteri;
+	
 
 	@Override
 	public Transaktio getResult() {

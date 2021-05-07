@@ -277,13 +277,19 @@ public class Transaktiot implements Iterable<Transaktio> {
 	 * @param transaction transaktio
 	 * @example
      * <pre name="test">
-     * #THROWS CloneNotSupportedException 
-     *   Transaktio transaction = new Transaktio();
-     *   transaction.parse("1|Nokia Oyj|200|3.12|624.00|"); 
-     *   Transaktio kopio = transaction.replace();
-     *   kopio.toString() === transaction.toString();
-     *   transaction.parse("1|Nokia Oyj|20|20.00|400.00|");
-     *   kopio.toString().equals(transaction.toString()) === false;
+     * #THROWS CloneNotSupportedException
+     * 	 Transaktiot transactions = new Transaktiot(); 
+     *   Transaktio trans1 = new Transaktio();
+     *   Transaktio trans2 = new Transaktio();
+     *   trans1.parse("1|1|2007-11-30|\"\"|1.0|100|100.00|200.0|");
+     *   trans2.parse("1|1|2007-11-30|\"\"|2.0|200|200.00|600.0|");
+     *   transactions.add(trans1);
+     *   transactions.replace(trans2);
+     *   List<Transaktio> kikkeliskokkelis = transactions.giveTransactions(1);
+     *   kikkeliskokkelis.size() === 1;
+     *   Iterator<Transaktio> it = kikkeliskokkelis.iterator();
+     *   it.next().toString() === trans2.toString();
+     *   
      * </pre>
      */
 	public void replace(Transaktio transaction) {
@@ -338,11 +344,14 @@ public class Transaktiot implements Iterable<Transaktio> {
 	 * @return keskihinta id:n omistamalle osakkeelle
      * @example
      * <pre name="test">
+     * Transaktiot transactions = new Transaktiot();
      * Transaktio transaction = new Transaktio();
-     * transaction.parse("1|Nokia Oyj|100|1.0|100.00|");
+     * transaction.parse("1|1|2007-11-30|\"\"|1.0|100|100.00|200.0|");
      * Transaktio transaction2 = new Transaktio();
-     * transaction2.parse("1|Nokia Oyj|100|2.0|200.00|"); 
-     * getAverage(1) ~~~ 1.5;
+     * transaction2.parse("1|1|2007-11-30|\"\"|2.0|200|200.00|600.0|"); 
+     * transactions.add(transaction);
+     * transactions.add(transaction2);
+     * transactions.getAverage(1) ~~~ 1.5;
      * </pre>
 	 */
 	public double getAverage(int id) {
@@ -391,6 +400,17 @@ public class Transaktiot implements Iterable<Transaktio> {
 	 * Haetaan transaktion osakeiden kulut.
 	 * @param id osakkeen id
 	 * @return kulut
+	 * @example
+     * <pre name="test">
+     * Transaktiot transactions = new Transaktiot();
+     * Transaktio transaction = new Transaktio();
+     * transaction.parse("1|1|2007-11-30|\"\"|1.0|100|100.00|200.0|");
+     * Transaktio transaction2 = new Transaktio();
+     * transaction2.parse("1|1|2007-11-30|\"\"|2.0|200|200.00|600.0|"); 
+     * transactions.add(transaction);
+     * transactions.add(transaction2);
+     * transactions.getExpenses(1).toString() === "300.0";
+     * </pre>
 	 */
 	public String getExpenses(int id) {
 		double exp = 0;
@@ -407,6 +427,17 @@ public class Transaktiot implements Iterable<Transaktio> {
 	 * Haetaan transaktion osakeiden kokonaishinta.
 	 * @param id osakkeen id
 	 * @return kokonaisarvo
+	 * @example
+     * <pre name="test">
+     * Transaktiot transactions = new Transaktiot();
+     * Transaktio transaction = new Transaktio();
+     * transaction.parse("1|1|2007-11-30|\"\"|1.0|100|100.00|200.0|");
+     * Transaktio transaction2 = new Transaktio();
+     * transaction2.parse("1|1|2007-11-30|\"\"|2.0|200|200.00|600.0|"); 
+     * transactions.add(transaction);
+     * transactions.add(transaction2);
+     * transactions.getTotalPrice(1).toString() === "800.0";
+     * </pre>
 	 */
 	public String getTotalPrice(int id) {
 	    double total = 0;

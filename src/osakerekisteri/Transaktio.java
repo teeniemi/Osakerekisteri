@@ -278,7 +278,7 @@ public class Transaktio implements Cloneable {
      * @return "" jos arvo alle 0, null jos ei virhettä
      */
     public String setAmount(int s) {
-        if (s < 0) return "";
+        if (s < 0) return "Ei voi laittaa miinusta tai kirjaimia";
         this.amount = s;
         return null;
     }
@@ -290,7 +290,7 @@ public class Transaktio implements Cloneable {
      * @return "" jos arvo alle 0, null jos ei virhettä
      */
     public String setPrice(double s) {
-        if (s < 0) return "";
+        if (s < 0) return "Ei voi laittaa miinusta tai kirjaimia";
         this.stockPrice = s;
         return null;
     }
@@ -333,7 +333,7 @@ public class Transaktio implements Cloneable {
      * @return "" jos arvo alle 0, null jos ei virhettä
 	 */
 	public String setExpenses(double s) {
-		if (s < 0) return "";
+		if (s < 0) return "Ei voi laittaa miinusta tai kirjaimia";
 		this.expenses = s;
 		return null;
 	}
